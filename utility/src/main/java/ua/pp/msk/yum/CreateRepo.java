@@ -36,6 +36,10 @@ public class CreateRepo {
     private static final String REPO_TMP_FOLDER = "tmpRepodata";
 
 //    private static final Logger LOG = LoggerFactory.getLogger(CreateRepo.class);
+    public CreateRepo(File rpmDir, File repoBaseDir){
+        this(rpmDir, repoBaseDir, new RpmScanner(new DirectoryScanner()));
+    }
+    
     public CreateRepo(File rpmDir, File repoBaseDir, RpmScanner scanner) {
         this.rpmDir = rpmDir;
         this.repoBaseDir = repoBaseDir;
