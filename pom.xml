@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ua.pp.msk.yum</groupId>
     <artifactId>RpmRepo</artifactId>
-    <version>0.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -11,9 +11,16 @@
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
     <modules>
-    <module>commons</module>
     <module>utility</module>
-
-  </modules>
-
+        <module>commons</module>
+        <module>createrepo</module>
+    </modules>
+ <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.10</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
 </project>

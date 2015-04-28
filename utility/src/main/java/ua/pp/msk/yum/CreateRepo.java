@@ -42,8 +42,6 @@ public class CreateRepo {
         this.scanner = scanner;
     }
 
- 
-
     public void setRpmDir(File rpmDir) {
         this.rpmDir = rpmDir;
     }
@@ -57,8 +55,8 @@ public class CreateRepo {
     }
 
     private void syncYumPackages(final YumStore yumStore) {
-        Set<File> files = null;
-        File rpmDir = new File(getRpmDir());
+        Set<File> files;
+        
         if (true) {
             files = scanner.scan(rpmDir);
         }
@@ -79,7 +77,7 @@ public class CreateRepo {
                             new FileInputStream(file), location, file.lastModified()
                     );
                     Formatter fmt = new Formatter();
-                     LoggerFactory.getLogger(this.getClass()).debug(fmt.format("Parsed RPM package: %10s  %10s  %10s", yumPackage.getName(), yumPackage.getVersion(), yumPackage.getSummary()).toString() );
+                    LoggerFactory.getLogger(this.getClass()).debug(fmt.format("Parsed RPM package: %10s  %10s  %10s", yumPackage.getName(), yumPackage.getVersion(), yumPackage.getSummary()).toString());
                     yumStore.put(yumPackage);
                 } catch (FileNotFoundException e) {
 //                    LOG.warn("Could not parse yum metadata for {}", location, e);
@@ -88,7 +86,7 @@ public class CreateRepo {
         }
     }
 
-    protected void execute()
+    public void execute()
             throws Exception {
 
 //        LOG.debug("Generating Yum-Repository for '{}' ...", getRpmDir());
@@ -104,7 +102,7 @@ public class CreateRepo {
         syncYumPackages(yumStore);
         CreateYumRepository createRepo = null;
 
-        createRepo = new CreateYumRepository(repoTmpRepodataDir, (int ) (Calendar.getInstance().getTime().getTime() / 1000), null);
+        createRepo = new CreateYumRepository(repoTmpRepodataDir, (int) (Calendar.getInstance().getTime().getTime() / 1000), null);
         for (YumPackage yumPackage : yumStore.get()) {
 
             createRepo.write(yumPackage);

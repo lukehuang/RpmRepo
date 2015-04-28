@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ua.pp.msk.yum;
+package ua.pp.msk.yum.createrepo;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.sonatype.nexus.yum.internal.RpmScanner;
 import org.sonatype.sisu.resource.scanner.Listener;
 import org.sonatype.sisu.resource.scanner.Scanner;
+import ua.pp.msk.yum.CreateRepo;
+
 
 /**
  *

@@ -1,31 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <!--
 
-    Sonatype Nexus (TM) Open Source Version
-    Copyright (c) 2008-2015 Sonatype, Inc.
-    All rights reserved. Includes the third-party code listed at http://links.sonatype.com/products/nexus/oss/attributions.
+  Sonatype Nexus (TM) Open Source Version
+  Copyright (c) 2008-2015 Sonatype, Inc.
+  All rights reserved. Includes the third-party code listed at http://links.sonatype.com/products/nexus/oss/attributions.
 
-    This program and the accompanying materials are made available under the terms of the Eclipse Public License Version 1.0,
-    which accompanies this distribution and is available at http://www.eclipse.org/legal/epl-v10.html.
+  This program and the accompanying materials are made available under the terms of the Eclipse Public License Version 1.0,
+  which accompanies this distribution and is available at http://www.eclipse.org/legal/epl-v10.html.
 
-    Sonatype Nexus (TM) Professional Version is available from Sonatype, Inc. "Sonatype" and "Sonatype Nexus" are trademarks
-    of Sonatype, Inc. Apache Maven is a trademark of the Apache Software Foundation. M2eclipse is a trademark of the
-    Eclipse Foundation. All other trademarks are the property of their respective owners.
+  Sonatype Nexus (TM) Professional Version is available from Sonatype, Inc. "Sonatype" and "Sonatype Nexus" are trademarks
+  of Sonatype, Inc. Apache Maven is a trademark of the Apache Software Foundation. M2eclipse is a trademark of the
+  Eclipse Foundation. All other trademarks are the property of their respective owners.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-  
-    <groupId>ua.pp.msk.yum</groupId>
-    <artifactId>createrepo</artifactId>
-    <name>Createrepo</name>
+    <parent>
+        <groupId>ua.pp.msk.yum</groupId>
+        <artifactId>RpmRepo</artifactId>
+        <version>1.0</version>
+    </parent>
+    <artifactId>commons</artifactId>
     <packaging>jar</packaging>
-    <version>0.5</version>
     <description>Java Createrepo implementation. This code was originally forked from Sonatype Nexus OSS GIT repository https://github.com/sonatype/nexus-oss</description>
-
     <properties>
         <nexus.version>2.11.2-06</nexus.version>
         <nexus.configuration.version>2.8.0</nexus.configuration.version>
@@ -39,17 +36,8 @@
         <it.nexus.bundle.artifactId>nexus-bundle-template</it.nexus.bundle.artifactId>
         <it.nexus.bundle.version>${nexus.version}</it.nexus.bundle.version>
     </properties>
-
-    
     <dependencies>
-      
-        <dependency>
-            <groupId>ua.pp.msk.yum</groupId>
-            <artifactId>CreaterepoUtils</artifactId>
-            <version>0.7</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
+               <dependency>
             <groupId>org.sonatype.sisu</groupId>
             <artifactId>sisu-resource-scanner</artifactId>
             <version>1.1.1</version>
@@ -60,32 +48,13 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.10</version>
         </dependency>
+        <dependency>
+            <groupId>ua.pp.msk.yum</groupId>
+            <artifactId>engine</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>rso-public-grid</id>
-            <url>https://repository.sonatype.org/content/groups/sonatype-public-grid/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>rso-public-grid</id>
-            <url>https://repository.sonatype.org/content/groups/sonatype-public-grid/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
     <build>
         <plugins>
             <plugin>
@@ -99,5 +68,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
