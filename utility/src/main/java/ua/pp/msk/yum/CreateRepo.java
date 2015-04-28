@@ -5,7 +5,6 @@
  */
 package ua.pp.msk.yum;
 
-import com.google.common.io.Files;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
