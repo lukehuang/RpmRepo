@@ -23,15 +23,15 @@ import ua.pp.msk.yum.sqlite.Packages;
  * @author Maksym Shkolnyi aka maskimko
  */
 @Entity
-@Table(name = "enhances1")
+@Table(name = "enhances")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Enhances1.findAll", query = "SELECT e FROM Enhances1 e"),
-    @NamedQuery(name = "Enhances1.findByName", query = "SELECT e FROM Enhances1 e WHERE e.name = :name"),
-    @NamedQuery(name = "Enhances1.findByFlags", query = "SELECT e FROM Enhances1 e WHERE e.flags = :flags"),
-    @NamedQuery(name = "Enhances1.findByEpoch", query = "SELECT e FROM Enhances1 e WHERE e.epoch = :epoch"),
-    @NamedQuery(name = "Enhances1.findByVersion", query = "SELECT e FROM Enhances1 e WHERE e.version = :version"),
-    @NamedQuery(name = "Enhances1.findByRelease", query = "SELECT e FROM Enhances1 e WHERE e.release = :release")})
+    @NamedQuery(name = "Enhances.findAll", query = "SELECT e FROM Enhances e"),
+    @NamedQuery(name = "Enhances.findByName", query = "SELECT e FROM Enhances e WHERE e.name = :name"),
+    @NamedQuery(name = "Enhances.findByFlags", query = "SELECT e FROM Enhances e WHERE e.flags = :flags"),
+    @NamedQuery(name = "Enhances.findByEpoch", query = "SELECT e FROM Enhances e WHERE e.epoch = :epoch"),
+    @NamedQuery(name = "Enhances.findByVersion", query = "SELECT e FROM Enhances e WHERE e.version = :version"),
+    @NamedQuery(name = "Enhances.findByRelease", query = "SELECT e FROM Enhances e WHERE e.release = :release")})
 public class Enhances implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -126,7 +126,7 @@ public class Enhances implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Enhances1[ name=" + name + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Enhances[ name=" + name + " ]";
     }
 
 }

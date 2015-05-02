@@ -23,15 +23,15 @@ import ua.pp.msk.yum.sqlite.Packages;
  * @author Maksym Shkolnyi aka maskimko
  */
 @Entity
-@Table(name = "recommends1")
+@Table(name = "recommends")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Recommends1.findAll", query = "SELECT r FROM Recommends1 r"),
-    @NamedQuery(name = "Recommends1.findByName", query = "SELECT r FROM Recommends1 r WHERE r.name = :name"),
-    @NamedQuery(name = "Recommends1.findByFlags", query = "SELECT r FROM Recommends1 r WHERE r.flags = :flags"),
-    @NamedQuery(name = "Recommends1.findByEpoch", query = "SELECT r FROM Recommends1 r WHERE r.epoch = :epoch"),
-    @NamedQuery(name = "Recommends1.findByVersion", query = "SELECT r FROM Recommends1 r WHERE r.version = :version"),
-    @NamedQuery(name = "Recommends1.findByRelease", query = "SELECT r FROM Recommends1 r WHERE r.release = :release")})
+    @NamedQuery(name = "Recommends.findAll", query = "SELECT r FROM Recommends r"),
+    @NamedQuery(name = "Recommends.findByName", query = "SELECT r FROM Recommends r WHERE r.name = :name"),
+    @NamedQuery(name = "Recommends.findByFlags", query = "SELECT r FROM Recommends r WHERE r.flags = :flags"),
+    @NamedQuery(name = "Recommends.findByEpoch", query = "SELECT r FROM Recommends r WHERE r.epoch = :epoch"),
+    @NamedQuery(name = "Recommends.findByVersion", query = "SELECT r FROM Recommends r WHERE r.version = :version"),
+    @NamedQuery(name = "Recommends.findByRelease", query = "SELECT r FROM Recommends r WHERE r.release = :release")})
 public class Recommends implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -126,7 +126,7 @@ public class Recommends implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Recommends1[ name=" + name + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Recommends[ name=" + name + " ]";
     }
 
 }

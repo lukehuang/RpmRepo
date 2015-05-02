@@ -23,15 +23,15 @@ import ua.pp.msk.yum.sqlite.Packages;
  * @author Maksym Shkolnyi aka maskimko
  */
 @Entity
-@Table(name = "provides1")
+@Table(name = "provides")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Provides1.findAll", query = "SELECT p FROM Provides1 p"),
-    @NamedQuery(name = "Provides1.findByName", query = "SELECT p FROM Provides1 p WHERE p.name = :name"),
-    @NamedQuery(name = "Provides1.findByFlags", query = "SELECT p FROM Provides1 p WHERE p.flags = :flags"),
-    @NamedQuery(name = "Provides1.findByEpoch", query = "SELECT p FROM Provides1 p WHERE p.epoch = :epoch"),
-    @NamedQuery(name = "Provides1.findByVersion", query = "SELECT p FROM Provides1 p WHERE p.version = :version"),
-    @NamedQuery(name = "Provides1.findByRelease", query = "SELECT p FROM Provides1 p WHERE p.release = :release")})
+    @NamedQuery(name = "Provides.findAll", query = "SELECT p FROM Provides p"),
+    @NamedQuery(name = "Provides.findByName", query = "SELECT p FROM Provides p WHERE p.name = :name"),
+    @NamedQuery(name = "Provides.findByFlags", query = "SELECT p FROM Provides p WHERE p.flags = :flags"),
+    @NamedQuery(name = "Provides.findByEpoch", query = "SELECT p FROM Provides p WHERE p.epoch = :epoch"),
+    @NamedQuery(name = "Provides.findByVersion", query = "SELECT p FROM Provides p WHERE p.version = :version"),
+    @NamedQuery(name = "Provides.findByRelease", query = "SELECT p FROM Provides p WHERE p.release = :release")})
 public class Provides implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -126,7 +126,7 @@ public class Provides implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Provides1[ name=" + name + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Provides[ name=" + name + " ]";
     }
 
 }

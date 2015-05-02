@@ -23,15 +23,15 @@ import ua.pp.msk.yum.sqlite.Packages;
  * @author Maksym Shkolnyi aka maskimko
  */
 @Entity
-@Table(name = "supplements1")
+@Table(name = "supplements")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Supplements1.findAll", query = "SELECT s FROM Supplements1 s"),
-    @NamedQuery(name = "Supplements1.findByName", query = "SELECT s FROM Supplements1 s WHERE s.supplements1PK.name = :name"),
-    @NamedQuery(name = "Supplements1.findByFlags", query = "SELECT s FROM Supplements1 s WHERE s.flags = :flags"),
-    @NamedQuery(name = "Supplements1.findByEpoch", query = "SELECT s FROM Supplements1 s WHERE s.supplements1PK.epoch = :epoch"),
-    @NamedQuery(name = "Supplements1.findByVersion", query = "SELECT s FROM Supplements1 s WHERE s.supplements1PK.version = :version"),
-    @NamedQuery(name = "Supplements1.findByRelease", query = "SELECT s FROM Supplements1 s WHERE s.supplements1PK.release = :release")})
+    @NamedQuery(name = "Supplements.findAll", query = "SELECT s FROM Supplements s"),
+    @NamedQuery(name = "Supplements.findByName", query = "SELECT s FROM Supplements s WHERE s.supplements1PK.name = :name"),
+    @NamedQuery(name = "Supplements.findByFlags", query = "SELECT s FROM Supplements s WHERE s.flags = :flags"),
+    @NamedQuery(name = "Supplements.findByEpoch", query = "SELECT s FROM Supplements s WHERE s.supplements1PK.epoch = :epoch"),
+    @NamedQuery(name = "Supplements.findByVersion", query = "SELECT s FROM Supplements s WHERE s.supplements1PK.version = :version"),
+    @NamedQuery(name = "Supplements.findByRelease", query = "SELECT s FROM Supplements s WHERE s.supplements1PK.release = :release")})
 public class Supplements implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -53,11 +53,11 @@ public class Supplements implements Serializable {
         this.supplements1PK = new SupplementsPK(name, epoch, version, release);
     }
 
-    public SupplementsPK getSupplements1PK() {
+    public SupplementsPK getSupplementsPK() {
         return supplements1PK;
     }
 
-    public void setSupplements1PK(SupplementsPK supplements1PK) {
+    public void setSupplementsPK(SupplementsPK supplements1PK) {
         this.supplements1PK = supplements1PK;
     }
 
@@ -99,7 +99,7 @@ public class Supplements implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Supplements1[ supplements1PK=" + supplements1PK + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Supplements[ supplements1PK=" + supplements1PK + " ]";
     }
 
 }

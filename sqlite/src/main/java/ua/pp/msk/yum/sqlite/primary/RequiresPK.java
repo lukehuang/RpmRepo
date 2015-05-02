@@ -101,7 +101,7 @@ public class RequiresPK implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Requires1PK[ name=" + name + ", epoch=" + epoch + ", version=" + version + ", release=" + release + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.RequiresPK[ name=" + name + ", epoch=" + epoch + ", version=" + version + ", release=" + release + " ]";
     }
 
 }

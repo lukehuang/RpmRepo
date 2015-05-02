@@ -23,12 +23,12 @@ import ua.pp.msk.yum.sqlite.Packages;
  * @author Maksym Shkolnyi aka maskimko
  */
 @Entity
-@Table(name = "files1")
+@Table(name = "files")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Files1.findAll", query = "SELECT f FROM Files1 f"),
-    @NamedQuery(name = "Files1.findByName", query = "SELECT f FROM Files1 f WHERE f.name = :name"),
-    @NamedQuery(name = "Files1.findByType", query = "SELECT f FROM Files1 f WHERE f.type = :type")})
+    @NamedQuery(name = "Files.findAll", query = "SELECT f FROM Files f"),
+    @NamedQuery(name = "Files.findByName", query = "SELECT f FROM Files f WHERE f.name = :name"),
+    @NamedQuery(name = "Files.findByType", query = "SELECT f FROM Files f WHERE f.type = :type")})
 public class Files implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -93,7 +93,7 @@ public class Files implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Files1[ name=" + name + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Files[ name=" + name + " ]";
     }
 
 }

@@ -101,7 +101,7 @@ public class SupplementsPK implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Supplements1PK[ name=" + name + ", epoch=" + epoch + ", version=" + version + ", release=" + release + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.SupplementsPK[ name=" + name + ", epoch=" + epoch + ", version=" + version + ", release=" + release + " ]";
     }
 
 }

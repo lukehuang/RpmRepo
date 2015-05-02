@@ -23,15 +23,15 @@ import ua.pp.msk.yum.sqlite.Packages;
  * @author Maksym Shkolnyi aka maskimko
  */
 @Entity
-@Table(name = "obsoletes1")
+@Table(name = "obsoletes")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Obsoletes1.findAll", query = "SELECT o FROM Obsoletes1 o"),
-    @NamedQuery(name = "Obsoletes1.findByName", query = "SELECT o FROM Obsoletes1 o WHERE o.name = :name"),
-    @NamedQuery(name = "Obsoletes1.findByFlags", query = "SELECT o FROM Obsoletes1 o WHERE o.flags = :flags"),
-    @NamedQuery(name = "Obsoletes1.findByEpoch", query = "SELECT o FROM Obsoletes1 o WHERE o.epoch = :epoch"),
-    @NamedQuery(name = "Obsoletes1.findByVersion", query = "SELECT o FROM Obsoletes1 o WHERE o.version = :version"),
-    @NamedQuery(name = "Obsoletes1.findByRelease", query = "SELECT o FROM Obsoletes1 o WHERE o.release = :release")})
+    @NamedQuery(name = "Obsoletes.findAll", query = "SELECT o FROM Obsoletes o"),
+    @NamedQuery(name = "Obsoletes.findByName", query = "SELECT o FROM Obsoletes o WHERE o.name = :name"),
+    @NamedQuery(name = "Obsoletes.findByFlags", query = "SELECT o FROM Obsoletes o WHERE o.flags = :flags"),
+    @NamedQuery(name = "Obsoletes.findByEpoch", query = "SELECT o FROM Obsoletes o WHERE o.epoch = :epoch"),
+    @NamedQuery(name = "Obsoletes.findByVersion", query = "SELECT o FROM Obsoletes o WHERE o.version = :version"),
+    @NamedQuery(name = "Obsoletes.findByRelease", query = "SELECT o FROM Obsoletes o WHERE o.release = :release")})
 public class Obsoletes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -126,7 +126,7 @@ public class Obsoletes implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Obsoletes1[ name=" + name + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Obsoletes[ name=" + name + " ]";
     }
 
 }

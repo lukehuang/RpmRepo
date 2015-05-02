@@ -23,16 +23,16 @@ import ua.pp.msk.yum.sqlite.Packages;
  * @author Maksym Shkolnyi aka maskimko
  */
 @Entity
-@Table(name = "requires1")
+@Table(name = "requires")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Requires1.findAll", query = "SELECT r FROM Requires1 r"),
-    @NamedQuery(name = "Requires1.findByName", query = "SELECT r FROM Requires1 r WHERE r.requires1PK.name = :name"),
-    @NamedQuery(name = "Requires1.findByFlags", query = "SELECT r FROM Requires1 r WHERE r.flags = :flags"),
-    @NamedQuery(name = "Requires1.findByEpoch", query = "SELECT r FROM Requires1 r WHERE r.requires1PK.epoch = :epoch"),
-    @NamedQuery(name = "Requires1.findByVersion", query = "SELECT r FROM Requires1 r WHERE r.requires1PK.version = :version"),
-    @NamedQuery(name = "Requires1.findByRelease", query = "SELECT r FROM Requires1 r WHERE r.requires1PK.release = :release"),
-    @NamedQuery(name = "Requires1.findByPre", query = "SELECT r FROM Requires1 r WHERE r.pre = :pre")})
+    @NamedQuery(name = "Requires.findAll", query = "SELECT r FROM Requires r"),
+    @NamedQuery(name = "Requires.findByName", query = "SELECT r FROM Requires r WHERE r.requires1PK.name = :name"),
+    @NamedQuery(name = "Requires.findByFlags", query = "SELECT r FROM Requires r WHERE r.flags = :flags"),
+    @NamedQuery(name = "Requires.findByEpoch", query = "SELECT r FROM Requires r WHERE r.requires1PK.epoch = :epoch"),
+    @NamedQuery(name = "Requires.findByVersion", query = "SELECT r FROM Requires r WHERE r.requires1PK.version = :version"),
+    @NamedQuery(name = "Requires.findByRelease", query = "SELECT r FROM Requires r WHERE r.requires1PK.release = :release"),
+    @NamedQuery(name = "Requires.findByPre", query = "SELECT r FROM Requires r WHERE r.pre = :pre")})
 public class Requires implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -56,11 +56,11 @@ public class Requires implements Serializable {
         this.requires1PK = new RequiresPK(name, epoch, version, release);
     }
 
-    public RequiresPK getRequires1PK() {
+    public RequiresPK getRequiresPK() {
         return requires1PK;
     }
 
-    public void setRequires1PK(RequiresPK requires1PK) {
+    public void setRequiresPK(RequiresPK requires1PK) {
         this.requires1PK = requires1PK;
     }
 
@@ -110,7 +110,7 @@ public class Requires implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Requires1[ requires1PK=" + requires1PK + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Requires[ requires1PK=" + requires1PK + " ]";
     }
 
 }

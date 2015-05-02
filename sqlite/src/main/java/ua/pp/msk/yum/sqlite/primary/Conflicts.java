@@ -23,15 +23,15 @@ import ua.pp.msk.yum.sqlite.Packages;
  * @author Maksym Shkolnyi aka maskimko
  */
 @Entity
-@Table(name = "conflicts1")
+@Table(name = "conflicts")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Conflicts1.findAll", query = "SELECT c FROM Conflicts1 c"),
-    @NamedQuery(name = "Conflicts1.findByName", query = "SELECT c FROM Conflicts1 c WHERE c.name = :name"),
-    @NamedQuery(name = "Conflicts1.findByFlags", query = "SELECT c FROM Conflicts1 c WHERE c.flags = :flags"),
-    @NamedQuery(name = "Conflicts1.findByEpoch", query = "SELECT c FROM Conflicts1 c WHERE c.epoch = :epoch"),
-    @NamedQuery(name = "Conflicts1.findByVersion", query = "SELECT c FROM Conflicts1 c WHERE c.version = :version"),
-    @NamedQuery(name = "Conflicts1.findByRelease", query = "SELECT c FROM Conflicts1 c WHERE c.release = :release")})
+    @NamedQuery(name = "Conflicts.findAll", query = "SELECT c FROM Conflicts c"),
+    @NamedQuery(name = "Conflicts.findByName", query = "SELECT c FROM Conflicts c WHERE c.name = :name"),
+    @NamedQuery(name = "Conflicts.findByFlags", query = "SELECT c FROM Conflicts c WHERE c.flags = :flags"),
+    @NamedQuery(name = "Conflicts.findByEpoch", query = "SELECT c FROM Conflicts c WHERE c.epoch = :epoch"),
+    @NamedQuery(name = "Conflicts.findByVersion", query = "SELECT c FROM Conflicts c WHERE c.version = :version"),
+    @NamedQuery(name = "Conflicts.findByRelease", query = "SELECT c FROM Conflicts c WHERE c.release = :release")})
 public class Conflicts implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -126,7 +126,7 @@ public class Conflicts implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Conflicts1[ name=" + name + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Conflicts[ name=" + name + " ]";
     }
 
 }
