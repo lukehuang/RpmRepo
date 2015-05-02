@@ -6,7 +6,7 @@
         <artifactId>RpmRepo</artifactId>
         <version>1.0</version>
     </parent>
-    <artifactId>sqlite</artifactId>
+    <artifactId>filelistsqlite</artifactId>
     <version>0.0</version>
     <packaging>jar</packaging>
     <repositories>
@@ -29,4 +29,5 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+    <name>filelistsqlite</name>
 </project>

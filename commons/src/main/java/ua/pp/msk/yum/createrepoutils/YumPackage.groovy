@@ -13,6 +13,7 @@
 package ua.pp.msk.yum.createrepoutils;
 
 import groovy.transform.ToString
+import ua.pp.msk.yum.sqlite.primary.Files
 
 /**
  * Yum package metadata.
@@ -92,4 +93,60 @@ public class YumPackage
     String text
   }
 
+  public RpmPackage getRpmPackage(){
+      RpmPackage rp = new RpmPackage();
+
+      rp.setName(name);
+      rp.setArch(arch);
+      rp.setVersion(version);
+      rp.setEpoch(epoch);
+      rp.setRelease(release);
+      rp.setSummary(summary);
+      rp.setDescription(description);
+      rp.setUrl(url);
+      rp.setTimeFile(timeFile);
+      rp.setTimeBuild(timeBuild);
+      rp.setRpmLicense(rpmLicense);
+      rp.setRpmVendor(rpmVendor);
+      rp.setRpmGroup(rpmGroup);
+      rp.setRpmBuildhost(rpmBuildHost);
+      rp.setRpmSourcerpm(null);
+      rp.setRpmHeaderStart(rpmHeaderStart);
+      rp.setRpmHeaderEnd(rpmHeaderEnd);
+      rp.setRpmPackager(packager);
+      rp.setSizePackage(sizePackage);
+      rp.setSizeArchive(sizeArchive);
+      rp.setSizeInstalled(sizeInstalled);
+      rp.setChecksumType(checksumType);
+      rp.setPkgId(checksum);
+      Iterator<File> fileIterator = files.iterator();
+      
+      while(fileIterator.hasNext()){
+          File fl = fileIterator.next();
+          fl.name;
+          fl.primary;
+          fl.type;
+          Files fls = null;
+          fls.setName(fl.name);
+          //fls.setType(fl.type.)
+          //TODO implement transformation
+      }
+      
+//        this.changelogCollection = null;
+//        this.locationHref = null;
+//        this.locationBase = null;
+//        this.conflictsCollection = null;
+//        this.obsoletesCollection = null;
+//        this.filesCollection = null;
+//        this.providesCollection = null;
+//        this.suggestsCollection = null;
+//        this.enhancesCollection = null;
+//        this.requiresCollection = null;
+//        this.supplementsCollection = null;
+//        this.recommendsCollection = null;
+//        this.pkgKey = null;
+//        this.filelistCollection = null;
+    }
+  
+  
 }

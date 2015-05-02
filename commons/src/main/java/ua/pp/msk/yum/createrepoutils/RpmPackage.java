@@ -3,21 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.pp.msk.yum.sqlite.filelist;
+package ua.pp.msk.yum.createrepoutils;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import ua.pp.msk.yum.sqlite.filelist.Filelist;
 import ua.pp.msk.yum.sqlite.other.Changelog;
 import ua.pp.msk.yum.sqlite.primary.Conflicts;
 import ua.pp.msk.yum.sqlite.primary.Enhances;
@@ -28,101 +18,59 @@ import ua.pp.msk.yum.sqlite.primary.Recommends;
 import ua.pp.msk.yum.sqlite.primary.Requires;
 import ua.pp.msk.yum.sqlite.primary.Suggests;
 import ua.pp.msk.yum.sqlite.primary.Supplements;
-
 /**
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-@Entity(name = "primaryPackages")
-@Table(name = "packages")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Packages.findAll", query = "SELECT p FROM Packages p"),
-    @NamedQuery(name = "Packages.findByPkgKey", query = "SELECT p FROM Packages p WHERE p.pkgKey = :pkgKey"),
-    @NamedQuery(name = "Packages.findByPkgId", query = "SELECT p FROM Packages p WHERE p.pkgId = :pkgId")})
-public class Packages implements Serializable {
 
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Changelog> changelog1Collection;
-    @Column(name = "name")
+public class RpmPackage implements Serializable {
+
+    private Collection<Changelog> changelogCollection;
     private String name;
-    @Column(name = "arch")
     private String arch;
-    @Column(name = "version")
     private String version;
-    @Column(name = "epoch")
     private String epoch;
-    @Column(name = "release")
     private String release;
-    @Column(name = "summary")
     private String summary;
-    @Column(name = "description")
     private String description;
-    @Column(name = "url")
     private String url;
-    @Column(name = "time_file")
     private Integer timeFile;
-    @Column(name = "time_build")
     private Integer timeBuild;
-    @Column(name = "rpm_license")
     private String rpmLicense;
-    @Column(name = "rpm_vendor")
     private String rpmVendor;
-    @Column(name = "rpm_group")
     private String rpmGroup;
-    @Column(name = "rpm_buildhost")
     private String rpmBuildhost;
-    @Column(name = "rpm_sourcerpm")
     private String rpmSourcerpm;
-    @Column(name = "rpm_header_start")
     private Integer rpmHeaderStart;
-    @Column(name = "rpm_header_end")
     private Integer rpmHeaderEnd;
-    @Column(name = "rpm_packager")
     private String rpmPackager;
-    @Column(name = "size_package")
     private Integer sizePackage;
-    @Column(name = "size_installed")
     private Integer sizeInstalled;
-    @Column(name = "size_archive")
     private Integer sizeArchive;
-    @Column(name = "location_href")
     private String locationHref;
-    @Column(name = "location_base")
     private String locationBase;
-    @Column(name = "checksum_type")
     private String checksumType;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Conflicts> conflicts1Collection;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Obsoletes> obsoletes1Collection;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Files> files1Collection;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Provides> provides1Collection;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Suggests> suggests1Collection;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Enhances> enhances1Collection;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Requires> requires1Collection;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Supplements> supplements1Collection;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Recommends> recommends1Collection;
+    private Collection<Conflicts> conflictsCollection;
+    private Collection<Obsoletes> obsoletesCollection;
+    private Collection<Files> filesCollection;
+    private Collection<Provides> providesCollection;
+    private Collection<Suggests> suggestsCollection;
+    private Collection<Enhances> enhancesCollection;
+    private Collection<Requires> requiresCollection;
+    private Collection<Supplements> supplementsCollection;
+    private Collection<Recommends> recommendsCollection;
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "pkgKey")
     private Integer pkgKey;
-    @Column(name = "pkgId")
     private String pkgId;
-    @OneToMany(mappedBy = "pkgKey")
     private Collection<Filelist> filelistCollection;
 
-    public Packages() {
+    public RpmPackage() {
     }
 
+  
+    
+    
+    
     public Integer getPkgKey() {
         return pkgKey;
     }
@@ -139,13 +87,12 @@ public class Packages implements Serializable {
         this.pkgId = pkgId;
     }
 
-    @XmlTransient
-    public Collection<Filelist> getFilelist1Collection() {
+    public Collection<Filelist> getFilelistCollection() {
         return filelistCollection;
     }
 
-    public void setFilelist1Collection(Collection<Filelist> filelist1Collection) {
-        this.filelistCollection = filelist1Collection;
+    public void setFilelistCollection(Collection<Filelist> filelistCollection) {
+        this.filelistCollection = filelistCollection;
     }
 
     public String getName() {
@@ -340,94 +287,84 @@ public class Packages implements Serializable {
         this.checksumType = checksumType;
     }
 
-    @XmlTransient
-    public Collection<Conflicts> getConflicts1Collection() {
-        return conflicts1Collection;
+    public Collection<Conflicts> getConflictsCollection() {
+        return conflictsCollection;
     }
 
-    public void setConflicts1Collection(Collection<Conflicts> conflicts1Collection) {
-        this.conflicts1Collection = conflicts1Collection;
+    public void setConflictsCollection(Collection<Conflicts> conflictsCollection) {
+        this.conflictsCollection = conflictsCollection;
     }
 
-    @XmlTransient
-    public Collection<Obsoletes> getObsoletes1Collection() {
-        return obsoletes1Collection;
+    public Collection<Obsoletes> getObsoletesCollection() {
+        return obsoletesCollection;
     }
 
-    public void setObsoletes1Collection(Collection<Obsoletes> obsoletes1Collection) {
-        this.obsoletes1Collection = obsoletes1Collection;
+    public void setObsoletesCollection(Collection<Obsoletes> obsoletesCollection) {
+        this.obsoletesCollection = obsoletesCollection;
     }
 
-    @XmlTransient
-    public Collection<Files> getFiles1Collection() {
-        return files1Collection;
+    public Collection<Files> getFilesCollection() {
+        return filesCollection;
     }
 
-    public void setFiles1Collection(Collection<Files> files1Collection) {
-        this.files1Collection = files1Collection;
+    public void setFilesCollection(Collection<Files> filesCollection) {
+        this.filesCollection = filesCollection;
     }
 
-    @XmlTransient
-    public Collection<Provides> getProvides1Collection() {
-        return provides1Collection;
+    public Collection<Provides> getProvidesCollection() {
+        return providesCollection;
     }
 
-    public void setProvides1Collection(Collection<Provides> provides1Collection) {
-        this.provides1Collection = provides1Collection;
+    public void setProvidesCollection(Collection<Provides> providesCollection) {
+        this.providesCollection = providesCollection;
     }
 
-    @XmlTransient
-    public Collection<Suggests> getSuggests1Collection() {
-        return suggests1Collection;
+    public Collection<Suggests> getSuggestsCollection() {
+        return suggestsCollection;
     }
 
-    public void setSuggests1Collection(Collection<Suggests> suggests1Collection) {
-        this.suggests1Collection = suggests1Collection;
+    public void setSuggestsCollection(Collection<Suggests> suggestsCollection) {
+        this.suggestsCollection = suggestsCollection;
     }
 
-    @XmlTransient
-    public Collection<Enhances> getEnhances1Collection() {
-        return enhances1Collection;
+    public Collection<Enhances> getEnhancesCollection() {
+        return enhancesCollection;
     }
 
-    public void setEnhances1Collection(Collection<Enhances> enhances1Collection) {
-        this.enhances1Collection = enhances1Collection;
+    public void setEnhancesCollection(Collection<Enhances> enhancesCollection) {
+        this.enhancesCollection = enhancesCollection;
     }
 
-    @XmlTransient
-    public Collection<Requires> getRequires1Collection() {
-        return requires1Collection;
+    public Collection<Requires> getRequiresCollection() {
+        return requiresCollection;
     }
 
-    public void setRequires1Collection(Collection<Requires> requires1Collection) {
-        this.requires1Collection = requires1Collection;
+    public void setRequiresCollection(Collection<Requires> requiresCollection) {
+        this.requiresCollection = requiresCollection;
     }
 
-    @XmlTransient
-    public Collection<Supplements> getSupplements1Collection() {
-        return supplements1Collection;
+    public Collection<Supplements> getSupplementsCollection() {
+        return supplementsCollection;
     }
 
-    public void setSupplements1Collection(Collection<Supplements> supplements1Collection) {
-        this.supplements1Collection = supplements1Collection;
+    public void setSupplementsCollection(Collection<Supplements> supplementsCollection) {
+        this.supplementsCollection = supplementsCollection;
     }
 
-    @XmlTransient
-    public Collection<Recommends> getRecommends1Collection() {
-        return recommends1Collection;
+    public Collection<Recommends> getRecommendsCollection() {
+        return recommendsCollection;
     }
 
-    public void setRecommends1Collection(Collection<Recommends> recommends1Collection) {
-        this.recommends1Collection = recommends1Collection;
+    public void setRecommendsCollection(Collection<Recommends> recommendsCollection) {
+        this.recommendsCollection = recommendsCollection;
     }
 
-    @XmlTransient
-    public Collection<Changelog> getChangelog1Collection() {
-        return changelog1Collection;
+    public Collection<Changelog> getChangelogCollection() {
+        return changelogCollection;
     }
 
-    public void setChangelog1Collection(Collection<Changelog> changelog1Collection) {
-        this.changelog1Collection = changelog1Collection;
+    public void setChangelogCollection(Collection<Changelog> changelogCollection) {
+        this.changelogCollection = changelogCollection;
     }
 
 }

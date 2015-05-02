@@ -6,3 +6,7 @@ utility/target/*
 /server/target/
 /sqlite/target/
 /SpeedUp/target/
+/primarysqlite/target/
+/othersqlite/target/
+/filessqlite/target/
+/filelistsqlite/target/

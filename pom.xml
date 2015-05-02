@@ -16,7 +16,9 @@
         <module>createrepo</module>
     <module>web</module>
     <module>server</module>
-        <module>sqlite</module>
+        <module>primarysqlite</module>
+        <module>othersqlite</module>
+        <module>filelistsqlite</module>
     </modules>
  <dependencies>
         <dependency>
