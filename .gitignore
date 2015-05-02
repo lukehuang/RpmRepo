@@ -3,3 +3,6 @@ commons/target/*
 utility/target/*
 
 /createrepo/target/
+/server/target/
+/sqlite/target/
+/SpeedUp/target/

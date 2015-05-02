@@ -14,6 +14,9 @@
     <module>utility</module>
         <module>commons</module>
         <module>createrepo</module>
+    <module>web</module>
+    <module>server</module>
+        <module>sqlite</module>
     </modules>
  <dependencies>
         <dependency>
