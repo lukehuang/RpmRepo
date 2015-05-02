@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.pp.msk.yum.sqlite;
+package ua.pp.msk.yum.sqlite.filelist;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import ua.pp.msk.yum.sqlite.filelist.Filelist;
 import ua.pp.msk.yum.sqlite.other.Changelog;
 import ua.pp.msk.yum.sqlite.primary.Conflicts;
 import ua.pp.msk.yum.sqlite.primary.Enhances;
@@ -34,7 +33,7 @@ import ua.pp.msk.yum.sqlite.primary.Supplements;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-@Entity
+@Entity(name = "primaryPackages")
 @Table(name = "packages")
 @XmlRootElement
 @NamedQueries({

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.pp.msk.yum.sqlite;
+package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -18,23 +18,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import ua.pp.msk.yum.sqlite.filelist.Filelist;
-import ua.pp.msk.yum.sqlite.other.Changelog;
-import ua.pp.msk.yum.sqlite.primary.Conflicts;
-import ua.pp.msk.yum.sqlite.primary.Enhances;
-import ua.pp.msk.yum.sqlite.primary.Files;
-import ua.pp.msk.yum.sqlite.primary.Obsoletes;
-import ua.pp.msk.yum.sqlite.primary.Provides;
-import ua.pp.msk.yum.sqlite.primary.Recommends;
-import ua.pp.msk.yum.sqlite.primary.Requires;
-import ua.pp.msk.yum.sqlite.primary.Suggests;
-import ua.pp.msk.yum.sqlite.primary.Supplements;
+
 
 /**
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-@Entity
+@Entity(name = "primaryPackages")
 @Table(name = "packages")
 @XmlRootElement
 @NamedQueries({
@@ -43,8 +33,7 @@ import ua.pp.msk.yum.sqlite.primary.Supplements;
     @NamedQuery(name = "Packages.findByPkgId", query = "SELECT p FROM Packages p WHERE p.pkgId = :pkgId")})
 public class Packages implements Serializable {
 
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Changelog> changelog1Collection;
+   
     @Column(name = "name")
     private String name;
     @Column(name = "arch")
@@ -118,8 +107,7 @@ public class Packages implements Serializable {
     private Integer pkgKey;
     @Column(name = "pkgId")
     private String pkgId;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Filelist> filelistCollection;
+   
 
     public Packages() {
     }
@@ -140,15 +128,7 @@ public class Packages implements Serializable {
         this.pkgId = pkgId;
     }
 
-    @XmlTransient
-    public Collection<Filelist> getFilelist1Collection() {
-        return filelistCollection;
-    }
-
-    public void setFilelist1Collection(Collection<Filelist> filelist1Collection) {
-        this.filelistCollection = filelist1Collection;
-    }
-
+ 
     public String getName() {
         return name;
     }
@@ -422,13 +402,5 @@ public class Packages implements Serializable {
         this.recommends1Collection = recommends1Collection;
     }
 
-    @XmlTransient
-    public Collection<Changelog> getChangelog1Collection() {
-        return changelog1Collection;
-    }
-
-    public void setChangelog1Collection(Collection<Changelog> changelog1Collection) {
-        this.changelog1Collection = changelog1Collection;
-    }
 
 }

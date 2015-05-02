@@ -27,7 +27,7 @@
     <class>ua.pp.msk.yum.sqlite.primary.Recommends</class>
     <properties>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:/tmp/testrepo/repodata/filelists.sqlite"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:/tmp/testrepo/repodata/primary_test.sqlite"/>
       <property name="javax.persistence.jdbc.user" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
       <property name="javax.persistence.jdbc.password" value=""/>
