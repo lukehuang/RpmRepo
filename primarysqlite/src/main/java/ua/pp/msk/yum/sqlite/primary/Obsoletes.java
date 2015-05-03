@@ -6,10 +6,10 @@
 
 package ua.pp.msk.yum.sqlite.primary;
 
-import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -26,24 +26,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Obsoletes.findAll", query = "SELECT o FROM Obsoletes o"),
-    @NamedQuery(name = "Obsoletes.findByName", query = "SELECT o FROM Obsoletes o WHERE o.name = :name"),
+    @NamedQuery(name = "Obsoletes.findByName", query = "SELECT o FROM Obsoletes o WHERE o.obsoletesPK.name = :name"),
     @NamedQuery(name = "Obsoletes.findByFlags", query = "SELECT o FROM Obsoletes o WHERE o.flags = :flags"),
-    @NamedQuery(name = "Obsoletes.findByEpoch", query = "SELECT o FROM Obsoletes o WHERE o.epoch = :epoch"),
-    @NamedQuery(name = "Obsoletes.findByVersion", query = "SELECT o FROM Obsoletes o WHERE o.version = :version"),
-    @NamedQuery(name = "Obsoletes.findByRelease", query = "SELECT o FROM Obsoletes o WHERE o.release = :release")})
-public class Obsoletes implements Serializable {
+    @NamedQuery(name = "Obsoletes.findByEpoch", query = "SELECT o FROM Obsoletes o WHERE o.obsoletesPK.epoch = :epoch"),
+    @NamedQuery(name = "Obsoletes.findByVersion", query = "SELECT o FROM Obsoletes o WHERE o.obsoletesPK.version = :version"),
+    @NamedQuery(name = "Obsoletes.findByRelease", query = "SELECT o FROM Obsoletes o WHERE o.obsoletesPK.release = :release")})
+public class Obsoletes implements Entry {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Column(name = "name")
-    private String name;
+     @EmbeddedId
+    protected EntryPK obsoletesPK;
     @Column(name = "flags")
     private String flags;
-    @Column(name = "epoch")
-    private String epoch;
-    @Column(name = "version")
-    private String version;
-    @Column(name = "release")
-    private String release;
     @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey")
     @ManyToOne
     private Packages pkgKey;
@@ -51,49 +44,23 @@ public class Obsoletes implements Serializable {
     public Obsoletes() {
     }
 
-    public Obsoletes(String name) {
-        this.name = name;
+    public Obsoletes(EntryPK name) {
+        this.obsoletesPK = name;
     }
 
-    public String getName() {
-        return name;
-    }
+  
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @Override
     public String getFlags() {
         return flags;
     }
 
+    @Override
     public void setFlags(String flags) {
         this.flags = flags;
     }
 
-    public String getEpoch() {
-        return epoch;
-    }
-
-    public void setEpoch(String epoch) {
-        this.epoch = epoch;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getRelease() {
-        return release;
-    }
-
-    public void setRelease(String release) {
-        this.release = release;
-    }
+   
 
     public Packages getPkgKey() {
         return pkgKey;
@@ -103,29 +70,74 @@ public class Obsoletes implements Serializable {
         this.pkgKey = pkgKey;
     }
 
+   
+
+    @Override
+    public String toString() {
+        return "ua.pp.msk.yum.sqlite.primary.Obsoletes[ name=" + obsoletesPK + " ]";
+    }
+   @Override
+    public String getName() {
+        return obsoletesPK.getName();
+    }
+
+    @Override
+    public void setName(String name) {
+        obsoletesPK.setName(name);
+    }
+
+    @Override
+    public String getEpoch() {
+        return obsoletesPK.getEpoch();
+    }
+
+    @Override
+    public void setEpoch(String epoch) {
+        obsoletesPK.setEpoch(epoch);
+        }
+
+    @Override
+    public String getVersion() {
+        return obsoletesPK.getVersion();
+    }
+
+    @Override
+    public void setVersion(String version) {
+        obsoletesPK.setVersion(version);
+    }
+
+    @Override
+    public String getRelease() {
+        return obsoletesPK.getRelease();
+    }
+
+    @Override
+    public void setRelease(String release) {
+        obsoletesPK.setRelease(release);
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (name != null ? name.hashCode() : 0);
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.obsoletesPK);
+        hash = 97 * hash + Objects.hashCode(this.pkgKey);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Obsoletes)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Obsoletes other = (Obsoletes) object;
-        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Obsoletes other = (Obsoletes) obj;
+        if (!Objects.equals(this.obsoletesPK, other.obsoletesPK)) {
             return false;
         }
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Obsoletes[ name=" + name + " ]";
-    }
-
+    
+    
 }
