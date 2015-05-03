@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Formatter;
 import java.util.Set;
 import java.util.UUID;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.nexus.yum.internal.createrepo.YumStore;
 import org.sonatype.nexus.yum.internal.RpmScanner;
@@ -20,6 +21,7 @@ import ua.pp.msk.yum.createrepoutils.YumPackageParser;
 import org.sonatype.nexus.yum.internal.createrepo.YumStoreFactory;
 import org.sonatype.nexus.yum.internal.createrepo.YumStoreFactoryImpl;
 import ua.pp.msk.yum.createrepoutils.CreateYumRepository;
+import ua.pp.msk.yum.createrepoutils.RpmPackage;
 import ua.pp.msk.yum.helper.DirSupport;
 
 /**
@@ -33,6 +35,7 @@ public class CreateRepo {
     private File repoBaseDir;
     private RpmScanner scanner;
     private static final String REPO_TMP_FOLDER = "tmpRepodata";
+    private Logger logger;
 
 //    private static final Logger LOG = LoggerFactory.getLogger(CreateRepo.class);
     public CreateRepo(File rpmDir, File repoBaseDir){
@@ -43,6 +46,7 @@ public class CreateRepo {
         this.rpmDir = rpmDir;
         this.repoBaseDir = repoBaseDir;
         this.scanner = scanner;
+        this.logger = LoggerFactory.getLogger(this.getClass());
     }
 
     public void setRpmDir(File rpmDir) {
@@ -75,15 +79,17 @@ public class CreateRepo {
         if (files != null) {
             for (File file : files) {
                 String location = RpmScanner.getRelativePath(rpmDir, file.getAbsoluteFile());
+//                logger.debug("Got relative path for rpm file " + file.getAbsolutePath() + ": " + location);
                 try {
                     YumPackage yumPackage = new YumPackageParser().parse(
                             new FileInputStream(file), location, file.lastModified()
                     );
-                    Formatter fmt = new Formatter();
-                    LoggerFactory.getLogger(this.getClass()).debug(fmt.format("Parsed RPM package: %10s  %10s  %10s", yumPackage.getName(), yumPackage.getVersion(), yumPackage.getSummary()).toString());
+        
+                    logger.debug(new Formatter().format("Parsed RPM package: %10s %7s  %10s", yumPackage.getName(), yumPackage.getVersion(), yumPackage.getSummary()).toString());
+                    RpmPackage rpmPackage = yumPackage.getRpmPackage();
                     yumStore.put(yumPackage);
                 } catch (FileNotFoundException e) {
-//                    LOG.warn("Could not parse yum metadata for {}", location, e);
+                  logger.warn("Could not parse yum metadata for {}", location, e);
                 }
             }
         }
@@ -103,6 +109,7 @@ public class CreateRepo {
         YumStoreFactory ysf = new YumStoreFactoryImpl();
         YumStore yumStore = ysf.create("test");
         syncYumPackages(yumStore);
+        logger.debug("Sync of yum packages has been finished");
         CreateYumRepository createRepo = null;
 
         createRepo = new CreateYumRepository(repoTmpRepodataDir, (int) (Calendar.getInstance().getTime().getTime() / 1000), null);

@@ -25,37 +25,37 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "changelog1")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Changelog1.findAll", query = "SELECT c FROM Changelog1 c"),
-    @NamedQuery(name = "Changelog1.findByAuthor", query = "SELECT c FROM Changelog1 c WHERE c.changelog1PK.author = :author"),
-    @NamedQuery(name = "Changelog1.findByDate", query = "SELECT c FROM Changelog1 c WHERE c.changelog1PK.date = :date"),
-    @NamedQuery(name = "Changelog1.findByChangelog", query = "SELECT c FROM Changelog1 c WHERE c.changelog = :changelog")})
+    @NamedQuery(name = "Changelog.findAll", query = "SELECT c FROM Changelog c"),
+    @NamedQuery(name = "Changelog.findByAuthor", query = "SELECT c FROM Changelog c WHERE c.changelogPK.author = :author"),
+    @NamedQuery(name = "Changelog.findByDate", query = "SELECT c FROM Changelog c WHERE c.changelogPK.date = :date"),
+    @NamedQuery(name = "Changelog.findByChangelog", query = "SELECT c FROM Changelog c WHERE c.changelog = :changelog")})
 public class Changelog implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected ChangelogPK changelog1PK;
+    protected ChangelogPK changelogPK;
     @Column(name = "changelog")
     private String changelog;
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgId")
+    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey")
     @ManyToOne
     private Packages pkgKey;
 
     public Changelog() {
     }
 
-    public Changelog(ChangelogPK changelog1PK) {
-        this.changelog1PK = changelog1PK;
+    public Changelog(ChangelogPK changelogPK) {
+        this.changelogPK = changelogPK;
     }
 
     public Changelog(String author, Integer date) {
-        this.changelog1PK = new ChangelogPK(author, date);
+        this.changelogPK = new ChangelogPK(author, date);
     }
 
     public ChangelogPK getChangelog1PK() {
-        return changelog1PK;
+        return changelogPK;
     }
 
     public void setChangelog1PK(ChangelogPK changelog1PK) {
-        this.changelog1PK = changelog1PK;
+        this.changelogPK = changelog1PK;
     }
 
     public String getChangelog() {
@@ -77,7 +77,7 @@ public class Changelog implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (changelog1PK != null ? changelog1PK.hashCode() : 0);
+        hash += (changelogPK != null ? changelogPK.hashCode() : 0);
         return hash;
     }
 
@@ -88,7 +88,7 @@ public class Changelog implements Serializable {
             return false;
         }
         Changelog other = (Changelog) object;
-        if ((this.changelog1PK == null && other.changelog1PK != null) || (this.changelog1PK != null && !this.changelog1PK.equals(other.changelog1PK))) {
+        if ((this.changelogPK == null && other.changelogPK != null) || (this.changelogPK != null && !this.changelogPK.equals(other.changelogPK))) {
             return false;
         }
         return true;
@@ -96,7 +96,7 @@ public class Changelog implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.other.Changelog1[ changelog1PK=" + changelog1PK + " ]";
+        return "ua.pp.msk.yum.sqlite.other.Changelog1[ changelog1PK=" + changelogPK + " ]";
     }
 
 }

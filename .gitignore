@@ -10,3 +10,4 @@ utility/target/*
 /othersqlite/target/
 /filessqlite/target/
 /filelistsqlite/target/
+/web/target/

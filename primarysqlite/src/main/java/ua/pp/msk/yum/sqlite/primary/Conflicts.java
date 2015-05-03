@@ -44,7 +44,7 @@ public class Conflicts implements Serializable {
     private String version;
     @Column(name = "release")
     private String release;
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgId")
+    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey")
     @ManyToOne
     private Packages pkgKey;
 
