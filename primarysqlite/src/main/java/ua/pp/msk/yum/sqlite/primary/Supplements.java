@@ -26,44 +26,46 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Supplements.findAll", query = "SELECT s FROM Supplements s"),
-    @NamedQuery(name = "Supplements.findByName", query = "SELECT s FROM Supplements s WHERE s.supplements1PK.name = :name"),
+    @NamedQuery(name = "Supplements.findByName", query = "SELECT s FROM Supplements s WHERE s.supplementsPK.name = :name"),
     @NamedQuery(name = "Supplements.findByFlags", query = "SELECT s FROM Supplements s WHERE s.flags = :flags"),
-    @NamedQuery(name = "Supplements.findByEpoch", query = "SELECT s FROM Supplements s WHERE s.supplements1PK.epoch = :epoch"),
-    @NamedQuery(name = "Supplements.findByVersion", query = "SELECT s FROM Supplements s WHERE s.supplements1PK.version = :version"),
-    @NamedQuery(name = "Supplements.findByRelease", query = "SELECT s FROM Supplements s WHERE s.supplements1PK.release = :release")})
-public class Supplements implements Serializable {
+    @NamedQuery(name = "Supplements.findByEpoch", query = "SELECT s FROM Supplements s WHERE s.supplementsPK.epoch = :epoch"),
+    @NamedQuery(name = "Supplements.findByVersion", query = "SELECT s FROM Supplements s WHERE s.supplementsPK.version = :version"),
+    @NamedQuery(name = "Supplements.findByRelease", query = "SELECT s FROM Supplements s WHERE s.supplementsPK.release = :release")})
+public class Supplements implements Entry {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected SupplementsPK supplements1PK;
+    protected EntryPK supplementsPK;
     @Column(name = "flags")
     private String flags;
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgId")
+    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey")
     @ManyToOne
     private Packages pkgKey;
 
     public Supplements() {
     }
 
-    public Supplements(SupplementsPK supplements1PK) {
-        this.supplements1PK = supplements1PK;
+    public Supplements(EntryPK supplements1PK) {
+        this.supplementsPK = supplements1PK;
     }
 
     public Supplements(String name, String epoch, String version, String release) {
-        this.supplements1PK = new SupplementsPK(name, epoch, version, release);
+        this.supplementsPK = new EntryPK(name, epoch, version, release);
     }
 
-    public SupplementsPK getSupplementsPK() {
-        return supplements1PK;
+    public EntryPK getSupplementsPK() {
+        return supplementsPK;
     }
 
-    public void setSupplementsPK(SupplementsPK supplements1PK) {
-        this.supplements1PK = supplements1PK;
+    public void setSupplementsPK(EntryPK supplementsPK) {
+        this.supplementsPK = supplementsPK;
     }
 
+    @Override
     public String getFlags() {
         return flags;
     }
 
+    @Override
     public void setFlags(String flags) {
         this.flags = flags;
     }
@@ -79,7 +81,7 @@ public class Supplements implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (supplements1PK != null ? supplements1PK.hashCode() : 0);
+        hash += (supplementsPK != null ? supplementsPK.hashCode() : 0);
         return hash;
     }
 
@@ -90,7 +92,7 @@ public class Supplements implements Serializable {
             return false;
         }
         Supplements other = (Supplements) object;
-        if ((this.supplements1PK == null && other.supplements1PK != null) || (this.supplements1PK != null && !this.supplements1PK.equals(other.supplements1PK))) {
+        if ((this.supplementsPK == null && other.supplementsPK != null) || (this.supplementsPK != null && !this.supplementsPK.equals(other.supplementsPK))) {
             return false;
         }
         return true;
@@ -98,7 +100,47 @@ public class Supplements implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Supplements[ supplements1PK=" + supplements1PK + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Supplements[ supplements1PK=" + supplementsPK + " ]";
+    }
+
+    @Override
+    public String getName() {
+        return supplementsPK.getName();
+    }
+
+    @Override
+    public void setName(String name) {
+        supplementsPK.setName(name);
+    }
+
+    @Override
+    public String getEpoch() {
+        return supplementsPK.getEpoch();
+    }
+
+    @Override
+    public void setEpoch(String epoch) {
+        supplementsPK.setEpoch(epoch);
+    }
+
+    @Override
+    public String getVersion() {
+        return supplementsPK.getVersion();
+    }
+
+    @Override
+    public void setVersion(String version) {
+        supplementsPK.setVersion(version);
+    }
+
+    @Override
+    public String getRelease() {
+        return supplementsPK.getRelease();
+    }
+
+    @Override
+    public void setRelease(String release) {
+        supplementsPK.setRelease(release);
     }
 
 }

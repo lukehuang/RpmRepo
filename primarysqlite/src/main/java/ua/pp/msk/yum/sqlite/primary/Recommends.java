@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -26,73 +26,41 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Recommends.findAll", query = "SELECT r FROM Recommends r"),
-    @NamedQuery(name = "Recommends.findByName", query = "SELECT r FROM Recommends r WHERE r.name = :name"),
+    @NamedQuery(name = "Recommends.findByName", query = "SELECT r FROM Recommends r WHERE r.recommendsPK.name = :name"),
     @NamedQuery(name = "Recommends.findByFlags", query = "SELECT r FROM Recommends r WHERE r.flags = :flags"),
-    @NamedQuery(name = "Recommends.findByEpoch", query = "SELECT r FROM Recommends r WHERE r.epoch = :epoch"),
-    @NamedQuery(name = "Recommends.findByVersion", query = "SELECT r FROM Recommends r WHERE r.version = :version"),
-    @NamedQuery(name = "Recommends.findByRelease", query = "SELECT r FROM Recommends r WHERE r.release = :release")})
-public class Recommends implements Serializable {
+    @NamedQuery(name = "Recommends.findByEpoch", query = "SELECT r FROM Recommends r WHERE r.recommendsPK.epoch = :epoch"),
+    @NamedQuery(name = "Recommends.findByVersion", query = "SELECT r FROM Recommends r WHERE r.recommendsPK.version = :version"),
+    @NamedQuery(name = "Recommends.findByRelease", query = "SELECT r FROM Recommends r WHERE r.recommendsPK.release = :release")})
+public class Recommends implements Entry {
+
     private static final long serialVersionUID = 1L;
-    @Id
-    @Column(name = "name")
-    private String name;
+    @EmbeddedId
+    protected EntryPK recommendsPK;
     @Column(name = "flags")
     private String flags;
-    @Column(name = "epoch")
-    private String epoch;
-    @Column(name = "version")
-    private String version;
-    @Column(name = "release")
-    private String release;
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgId")
+    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey")
     @ManyToOne
     private Packages pkgKey;
 
     public Recommends() {
     }
 
-    public Recommends(String name) {
-        this.name = name;
+    public Recommends(String name, String epoch, String version, String release) {
+        this.recommendsPK = new EntryPK(name, epoch, version, release);
     }
 
-    public String getName() {
-        return name;
+    public Recommends(EntryPK epk) {
+        this.recommendsPK = epk;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @Override
     public String getFlags() {
         return flags;
     }
 
+    @Override
     public void setFlags(String flags) {
         this.flags = flags;
-    }
-
-    public String getEpoch() {
-        return epoch;
-    }
-
-    public void setEpoch(String epoch) {
-        this.epoch = epoch;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getRelease() {
-        return release;
-    }
-
-    public void setRelease(String release) {
-        this.release = release;
     }
 
     public Packages getPkgKey() {
@@ -104,28 +72,68 @@ public class Recommends implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "ua.pp.msk.yum.sqlite.primary.Recommends[ name=" + recommendsPK + " ]";
+    }
+
+    @Override
     public int hashCode() {
         int hash = 0;
-        hash += (name != null ? name.hashCode() : 0);
+        hash += (recommendsPK != null ? recommendsPK.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Recommends)) {
+        if (!(object instanceof Requires)) {
             return false;
         }
-        Recommends other = (Recommends) object;
-        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
+        Requires other = (Requires) object;
+        if ((this.recommendsPK == null && other.requiresPK != null) || (this.recommendsPK != null && !this.recommendsPK.equals(other.requiresPK))) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Recommends[ name=" + name + " ]";
+    public String getName() {
+        return recommendsPK.getName();
+    }
+
+    @Override
+    public void setName(String name) {
+        recommendsPK.setName(name);
+    }
+
+    @Override
+    public String getEpoch() {
+        return recommendsPK.getEpoch();
+    }
+
+    @Override
+    public void setEpoch(String epoch) {
+        recommendsPK.setEpoch(epoch);
+    }
+
+    @Override
+    public String getVersion() {
+        return recommendsPK.getVersion();
+    }
+
+    @Override
+    public void setVersion(String version) {
+        recommendsPK.setVersion(version);
+    }
+
+    @Override
+    public String getRelease() {
+        return recommendsPK.getRelease();
+    }
+
+    @Override
+    public void setRelease(String release) {
+        recommendsPK.setRelease(release);
     }
 
 }
