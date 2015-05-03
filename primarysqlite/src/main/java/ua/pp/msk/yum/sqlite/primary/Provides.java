@@ -7,7 +7,9 @@
 package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -26,24 +28,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Provides.findAll", query = "SELECT p FROM Provides p"),
-    @NamedQuery(name = "Provides.findByName", query = "SELECT p FROM Provides p WHERE p.name = :name"),
+    @NamedQuery(name = "Provides.findByName", query = "SELECT p FROM Provides p WHERE p.providesPK.name = :name"),
     @NamedQuery(name = "Provides.findByFlags", query = "SELECT p FROM Provides p WHERE p.flags = :flags"),
-    @NamedQuery(name = "Provides.findByEpoch", query = "SELECT p FROM Provides p WHERE p.epoch = :epoch"),
-    @NamedQuery(name = "Provides.findByVersion", query = "SELECT p FROM Provides p WHERE p.version = :version"),
-    @NamedQuery(name = "Provides.findByRelease", query = "SELECT p FROM Provides p WHERE p.release = :release")})
-public class Provides implements Serializable {
+    @NamedQuery(name = "Provides.findByEpoch", query = "SELECT p FROM Provides p WHERE p.providesPK.epoch = :epoch"),
+    @NamedQuery(name = "Provides.findByVersion", query = "SELECT p FROM Provides p WHERE p.providesPK.version = :version"),
+    @NamedQuery(name = "Provides.findByRelease", query = "SELECT p FROM Provides p WHERE p.providesPK.release = :release")})
+public class Provides implements Entry {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Column(name = "name")
-    private String name;
+     @EmbeddedId
+    protected EntryPK providesPK;
     @Column(name = "flags")
     private String flags;
-    @Column(name = "epoch")
-    private String epoch;
-    @Column(name = "version")
-    private String version;
-    @Column(name = "release")
-    private String release;
     @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey")
     @ManyToOne
     private Packages pkgKey;
@@ -51,48 +46,60 @@ public class Provides implements Serializable {
     public Provides() {
     }
 
-    public Provides(String name) {
-        this.name = name;
+    public Provides(EntryPK epk) {
+        this.providesPK = epk;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
+    @Override
     public String getFlags() {
         return flags;
     }
 
+    @Override
     public void setFlags(String flags) {
         this.flags = flags;
     }
 
+     @Override
+    public String getName() {
+        return providesPK.getName();
+    }
+
+    @Override
+    public void setName(String name) {
+        providesPK.setName(name);
+    }
+
+    @Override
     public String getEpoch() {
-        return epoch;
+        return providesPK.getEpoch();
     }
 
+    @Override
     public void setEpoch(String epoch) {
-        this.epoch = epoch;
-    }
+        providesPK.setEpoch(epoch);
+        }
 
+    @Override
     public String getVersion() {
-        return version;
+        return providesPK.getVersion();
     }
 
+    @Override
     public void setVersion(String version) {
-        this.version = version;
+        providesPK.setVersion(version);
     }
 
+    @Override
     public String getRelease() {
-        return release;
+        return providesPK.getRelease();
     }
 
+    @Override
     public void setRelease(String release) {
-        this.release = release;
+        providesPK.setRelease(release);
     }
 
     public Packages getPkgKey() {
@@ -105,27 +112,32 @@ public class Provides implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (name != null ? name.hashCode() : 0);
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.providesPK);
+        hash = 83 * hash + Objects.hashCode(this.pkgKey);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Provides)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Provides other = (Provides) object;
-        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Provides other = (Provides) obj;
+        if (!Objects.equals(this.providesPK, other.providesPK)) {
             return false;
         }
         return true;
     }
 
+ 
+
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Provides[ name=" + name + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Provides[ name=" + providesPK + " ]";
     }
 
 }

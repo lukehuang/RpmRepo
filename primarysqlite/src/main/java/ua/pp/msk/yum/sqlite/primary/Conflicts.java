@@ -7,7 +7,9 @@
 package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -31,19 +33,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Conflicts.findByEpoch", query = "SELECT c FROM Conflicts c WHERE c.epoch = :epoch"),
     @NamedQuery(name = "Conflicts.findByVersion", query = "SELECT c FROM Conflicts c WHERE c.version = :version"),
     @NamedQuery(name = "Conflicts.findByRelease", query = "SELECT c FROM Conflicts c WHERE c.release = :release")})
-public class Conflicts implements Serializable {
+public class Conflicts implements Entry {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Column(name = "name")
-    private String name;
+     @EmbeddedId
+    protected EntryPK conflictsPK;
+   
     @Column(name = "flags")
     private String flags;
-    @Column(name = "epoch")
-    private String epoch;
-    @Column(name = "version")
-    private String version;
-    @Column(name = "release")
-    private String release;
+   
     @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey")
     @ManyToOne
     private Packages pkgKey;
@@ -51,48 +48,58 @@ public class Conflicts implements Serializable {
     public Conflicts() {
     }
 
-    public Conflicts(String name) {
-        this.name = name;
+    public Conflicts(EntryPK pk) {
+        this.conflictsPK = pk;
     }
 
+    @Override
     public String getName() {
-        return name;
+        return conflictsPK.getName();
     }
 
+    @Override
     public void setName(String name) {
-        this.name = name;
+         conflictsPK.setName(name);
     }
 
+    @Override
     public String getFlags() {
         return flags;
     }
 
+    @Override
     public void setFlags(String flags) {
         this.flags = flags;
     }
 
+    @Override
     public String getEpoch() {
-        return epoch;
+        return conflictsPK.getEpoch();
     }
 
+    @Override
     public void setEpoch(String epoch) {
-        this.epoch = epoch;
+        this.conflictsPK.setEpoch(epoch);
     }
 
+    @Override
     public String getVersion() {
-        return version;
+        return conflictsPK.getVersion();
     }
 
+    @Override
     public void setVersion(String version) {
-        this.version = version;
+        this.conflictsPK.setVersion(version);
     }
 
+    @Override
     public String getRelease() {
-        return release;
+        return conflictsPK.getRelease();
     }
 
+    @Override
     public void setRelease(String release) {
-        this.release = release;
+        this.conflictsPK.setRelease(release);
     }
 
     public Packages getPkgKey() {
@@ -105,27 +112,32 @@ public class Conflicts implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (name != null ? name.hashCode() : 0);
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.conflictsPK);
+        hash = 59 * hash + Objects.hashCode(this.pkgKey);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Conflicts)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Conflicts other = (Conflicts) object;
-        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Conflicts other = (Conflicts) obj;
+        if (!Objects.equals(this.conflictsPK, other.conflictsPK)) {
             return false;
         }
         return true;
     }
 
+   
+
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Conflicts[ name=" + name + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Conflicts[ name=" + conflictsPK + " ]";
     }
 
 }

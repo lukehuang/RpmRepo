@@ -15,7 +15,7 @@ import javax.persistence.Embeddable;
  * @author Maksym Shkolnyi aka maskimko
  */
 @Embeddable
-public class RequiresPK implements Serializable {
+public class EntryPK implements Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "epoch")
@@ -25,10 +25,10 @@ public class RequiresPK implements Serializable {
     @Column(name = "release")
     private String release;
 
-    public RequiresPK() {
+    public EntryPK() {
     }
 
-    public RequiresPK(String name, String epoch, String version, String release) {
+    public EntryPK(String name, String epoch, String version, String release) {
         this.name = name;
         this.epoch = epoch;
         this.version = version;
@@ -80,10 +80,10 @@ public class RequiresPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RequiresPK)) {
+        if (!(object instanceof EntryPK)) {
             return false;
         }
-        RequiresPK other = (RequiresPK) object;
+        EntryPK other = (EntryPK) object;
         if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
             return false;
         }
@@ -101,7 +101,7 @@ public class RequiresPK implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.RequiresPK[ name=" + name + ", epoch=" + epoch + ", version=" + version + ", release=" + release + " ]";
+        return "Primary key [ name=" + name + ", epoch=" + epoch + ", version=" + version + ", release=" + release + " ]";
     }
 
 }

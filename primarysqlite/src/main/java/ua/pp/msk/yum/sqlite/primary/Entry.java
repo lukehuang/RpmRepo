@@ -11,56 +11,26 @@ import java.io.Serializable;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-public abstract class Entry implements Serializable {
+public interface Entry extends Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private String name;
-    private String flags;
-    private String epoch;
-    private String version;
-    private String release;
+    public String getName();
 
-    public Entry() {
-    }
+    public void setName(String name);
 
-    public String getName() {
-        return name;
-    }
+    public String getFlags();
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setFlags(String flags);
 
-    public String getFlags() {
-        return flags;
-    }
+    public String getEpoch();
 
-    public void setFlags(String flags) {
-        this.flags = flags;
-    }
+    public void setEpoch(String epoch);
 
-    public String getEpoch() {
-        return epoch;
-    }
+    public String getVersion();
 
-    public void setEpoch(String epoch) {
-        this.epoch = epoch;
-    }
+    public void setVersion(String version);
 
-    public String getVersion() {
-        return version;
-    }
+    public String getRelease();
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getRelease() {
-        return release;
-    }
-
-    public void setRelease(String release) {
-        this.release = release;
-    }
+    public void setRelease(String release);
 
 }

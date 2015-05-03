@@ -6,7 +6,6 @@
 
 package ua.pp.msk.yum.sqlite.primary;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -32,10 +31,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Requires.findByVersion", query = "SELECT r FROM Requires r WHERE r.requiresPK.version = :version"),
     @NamedQuery(name = "Requires.findByRelease", query = "SELECT r FROM Requires r WHERE r.requiresPK.release = :release"),
     @NamedQuery(name = "Requires.findByPre", query = "SELECT r FROM Requires r WHERE r.pre = :pre")})
-public class Requires implements Serializable {
+public class Requires implements Entry {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected RequiresPK requiresPK;
+    protected EntryPK requiresPK;
     @Column(name = "flags")
     private String flags;
     @Column(name = "pre")
@@ -47,26 +46,28 @@ public class Requires implements Serializable {
     public Requires() {
     }
 
-    public Requires(RequiresPK requires1PK) {
-        this.requiresPK = requires1PK;
+    public Requires(EntryPK requiresPK) {
+        this.requiresPK = requiresPK;
     }
 
     public Requires(String name, String epoch, String version, String release) {
-        this.requiresPK = new RequiresPK(name, epoch, version, release);
+        this.requiresPK = new EntryPK(name, epoch, version, release);
     }
 
-    public RequiresPK getRequiresPK() {
+    public EntryPK getRequiresPK() {
         return requiresPK;
     }
 
-    public void setRequiresPK(RequiresPK requires1PK) {
+    public void setRequiresPK(EntryPK requires1PK) {
         this.requiresPK = requires1PK;
     }
 
+    @Override
     public String getFlags() {
         return flags;
     }
 
+    @Override
     public void setFlags(String flags) {
         this.flags = flags;
     }
@@ -110,6 +111,46 @@ public class Requires implements Serializable {
     @Override
     public String toString() {
         return "ua.pp.msk.yum.sqlite.primary.Requires[ requires1PK=" + requiresPK + " ]";
+    }
+
+    @Override
+    public String getName() {
+        return requiresPK.getName();
+    }
+
+    @Override
+    public void setName(String name) {
+        requiresPK.setName(name);
+    }
+
+    @Override
+    public String getEpoch() {
+        return requiresPK.getEpoch();
+    }
+
+    @Override
+    public void setEpoch(String epoch) {
+        requiresPK.setEpoch(epoch);
+        }
+
+    @Override
+    public String getVersion() {
+        return requiresPK.getVersion();
+    }
+
+    @Override
+    public void setVersion(String version) {
+        requiresPK.setVersion(version);
+    }
+
+    @Override
+    public String getRelease() {
+        return requiresPK.getRelease();
+    }
+
+    @Override
+    public void setRelease(String release) {
+        requiresPK.setRelease(release);
     }
 
 }
