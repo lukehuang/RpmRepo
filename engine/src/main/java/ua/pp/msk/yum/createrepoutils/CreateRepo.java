@@ -22,6 +22,7 @@ import ua.pp.msk.yum.internal.RpmScanner;
 import ua.pp.msk.yum.internal.createrepo.YumStoreFactory;
 import ua.pp.msk.yum.internal.createrepo.YumStoreFactoryImpl;
 import ua.pp.msk.yum.helper.DirSupport;
+import ua.pp.msk.yum.helper.Persister;
 
 /**
  *
@@ -35,6 +36,7 @@ public class CreateRepo {
     private RpmScanner scanner;
     private static final String REPO_TMP_FOLDER = "tmpRepodata";
     private Logger logger;
+    private Persister p ;
 
 //    private static final Logger LOG = LoggerFactory.getLogger(CreateRepo.class);
     public CreateRepo(File rpmDir, File repoBaseDir){
@@ -46,6 +48,7 @@ public class CreateRepo {
         this.repoBaseDir = repoBaseDir;
         this.scanner = scanner;
         this.logger = LoggerFactory.getLogger(this.getClass());
+         p = new Persister();
     }
 
     public void setRpmDir(File rpmDir) {
@@ -86,6 +89,8 @@ public class CreateRepo {
         
                     logger.debug(new Formatter().format("Parsed RPM package: %10s %7s  %10s", yumPackage.getName(), yumPackage.getVersion(), yumPackage.getSummary()).toString());
                     RpmPackage rpmPackage = yumPackage.getRpmPackage();
+                    
+                    p.persist(rpmPackage);
                     yumStore.put(yumPackage);
                 } catch (FileNotFoundException e) {
                   logger.warn("Could not parse yum metadata for {}", location, e);
