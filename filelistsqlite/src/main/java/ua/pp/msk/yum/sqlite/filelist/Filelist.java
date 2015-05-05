@@ -26,17 +26,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Filelist.findAll", query = "SELECT f FROM Filelist f"),
-    @NamedQuery(name = "Filelist.findByDirname", query = "SELECT f FROM Filelist f WHERE f.dirname = :dirname"),
-    @NamedQuery(name = "Filelist.findByFilenames", query = "SELECT f FROM Filelist f WHERE f.filenames = :filenames"),
+    @NamedQuery(name = "Filelist.findByDirname", query = "SELECT f FROM Filelist f WHERE f.filelistPK.dirname = :dirname"),
+    @NamedQuery(name = "Filelist.findByFilenames", query = "SELECT f FROM Filelist f WHERE f.filelistPK.filenames = :filenames"),
     @NamedQuery(name = "Filelist.findByFiletypes", query = "SELECT f FROM Filelist f WHERE f.filetypes = :filetypes")})
 public class Filelist implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected FilelistPK filelistPK;
-    @Column(name = "dirname")
-    private String dirname;
-    @Column(name = "filenames")
-    private String filenames;
+    
     @Column(name = "filetypes")
     private String filetypes;
     @JoinColumn(name = "pkgKey", referencedColumnName = "pkgId")
@@ -46,32 +43,37 @@ public class Filelist implements Serializable {
     public Filelist() {
     }
 
-    public Filelist(FilelistPK filelist1PK) {
-        this.filelistPK = filelist1PK;
+    public Filelist(FilelistPK filelistPK) {
+        this.filelistPK = filelistPK;
+    }
+    public Filelist( String dir, String filename){
+        this(new FilelistPK(filename, dir));
+        //TODO implement filetype column
+        
     }
 
-    public FilelistPK getFilelist1PK() {
+    public FilelistPK getFilelistPK() {
         return filelistPK;
     }
 
-    public void setFilelist1PK(FilelistPK filelist1PK) {
-        this.filelistPK = filelist1PK;
+    public void setFilelistPK(FilelistPK filelistPK) {
+        this.filelistPK = filelistPK;
     }
 
     public String getDirname() {
-        return dirname;
+        return filelistPK.getDirname();
     }
 
     public void setDirname(String dirname) {
-        this.dirname = dirname;
+        this.filelistPK.setDirname(dirname);
     }
 
     public String getFilenames() {
-        return filenames;
+        return filelistPK.getFilenames();
     }
 
     public void setFilenames(String filenames) {
-        this.filenames = filenames;
+        this.filelistPK.setFilenames(filenames);
     }
 
     public String getFiletypes() {

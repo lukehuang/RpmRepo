@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Packages implements Serializable {
 
     @OneToMany(mappedBy = "pkgKey")
-    private Collection<Changelog> changelog1Collection;
+    private Collection<Changelog> changelogCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -64,11 +64,11 @@ public class Packages implements Serializable {
 
     @XmlTransient
     public Collection<Changelog> getChangelog1Collection() {
-        return changelog1Collection;
+        return changelogCollection;
     }
 
     public void setChangelog1Collection(Collection<Changelog> changelog1Collection) {
-        this.changelog1Collection = changelog1Collection;
+        this.changelogCollection = changelog1Collection;
     }
 
 }

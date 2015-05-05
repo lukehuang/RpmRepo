@@ -6,6 +6,7 @@
 
 package ua.pp.msk.yum.sqlite.primary;
 
+import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -16,6 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import ua.pp.msk.yum.sqlite.common.AbstractEntry;
+import ua.pp.msk.yum.sqlite.common.Entry;
 
 /**
  *
@@ -31,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Obsoletes.findByEpoch", query = "SELECT o FROM Obsoletes o WHERE o.obsoletesPK.epoch = :epoch"),
     @NamedQuery(name = "Obsoletes.findByVersion", query = "SELECT o FROM Obsoletes o WHERE o.obsoletesPK.version = :version"),
     @NamedQuery(name = "Obsoletes.findByRelease", query = "SELECT o FROM Obsoletes o WHERE o.obsoletesPK.release = :release")})
-public class Obsoletes implements Entry {
+public class Obsoletes extends AbstractEntry implements Serializable {
     private static final long serialVersionUID = 1L;
      @EmbeddedId
     protected EntryPK obsoletesPK;
@@ -43,7 +46,9 @@ public class Obsoletes implements Entry {
 
     public Obsoletes() {
     }
-
+    public Obsoletes(Entry entry){
+       this(new EntryPK(entry));
+    }
     public Obsoletes(EntryPK name) {
         this.obsoletesPK = name;
     }

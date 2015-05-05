@@ -11,3 +11,5 @@ utility/target/*
 /filessqlite/target/
 /filelistsqlite/target/
 /web/target/
+/commonsqlite/target/
+/engine/target/

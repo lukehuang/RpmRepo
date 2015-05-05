@@ -6,6 +6,7 @@
 
 package ua.pp.msk.yum.sqlite.primary;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import ua.pp.msk.yum.sqlite.common.AbstractEntry;
+import ua.pp.msk.yum.sqlite.common.Entry;
 
 /**
  *
@@ -31,21 +34,23 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Requires.findByVersion", query = "SELECT r FROM Requires r WHERE r.requiresPK.version = :version"),
     @NamedQuery(name = "Requires.findByRelease", query = "SELECT r FROM Requires r WHERE r.requiresPK.release = :release"),
     @NamedQuery(name = "Requires.findByPre", query = "SELECT r FROM Requires r WHERE r.pre = :pre")})
-public class Requires implements Entry {
+public class Requires extends AbstractEntry implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected EntryPK requiresPK;
     @Column(name = "flags")
     private String flags;
     @Column(name = "pre")
-    private Integer pre;
+    private boolean pre;
     @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey")
     @ManyToOne
     private Packages pkgKey;
 
     public Requires() {
     }
-
+    public Requires(Entry entry){
+       this(new EntryPK(entry));
+    }
     public Requires(EntryPK requiresPK) {
         this.requiresPK = requiresPK;
     }
@@ -72,11 +77,11 @@ public class Requires implements Entry {
         this.flags = flags;
     }
 
-    public Integer getPre() {
+    public boolean getPre() {
         return pre;
     }
 
-    public void setPre(Integer pre) {
+    public void setPre(boolean pre) {
         this.pre = pre;
     }
 

@@ -11,13 +11,14 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import ua.pp.msk.yum.sqlite.common.AbstractEntry;
+import ua.pp.msk.yum.sqlite.common.Entry;
 
 /**
  *
@@ -28,12 +29,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Conflicts.findAll", query = "SELECT c FROM Conflicts c"),
-    @NamedQuery(name = "Conflicts.findByName", query = "SELECT c FROM Conflicts c WHERE c.name = :name"),
+    @NamedQuery(name = "Conflicts.findByName", query = "SELECT c FROM Conflicts c WHERE c.conflictsPK.name = :name"),
     @NamedQuery(name = "Conflicts.findByFlags", query = "SELECT c FROM Conflicts c WHERE c.flags = :flags"),
-    @NamedQuery(name = "Conflicts.findByEpoch", query = "SELECT c FROM Conflicts c WHERE c.epoch = :epoch"),
-    @NamedQuery(name = "Conflicts.findByVersion", query = "SELECT c FROM Conflicts c WHERE c.version = :version"),
-    @NamedQuery(name = "Conflicts.findByRelease", query = "SELECT c FROM Conflicts c WHERE c.release = :release")})
-public class Conflicts implements Entry {
+    @NamedQuery(name = "Conflicts.findByEpoch", query = "SELECT c FROM Conflicts c WHERE c.conflictsPK.epoch = :epoch"),
+    @NamedQuery(name = "Conflicts.findByVersion", query = "SELECT c FROM Conflicts c WHERE c.conflictsPK.version = :version"),
+    @NamedQuery(name = "Conflicts.findByRelease", query = "SELECT c FROM Conflicts c WHERE c.conflictsPK.release = :release")})
+public class Conflicts extends AbstractEntry implements Serializable{
     private static final long serialVersionUID = 1L;
      @EmbeddedId
     protected EntryPK conflictsPK;
@@ -50,6 +51,10 @@ public class Conflicts implements Entry {
 
     public Conflicts(EntryPK pk) {
         this.conflictsPK = pk;
+    }
+    
+    public Conflicts(Entry entry){
+       this(new EntryPK(entry));
     }
 
     @Override

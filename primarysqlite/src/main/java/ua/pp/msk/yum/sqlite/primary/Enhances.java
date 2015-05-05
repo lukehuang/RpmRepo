@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import ua.pp.msk.yum.sqlite.common.AbstractEntry;
+import ua.pp.msk.yum.sqlite.common.Entry;
 
 /**
  *
@@ -26,24 +28,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Enhances.findAll", query = "SELECT e FROM Enhances e"),
-    @NamedQuery(name = "Enhances.findByName", query = "SELECT e FROM Enhances e WHERE e.name = :name"),
+    @NamedQuery(name = "Enhances.findByName", query = "SELECT e FROM Enhances e WHERE e.enhancesPK.name = :name"),
     @NamedQuery(name = "Enhances.findByFlags", query = "SELECT e FROM Enhances e WHERE e.flags = :flags"),
-    @NamedQuery(name = "Enhances.findByEpoch", query = "SELECT e FROM Enhances e WHERE e.epoch = :epoch"),
-    @NamedQuery(name = "Enhances.findByVersion", query = "SELECT e FROM Enhances e WHERE e.version = :version"),
-    @NamedQuery(name = "Enhances.findByRelease", query = "SELECT e FROM Enhances e WHERE e.release = :release")})
-public class Enhances implements Serializable {
+    @NamedQuery(name = "Enhances.findByEpoch", query = "SELECT e FROM Enhances e WHERE e.enhancesPK.epoch = :epoch"),
+    @NamedQuery(name = "Enhances.findByVersion", query = "SELECT e FROM Enhances e WHERE e.enhancesPK.version = :version"),
+    @NamedQuery(name = "Enhances.findByRelease", query = "SELECT e FROM Enhances e WHERE e.enhancesPK.release = :release")})
+public class Enhances extends AbstractEntry implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    @Id
-    @Column(name = "name")
-    private String name;
+    @EmbeddedId
+    protected EntryPK enhancesPK;
     @Column(name = "flags")
     private String flags;
-    @Column(name = "epoch")
-    private String epoch;
-    @Column(name = "version")
-    private String version;
-    @Column(name = "release")
-    private String release;
     @JoinColumn(name = "pkgKey", referencedColumnName = "pkgId")
     @ManyToOne
     private Packages pkgKey;
@@ -51,48 +47,22 @@ public class Enhances implements Serializable {
     public Enhances() {
     }
 
-    public Enhances(String name) {
-        this.name = name;
+    public Enhances(EntryPK name) {
+        this.enhancesPK = name;
     }
 
-    public String getName() {
-        return name;
+    public Enhances(Entry entry) {
+        this(new EntryPK(entry));
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @Override
     public String getFlags() {
         return flags;
     }
 
+    @Override
     public void setFlags(String flags) {
         this.flags = flags;
-    }
-
-    public String getEpoch() {
-        return epoch;
-    }
-
-    public void setEpoch(String epoch) {
-        this.epoch = epoch;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getRelease() {
-        return release;
-    }
-
-    public void setRelease(String release) {
-        this.release = release;
     }
 
     public Packages getPkgKey() {
@@ -104,28 +74,71 @@ public class Enhances implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "ua.pp.msk.yum.sqlite.primary.Enhances[ name=" + enhancesPK + " ]";
+    }
+
+    @Override
+    public String getName() {
+        return enhancesPK.getName();
+    }
+
+    @Override
+    public void setName(String name) {
+        enhancesPK.setName(name);
+    }
+
+    @Override
+    public String getEpoch() {
+        return enhancesPK.getEpoch();
+    }
+
+    @Override
+    public void setEpoch(String epoch) {
+        enhancesPK.setEpoch(epoch);
+    }
+
+    @Override
+    public String getVersion() {
+        return enhancesPK.getVersion();
+    }
+
+    @Override
+    public void setVersion(String version) {
+        enhancesPK.setVersion(version);
+    }
+
+    @Override
+    public String getRelease() {
+        return enhancesPK.getRelease();
+    }
+
+    @Override
+    public void setRelease(String release) {
+        enhancesPK.setRelease(release);
+    }
+
+    @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (name != null ? name.hashCode() : 0);
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.enhancesPK);
+        hash = 83 * hash + Objects.hashCode(this.pkgKey);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Enhances)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Enhances other = (Enhances) object;
-        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Provides other = (Provides) obj;
+        if (!Objects.equals(this.enhancesPK, other.providesPK)) {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Enhances[ name=" + name + " ]";
     }
 
 }

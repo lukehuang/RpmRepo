@@ -9,6 +9,7 @@ package ua.pp.msk.yum.sqlite.primary;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import ua.pp.msk.yum.sqlite.common.Entry;
 
 /**
  *
@@ -35,6 +36,10 @@ public class EntryPK implements Serializable {
         this.release = release;
     }
 
+    public EntryPK(Entry e){
+        this(e.getName(), e.getEpoch(), e.getVersion(), e.getRelease());
+    }
+    
     public String getName() {
         return name;
     }

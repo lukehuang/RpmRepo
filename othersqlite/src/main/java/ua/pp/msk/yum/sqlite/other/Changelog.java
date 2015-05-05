@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Maksym Shkolnyi aka maskimko
  */
 @Entity
-@Table(name = "changelog1")
+@Table(name = "changelog")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Changelog.findAll", query = "SELECT c FROM Changelog c"),
@@ -50,12 +50,12 @@ public class Changelog implements Serializable {
         this.changelogPK = new ChangelogPK(author, date);
     }
 
-    public ChangelogPK getChangelog1PK() {
+    public ChangelogPK getChangelogPK() {
         return changelogPK;
     }
 
-    public void setChangelog1PK(ChangelogPK changelog1PK) {
-        this.changelogPK = changelog1PK;
+    public void setChangelogPK(ChangelogPK changelogPK) {
+        this.changelogPK = changelogPK;
     }
 
     public String getChangelog() {
@@ -96,7 +96,7 @@ public class Changelog implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.other.Changelog1[ changelog1PK=" + changelogPK + " ]";
+        return "ua.pp.msk.yum.sqlite.other.Changelog[ changelogPK=" + changelogPK + " ]";
     }
 
 }

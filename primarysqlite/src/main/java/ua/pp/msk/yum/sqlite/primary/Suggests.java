@@ -17,6 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import ua.pp.msk.yum.sqlite.common.AbstractEntry;
+import ua.pp.msk.yum.sqlite.common.Entry;
 
 /**
  *
@@ -32,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Suggests.findByEpoch", query = "SELECT s FROM Suggests s WHERE s.suggestsPK.epoch = :epoch"),
     @NamedQuery(name = "Suggests.findByVersion", query = "SELECT s FROM Suggests s WHERE s.suggestsPK.version = :version"),
     @NamedQuery(name = "Suggests.findByRelease", query = "SELECT s FROM Suggests s WHERE s.suggestsPK.release = :release")})
-public class Suggests implements Entry {
+public class Suggests extends AbstractEntry implements Serializable {
     private static final long serialVersionUID = 1L;
  @EmbeddedId
     protected EntryPK suggestsPK;
@@ -50,7 +52,9 @@ public class Suggests implements Entry {
     public Suggests(EntryPK name) {
         this.suggestsPK = name;
     }
-
+    public Suggests(Entry entry){
+       this(new EntryPK(entry));
+    }
    
     @Override
     public String getFlags() {

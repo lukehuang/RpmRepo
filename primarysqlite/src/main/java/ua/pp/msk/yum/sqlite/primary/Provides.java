@@ -11,13 +11,14 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import ua.pp.msk.yum.sqlite.common.AbstractEntry;
+import ua.pp.msk.yum.sqlite.common.Entry;
 
 /**
  *
@@ -33,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Provides.findByEpoch", query = "SELECT p FROM Provides p WHERE p.providesPK.epoch = :epoch"),
     @NamedQuery(name = "Provides.findByVersion", query = "SELECT p FROM Provides p WHERE p.providesPK.version = :version"),
     @NamedQuery(name = "Provides.findByRelease", query = "SELECT p FROM Provides p WHERE p.providesPK.release = :release")})
-public class Provides implements Entry {
+public class Provides extends AbstractEntry implements Serializable {
     private static final long serialVersionUID = 1L;
      @EmbeddedId
     protected EntryPK providesPK;
@@ -45,7 +46,9 @@ public class Provides implements Entry {
 
     public Provides() {
     }
-
+    public Provides(Entry entry){
+       this(new EntryPK(entry));
+    }
     public Provides(EntryPK epk) {
         this.providesPK = epk;
     }

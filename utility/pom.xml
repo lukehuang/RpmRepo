@@ -18,7 +18,7 @@
     <parent>
         <groupId>ua.pp.msk.yum</groupId>
         <artifactId>RpmRepo</artifactId>
-        <version>1.0</version>
+        <version>1.0.2</version>
     </parent>
     <artifactId>commons</artifactId>
     <packaging>jar</packaging>
@@ -37,12 +37,6 @@
         <it.nexus.bundle.version>${nexus.version}</it.nexus.bundle.version>
     </properties>
     <dependencies>
-               <dependency>
-            <groupId>org.sonatype.sisu</groupId>
-            <artifactId>sisu-resource-scanner</artifactId>
-            <version>1.1.1</version>
-            <type>jar</type>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -50,8 +44,26 @@
         </dependency>
         <dependency>
             <groupId>ua.pp.msk.yum</groupId>
-            <artifactId>engine</artifactId>
-            <version>1.0</version>
+            <artifactId>commonsqlite</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>ua.pp.msk.yum</groupId>
+            <artifactId>othersqlite</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>ua.pp.msk.yum</groupId>
+            <artifactId>primarysqlite</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+             <groupId>ua.pp.msk.yum</groupId>
+            <artifactId>filelistsqlite</artifactId>
+            <version>${project.version}</version>
             <type>jar</type>
         </dependency>
     </dependencies>

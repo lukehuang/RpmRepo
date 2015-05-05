@@ -4,12 +4,11 @@
     <parent>
     <artifactId>RpmRepo</artifactId>
     <groupId>ua.pp.msk.yum</groupId>
-    <version>1.0</version>
+    <version>1.0.2</version>
   </parent>
 
     <groupId>ua.pp.msk.yum</groupId>
     <artifactId>server</artifactId>
-    <version>1.0</version>
     <packaging>ejb</packaging>
 
     <name>server</name>

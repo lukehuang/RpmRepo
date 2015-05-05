@@ -16,6 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import ua.pp.msk.yum.sqlite.common.AbstractEntry;
+import ua.pp.msk.yum.sqlite.common.Entry;
 
 /**
  *
@@ -31,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Supplements.findByEpoch", query = "SELECT s FROM Supplements s WHERE s.supplementsPK.epoch = :epoch"),
     @NamedQuery(name = "Supplements.findByVersion", query = "SELECT s FROM Supplements s WHERE s.supplementsPK.version = :version"),
     @NamedQuery(name = "Supplements.findByRelease", query = "SELECT s FROM Supplements s WHERE s.supplementsPK.release = :release")})
-public class Supplements implements Entry {
+public class Supplements extends AbstractEntry implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected EntryPK supplementsPK;
@@ -51,7 +53,9 @@ public class Supplements implements Entry {
     public Supplements(String name, String epoch, String version, String release) {
         this.supplementsPK = new EntryPK(name, epoch, version, release);
     }
-
+    public Supplements(Entry entry){
+       this(new EntryPK(entry));
+    }
     public EntryPK getSupplementsPK() {
         return supplementsPK;
     }

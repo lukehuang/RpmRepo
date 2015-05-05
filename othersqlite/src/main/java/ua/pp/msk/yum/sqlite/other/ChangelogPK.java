@@ -71,7 +71,7 @@ public class ChangelogPK implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.other.Changelog1PK[ author=" + author + ", date=" + date + " ]";
+        return "ua.pp.msk.yum.sqlite.other.ChangelogPK[ author=" + author + ", date=" + date + " ]";
     }
 
 }
