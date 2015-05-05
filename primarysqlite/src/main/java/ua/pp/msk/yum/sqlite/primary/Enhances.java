@@ -45,6 +45,7 @@ public class Enhances extends AbstractEntry implements Serializable {
     private Packages pkgKey;
 
     public Enhances() {
+        enhancesPK = new EntryPK();
     }
 
     public Enhances(EntryPK name) {

@@ -44,6 +44,7 @@ public class Supplements extends AbstractEntry implements Serializable {
     private Packages pkgKey;
 
     public Supplements() {
+        supplementsPK = new EntryPK();
     }
 
     public Supplements(EntryPK supplements1PK) {

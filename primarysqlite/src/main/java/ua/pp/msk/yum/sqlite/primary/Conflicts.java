@@ -47,6 +47,7 @@ public class Conflicts extends AbstractEntry implements Serializable{
     private Packages pkgKey;
 
     public Conflicts() {
+        conflictsPK = new EntryPK();
     }
 
     public Conflicts(EntryPK pk) {

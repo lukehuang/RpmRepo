@@ -45,6 +45,7 @@ public class Provides extends AbstractEntry implements Serializable {
     private Packages pkgKey;
 
     public Provides() {
+        providesPK = new EntryPK();
     }
     public Provides(Entry entry){
        this(new EntryPK(entry));

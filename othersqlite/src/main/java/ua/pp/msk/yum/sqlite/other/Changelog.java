@@ -40,6 +40,7 @@ public class Changelog implements Serializable {
     private Packages pkgKey;
 
     public Changelog() {
+        this.changelogPK = new ChangelogPK();
     }
 
     public Changelog(ChangelogPK changelogPK) {

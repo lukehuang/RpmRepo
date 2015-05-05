@@ -41,6 +41,7 @@ public class Filelist implements Serializable {
     private Packages pkgKey;
 
     public Filelist() {
+        this.filelistPK = new FilelistPK();
     }
 
     public Filelist(FilelistPK filelistPK) {

@@ -13,7 +13,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.pp.msk.yum.CreateRepo;
+import ua.pp.msk.yum.createrepoutils.CreateRepo;
 
 /**
  *

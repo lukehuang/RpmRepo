@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -45,6 +44,7 @@ public class Recommends extends AbstractEntry implements Serializable {
     private Packages pkgKey;
 
     public Recommends() {
+        recommendsPK = new EntryPK();
     }
 
     public Recommends(String name, String epoch, String version, String release) {

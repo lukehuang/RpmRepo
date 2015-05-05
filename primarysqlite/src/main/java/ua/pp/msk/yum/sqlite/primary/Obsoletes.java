@@ -45,6 +45,7 @@ public class Obsoletes extends AbstractEntry implements Serializable {
     private Packages pkgKey;
 
     public Obsoletes() {
+        obsoletesPK = new EntryPK();
     }
     public Obsoletes(Entry entry){
        this(new EntryPK(entry));

@@ -408,6 +408,7 @@ public class YumPackage {
 
         rp.setPkgId(pkgId);
 
+        if (files != null) {
         Iterator<File> fileIterator = files.iterator();
 
         ArrayList<Files> rpmFiles = new ArrayList<>();
@@ -423,14 +424,20 @@ public class YumPackage {
             rpmFiles.add(fls);
 
         }
-
+        
         rp.setFilesCollection(rpmFiles);
+        } else {
+            LoggerFactory.getLogger(this.getClass()).warn("RPM package " + this.getName() + " contains no files!");
+            rp.setFilesCollection(null);
+            //TODO make filelists initialization
+        }
 
         //location_base is usually null value
         rp.setLocationBase(null);
 
         rp.setLocationHref(location);
 
+        if (changes != null){
         Iterator<ChangeLog> clIterator = changes.iterator();
 
         ArrayList<Changelog> rpmChangeLog = new ArrayList<>();
@@ -450,6 +457,9 @@ public class YumPackage {
         }
 
         rp.setChangelogCollection(rpmChangeLog);
+        } else {
+            rp.setChangelogCollection(null);
+        }
 
         rp.setConflictsCollection(convert(conflicts, Conflicts.class));
 
@@ -468,10 +478,17 @@ public class YumPackage {
 //        this.recommendsCollection = null;
 //        this.filelistCollection = null;
     private <T extends AbstractEntry> Collection<T> convert(List<Entry> entries, Class<T> c) {
+        if (entries == null){
+             LoggerFactory.getLogger(this.getClass()).warn("Null value "+c.getCanonicalName()+" collection " );
+            return null;
+        }
         Collection<T> rpmEntries = null;
         try {
             rpmEntries = new ArrayList<>();
             for (Entry cnfl : entries) {
+               if (cnfl == null) {
+                   LoggerFactory.getLogger(this.getClass()).warn("Null value "+c.getCanonicalName()+" entry in " + this.getName());
+               }
                 T e = c.newInstance();
 
                 e.setEpoch(cnfl.epoch);

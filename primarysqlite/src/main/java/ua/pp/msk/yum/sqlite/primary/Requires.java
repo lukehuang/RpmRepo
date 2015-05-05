@@ -47,6 +47,7 @@ public class Requires extends AbstractEntry implements Serializable {
     private Packages pkgKey;
 
     public Requires() {
+        requiresPK = new EntryPK();
     }
     public Requires(Entry entry){
        this(new EntryPK(entry));
