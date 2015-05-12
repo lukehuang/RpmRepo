@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ua.pp.msk.yum</groupId>
     <artifactId>RpmRepo</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>pom</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -11,17 +11,21 @@
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
     <modules>
-    <module>utility</module>
+        <module>utility</module>
         <module>createrepo</module>
-    <module>web</module>
-    <module>server</module>
+        <module>web</module>
+        <module>server</module>
         <module>primarysqlite</module>
         <module>othersqlite</module>
         <module>filelistsqlite</module>
         <module>commonsqlite</module>
         <module>engine</module>
     </modules>
- <dependencies>
+    <scm>
+        <connection>scm:git:http://maskimko@ci-dev-veneno.ea.intropro.com:8080/gitblit/r/RpmRepo.git</connection>
+        <url>http://ci-dev-veneno.ea.intropro.com:8080/gitblit/summary/RpmRepo.git</url>
+    </scm>
+    <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

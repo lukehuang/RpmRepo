@@ -120,7 +120,9 @@ public class CreateRepo {
         for (YumPackage yumPackage : yumStore.get()) {
 
             createRepo.write(yumPackage);
+            p.persist(yumPackage.getRpmPackage());
         }
+        
         createRepo.close();
         DirSupport.deleteIfExists(repoRepodataDir);
         DirSupport.moveIfExists(repoTmpRepodataDir, repoRepodataDir);

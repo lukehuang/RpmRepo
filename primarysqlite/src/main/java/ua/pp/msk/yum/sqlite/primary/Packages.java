@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-@Entity(name = "primaryPackages")
+@Entity
 @Table(name = "packages")
 @XmlRootElement
 @NamedQueries({
@@ -83,19 +83,19 @@ public class Packages implements Serializable {
     @Column(name = "checksum_type")
     private String checksumType;
     @OneToMany(mappedBy = "pkgKey")
-    private Collection<Conflicts> conflicts1Collection;
+    private Collection<Conflicts> conflictsCollection;
     @OneToMany(mappedBy = "pkgKey")
-    private Collection<Obsoletes> obsoletes1Collection;
+    private Collection<Obsoletes> obsoletesCollection;
     @OneToMany(mappedBy = "pkgKey")
-    private Collection<Files> files1Collection;
+    private Collection<Files> filesCollection;
     @OneToMany(mappedBy = "pkgKey")
-    private Collection<Provides> provides1Collection;
+    private Collection<Provides> providesCollection;
     @OneToMany(mappedBy = "pkgKey")
-    private Collection<Suggests> suggests1Collection;
+    private Collection<Suggests> suggestsCollection;
     @OneToMany(mappedBy = "pkgKey")
-    private Collection<Enhances> enhances1Collection;
+    private Collection<Enhances> enhancesCollection;
     @OneToMany(mappedBy = "pkgKey")
-    private Collection<Requires> requires1Collection;
+    private Collection<Requires> requiresCollection;
     @OneToMany(mappedBy = "pkgKey")
     private Collection<Supplements> supplements1Collection;
     @OneToMany(mappedBy = "pkgKey")
@@ -323,65 +323,65 @@ public class Packages implements Serializable {
 
     @XmlTransient
     public Collection<Conflicts> getConflicts1Collection() {
-        return conflicts1Collection;
+        return conflictsCollection;
     }
 
     public void setConflicts1Collection(Collection<Conflicts> conflicts1Collection) {
-        this.conflicts1Collection = conflicts1Collection;
+        this.conflictsCollection = conflicts1Collection;
     }
 
     @XmlTransient
     public Collection<Obsoletes> getObsoletes1Collection() {
-        return obsoletes1Collection;
+        return obsoletesCollection;
     }
 
     public void setObsoletes1Collection(Collection<Obsoletes> obsoletes1Collection) {
-        this.obsoletes1Collection = obsoletes1Collection;
+        this.obsoletesCollection = obsoletes1Collection;
     }
 
     @XmlTransient
     public Collection<Files> getFiles1Collection() {
-        return files1Collection;
+        return filesCollection;
     }
 
     public void setFiles1Collection(Collection<Files> files1Collection) {
-        this.files1Collection = files1Collection;
+        this.filesCollection = files1Collection;
     }
 
     @XmlTransient
     public Collection<Provides> getProvides1Collection() {
-        return provides1Collection;
+        return providesCollection;
     }
 
     public void setProvides1Collection(Collection<Provides> provides1Collection) {
-        this.provides1Collection = provides1Collection;
+        this.providesCollection = provides1Collection;
     }
 
     @XmlTransient
     public Collection<Suggests> getSuggests1Collection() {
-        return suggests1Collection;
+        return suggestsCollection;
     }
 
     public void setSuggests1Collection(Collection<Suggests> suggests1Collection) {
-        this.suggests1Collection = suggests1Collection;
+        this.suggestsCollection = suggests1Collection;
     }
 
     @XmlTransient
     public Collection<Enhances> getEnhances1Collection() {
-        return enhances1Collection;
+        return enhancesCollection;
     }
 
     public void setEnhances1Collection(Collection<Enhances> enhances1Collection) {
-        this.enhances1Collection = enhances1Collection;
+        this.enhancesCollection = enhances1Collection;
     }
 
     @XmlTransient
     public Collection<Requires> getRequires1Collection() {
-        return requires1Collection;
+        return requiresCollection;
     }
 
     public void setRequires1Collection(Collection<Requires> requires1Collection) {
-        this.requires1Collection = requires1Collection;
+        this.requiresCollection = requires1Collection;
     }
 
     @XmlTransient

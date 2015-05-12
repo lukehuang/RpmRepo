@@ -7,6 +7,7 @@
 package ua.pp.msk.yum.helper;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.RpmPackage;
 import ua.pp.msk.yum.sqlite.primary.PrimarySqlite;
@@ -15,7 +16,7 @@ import ua.pp.msk.yum.sqlite.primary.PrimarySqlite;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-public class Persister {
+public class Persister implements AutoCloseable{
 
     private EntityManager primary, others, filelist;
     
@@ -27,6 +28,8 @@ public class Persister {
     
     
 public void persist(RpmPackage rpm){
+        EntityTransaction transaction = primary.getTransaction();
+        transaction.begin();
     LoggerFactory.getLogger(this.getClass()).debug("Persisting primary part of " + rpm.getName());
     ua.pp.msk.yum.sqlite.primary.Packages primaryPkgs = new ua.pp.msk.yum.sqlite.primary.Packages();
     primaryPkgs.setArch(rpm.getArch());
@@ -64,8 +67,25 @@ public void persist(RpmPackage rpm){
     primaryPkgs.setUrl(rpm.getUrl());
     primaryPkgs.setVersion(rpm.getVersion());
     primary.persist(primaryPkgs);
+    transaction.commit();
             
 }
+
+    @Override
+    public void close() throws Exception {
+       LoggerFactory.getLogger(this.getClass()).info("Closing primary db");
+       if (primary != null) {
+           primary.close();
+       }
+        LoggerFactory.getLogger(this.getClass()).info("Closing filelists db");
+       if (filelist != null) {
+           filelist.close();
+       }
+        LoggerFactory.getLogger(this.getClass()).info("Closing others db");
+       if (others != null) {
+           others.close();
+       }
+    }
     
     
     

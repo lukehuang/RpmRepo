@@ -7,6 +7,7 @@
 package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -36,7 +37,7 @@ public class Files implements Serializable {
     @Column(name = "type")
     private String type;
     @JoinColumn(name = "pkgKey", referencedColumnName = "pkgId")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Packages pkgKey;
 
     public Files() {

@@ -8,8 +8,12 @@ package ua.pp.msk.yum.sqlite.filelist;
 
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -31,7 +35,18 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Filelist.findByFiletypes", query = "SELECT f FROM Filelist f WHERE f.filetypes = :filetypes")})
 public class Filelist implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
+        @Id
+    @GeneratedValue( strategy = GenerationType.SEQUENCE)
+    private long id;
+    
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+    @Embedded
     protected FilelistPK filelistPK;
     
     @Column(name = "filetypes")

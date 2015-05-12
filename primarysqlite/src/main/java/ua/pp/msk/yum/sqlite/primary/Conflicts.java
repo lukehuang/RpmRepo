@@ -8,9 +8,14 @@ package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -36,14 +41,27 @@ import ua.pp.msk.yum.sqlite.common.Entry;
     @NamedQuery(name = "Conflicts.findByRelease", query = "SELECT c FROM Conflicts c WHERE c.conflictsPK.release = :release")})
 public class Conflicts extends AbstractEntry implements Serializable{
     private static final long serialVersionUID = 1L;
-     @EmbeddedId
+    @Id
+    @GeneratedValue( strategy = GenerationType.SEQUENCE)
+    private long id;
+    
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Embedded
     protected EntryPK conflictsPK;
    
     @Column(name = "flags")
     private String flags;
    
+   
     @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Packages pkgKey;
 
     public Conflicts() {
@@ -58,6 +76,8 @@ public class Conflicts extends AbstractEntry implements Serializable{
        this(new EntryPK(entry));
     }
 
+    
+    
     @Override
     public String getName() {
         return conflictsPK.getName();
