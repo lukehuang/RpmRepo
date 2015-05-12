@@ -7,6 +7,7 @@ package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -82,24 +83,24 @@ public class Packages implements Serializable {
     private String locationBase;
     @Column(name = "checksum_type")
     private String checksumType;
-    @OneToMany(mappedBy = "pkgKey")
+    @OneToMany(mappedBy = "pkgKey", cascade = CascadeType.PERSIST)
     private Collection<Conflicts> conflictsCollection;
-    @OneToMany(mappedBy = "pkgKey")
+    @OneToMany(mappedBy = "pkgKey", cascade = CascadeType.PERSIST)
     private Collection<Obsoletes> obsoletesCollection;
-    @OneToMany(mappedBy = "pkgKey")
+    @OneToMany(mappedBy = "pkgKey", cascade = CascadeType.PERSIST)
     private Collection<Files> filesCollection;
-    @OneToMany(mappedBy = "pkgKey")
+    @OneToMany(mappedBy = "pkgKey", cascade = CascadeType.PERSIST)
     private Collection<Provides> providesCollection;
-    @OneToMany(mappedBy = "pkgKey")
+    @OneToMany(mappedBy = "pkgKey", cascade = CascadeType.PERSIST)
     private Collection<Suggests> suggestsCollection;
-    @OneToMany(mappedBy = "pkgKey")
+    @OneToMany(mappedBy = "pkgKey", cascade = CascadeType.PERSIST)
     private Collection<Enhances> enhancesCollection;
-    @OneToMany(mappedBy = "pkgKey")
+    @OneToMany(mappedBy = "pkgKey", cascade = CascadeType.PERSIST)
     private Collection<Requires> requiresCollection;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Supplements> supplements1Collection;
-    @OneToMany(mappedBy = "pkgKey")
-    private Collection<Recommends> recommends1Collection;
+    @OneToMany(mappedBy = "pkgKey", cascade = CascadeType.PERSIST)
+    private Collection<Supplements> supplementsCollection;
+    @OneToMany(mappedBy = "pkgKey", cascade = CascadeType.PERSIST)
+    private Collection<Recommends> recommendsCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -386,20 +387,20 @@ public class Packages implements Serializable {
 
     @XmlTransient
     public Collection<Supplements> getSupplements1Collection() {
-        return supplements1Collection;
+        return supplementsCollection;
     }
 
     public void setSupplements1Collection(Collection<Supplements> supplements1Collection) {
-        this.supplements1Collection = supplements1Collection;
+        this.supplementsCollection = supplements1Collection;
     }
 
     @XmlTransient
     public Collection<Recommends> getRecommends1Collection() {
-        return recommends1Collection;
+        return recommendsCollection;
     }
 
     public void setRecommends1Collection(Collection<Recommends> recommends1Collection) {
-        this.recommends1Collection = recommends1Collection;
+        this.recommendsCollection = recommends1Collection;
     }
 
 

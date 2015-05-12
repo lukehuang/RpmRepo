@@ -9,9 +9,11 @@ package ua.pp.msk.yum.sqlite.primary;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -55,8 +57,8 @@ public class Suggests extends AbstractEntry implements Serializable {
     protected EntryPK suggestsPK;
     @Column(name = "flags")
     private String flags;
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey")
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @ManyToOne
     private Packages pkgKey;
 
     public Suggests() {

@@ -106,7 +106,7 @@ public class EntryPK implements Serializable {
 
     @Override
     public String toString() {
-        return "Primary key [ name=" + name + ", epoch=" + epoch + ", version=" + version + ", release=" + release + " ]";
+        return "Embedded Entry [ name=" + name + ", epoch=" + epoch + ", version=" + version + ", release=" + release + " ]";
     }
 
 }

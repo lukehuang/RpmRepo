@@ -10,9 +10,10 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Embedded;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -60,8 +61,8 @@ public class Conflicts extends AbstractEntry implements Serializable{
     private String flags;
    
    
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey")
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "pkgKey",referencedColumnName = "pkgId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @ManyToOne
     private Packages pkgKey;
 
     public Conflicts() {

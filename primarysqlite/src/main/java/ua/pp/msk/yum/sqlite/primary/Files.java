@@ -9,7 +9,9 @@ package ua.pp.msk.yum.sqlite.primary;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -36,8 +38,8 @@ public class Files implements Serializable {
     private String name;
     @Column(name = "type")
     private String type;
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgId")
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @ManyToOne
     private Packages pkgKey;
 
     public Files() {
