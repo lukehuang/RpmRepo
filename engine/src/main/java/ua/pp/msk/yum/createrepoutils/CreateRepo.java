@@ -48,7 +48,7 @@ public class CreateRepo {
         this.repoBaseDir = repoBaseDir;
         this.scanner = scanner;
         this.logger = LoggerFactory.getLogger(this.getClass());
-         p = new Persister();
+         p = Persister.getPersister(repoBaseDir.getAbsolutePath() + File.separator  +PATH_OF_REPODATA);
     }
 
     public void setRpmDir(File rpmDir) {
@@ -62,10 +62,15 @@ public class CreateRepo {
     private String getRpmDir() {
         return rpmDir.getAbsolutePath();
     }
+    
+    
+    
 
     private void syncYumPackages(final YumStore yumStore) {
-        Set<File> files;
         
+        
+        Set<File> files;
+        p.ensurePath();
         if (true) {
             files = scanner.scan(rpmDir);
         }
