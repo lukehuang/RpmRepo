@@ -10,10 +10,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import ua.pp.msk.yum.sqlite.filelist.Filelist;
 import ua.pp.msk.yum.sqlite.other.Changelog;
-import ua.pp.msk.yum.sqlite.primary.Conflicts;
-import ua.pp.msk.yum.sqlite.primary.Enhances;
-import ua.pp.msk.yum.sqlite.primary.Files;
-import ua.pp.msk.yum.sqlite.primary.Obsoletes;
+import ua.pp.msk.yum.sqlite.primary.ConflictsImpl;
+import ua.pp.msk.yum.sqlite.primary.EnhancesImpl;
+import ua.pp.msk.yum.sqlite.primary.FilesImpl;
+import ua.pp.msk.yum.sqlite.primary.ObsoletesImpl;
 import ua.pp.msk.yum.sqlite.primary.Provides;
 import ua.pp.msk.yum.sqlite.primary.Recommends;
 import ua.pp.msk.yum.sqlite.primary.Requires;
@@ -51,12 +51,12 @@ public class RpmPackage implements RPM {
     private String locationHref;
     private String locationBase;
     private String checksumType;
-    private Collection<Conflicts> conflictsCollection;
-    private Collection<Obsoletes> obsoletesCollection;
-    private Collection<Files> filesCollection;
+    private Collection<ConflictsImpl> conflictsCollection;
+    private Collection<ObsoletesImpl> obsoletesCollection;
+    private Collection<FilesImpl> filesCollection;
     private Collection<Provides> providesCollection;
     private Collection<Suggests> suggestsCollection;
-    private Collection<Enhances> enhancesCollection;
+    private Collection<EnhancesImpl> enhancesCollection;
     private Collection<Requires> requiresCollection;
     private Collection<Supplements> supplementsCollection;
     private Collection<Recommends> recommendsCollection;
@@ -343,32 +343,32 @@ public class RpmPackage implements RPM {
     }
 
     @Override
-    public Collection<Conflicts> getConflictsCollection() {
+    public Collection<ConflictsImpl> getConflictsCollection() {
         return conflictsCollection;
     }
 
     @Override
-    public void setConflictsCollection(Collection<Conflicts> conflictsCollection) {
+    public void setConflictsCollection(Collection<ConflictsImpl> conflictsCollection) {
         this.conflictsCollection = conflictsCollection;
     }
 
     @Override
-    public Collection<Obsoletes> getObsoletesCollection() {
+    public Collection<ObsoletesImpl> getObsoletesCollection() {
         return obsoletesCollection;
     }
 
     @Override
-    public void setObsoletesCollection(Collection<Obsoletes> obsoletesCollection) {
+    public void setObsoletesCollection(Collection<ObsoletesImpl> obsoletesCollection) {
         this.obsoletesCollection = obsoletesCollection;
     }
 
     @Override
-    public Collection<Files> getFilesCollection() {
+    public Collection<FilesImpl> getFilesCollection() {
         return filesCollection;
     }
 
     @Override
-    public void setFilesCollection(Collection<Files> filesCollection) {
+    public void setFilesCollection(Collection<FilesImpl> filesCollection) {
         this.filesCollection = filesCollection;
     }
 
@@ -393,12 +393,12 @@ public class RpmPackage implements RPM {
     }
 
     @Override
-    public Collection<Enhances> getEnhancesCollection() {
+    public Collection<EnhancesImpl> getEnhancesCollection() {
         return enhancesCollection;
     }
 
     @Override
-    public void setEnhancesCollection(Collection<Enhances> enhancesCollection) {
+    public void setEnhancesCollection(Collection<EnhancesImpl> enhancesCollection) {
         this.enhancesCollection = enhancesCollection;
     }
 

@@ -14,39 +14,45 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Maksym Shkolnyi aka maskimko
  */
 @XmlRootElement
-public class Files implements Serializable {
+public class FilesImpl implements Files {
     private static final long serialVersionUID = 1L;
     private String name;
     private String type;
     private Packages pkgKey;
 
-    public Files() {
+    public FilesImpl() {
     }
 
-    public Files(String name) {
+    public FilesImpl(String name) {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public String getType() {
         return type;
     }
 
+    @Override
     public void setType(String type) {
         this.type = type;
     }
 
+    @Override
     public Packages getPkgKey() {
         return pkgKey;
     }
 
+    @Override
     public void setPkgKey(Packages pkgKey) {
         this.pkgKey = pkgKey;
     }
@@ -61,10 +67,10 @@ public class Files implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Files)) {
+        if (!(object instanceof FilesImpl)) {
             return false;
         }
-        Files other = (Files) object;
+        FilesImpl other = (FilesImpl) object;
         if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
             return false;
         }

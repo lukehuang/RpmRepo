@@ -16,7 +16,7 @@ import ua.pp.msk.yum.sqlite.RpmPackage;
 
 
 
-import ua.pp.msk.yum.sqlite.primary.Files;
+import ua.pp.msk.yum.sqlite.primary.FilesImpl;
 
 /**
  *
@@ -74,7 +74,7 @@ public class PrimaryPersister implements Persister, AutoCloseable {
     
     @Override
     public void persist(RpmPackage rpm) {
-        Iterator<Files> filesIterator = rpm.getFilesCollection().iterator();
+        Iterator<FilesImpl> filesIterator = rpm.getFilesCollection().iterator();
        int lk = getLastPkgKey();
         try {    
             dbCon.setAutoCommit(false);
@@ -97,7 +97,7 @@ public class PrimaryPersister implements Persister, AutoCloseable {
         packagesStmt.executeUpdate();
         
         while (filesIterator.hasNext()){
-                Files nextFile = filesIterator.next();
+                FilesImpl nextFile = filesIterator.next();
             filesStmt.setString(1, nextFile.getName());
             filesStmt.setString(2, nextFile.getType());
             filesStmt.setInt(3, rpm.getPkgKey());

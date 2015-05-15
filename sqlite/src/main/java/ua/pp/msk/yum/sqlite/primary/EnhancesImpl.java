@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
@@ -18,32 +17,35 @@ import ua.pp.msk.yum.sqlite.common.Entry;
  */
 
 @XmlRootElement
-public class Obsoletes extends AbstractEntry implements Serializable {
+
+public class EnhancesImpl extends AbstractEntry implements Enhances {
+
     private static final long serialVersionUID = 1L;
+    protected EntryPK enhancesPK;
+    private String flags;
+    private Packages pkgKey;
     private long id;
     
+    @Override
     public long getId() {
         return id;
     }
 
+    @Override
     public void setId(long id) {
         this.id = id;
-    } 
-    protected EntryPK obsoletesPK;
-    private String flags;
-    private Packages pkgKey;
-
-    public Obsoletes() {
-        obsoletesPK = new EntryPK();
     }
-    public Obsoletes(Entry entry){
-       this(new EntryPK(entry));
-    }
-    public Obsoletes(EntryPK name) {
-        this.obsoletesPK = name;
+    public EnhancesImpl() {
+        enhancesPK = new EntryPK();
     }
 
-  
+    public EnhancesImpl(EntryPK name) {
+        this.enhancesPK = name;
+    }
+
+    public EnhancesImpl(Entry entry) {
+        this(new EntryPK(entry));
+    }
 
     @Override
     public String getFlags() {
@@ -55,67 +57,66 @@ public class Obsoletes extends AbstractEntry implements Serializable {
         this.flags = flags;
     }
 
-   
-
+    @Override
     public Packages getPkgKey() {
         return pkgKey;
     }
 
+    @Override
     public void setPkgKey(Packages pkgKey) {
         this.pkgKey = pkgKey;
     }
 
-   
-
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Obsoletes[ name=" + obsoletesPK + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Enhances[ name=" + enhancesPK + " ]";
     }
-   @Override
+
+    @Override
     public String getName() {
-        return obsoletesPK.getName();
+        return enhancesPK.getName();
     }
 
     @Override
     public void setName(String name) {
-        obsoletesPK.setName(name);
+        enhancesPK.setName(name);
     }
 
     @Override
     public String getEpoch() {
-        return obsoletesPK.getEpoch();
+        return enhancesPK.getEpoch();
     }
 
     @Override
     public void setEpoch(String epoch) {
-        obsoletesPK.setEpoch(epoch);
-        }
+        enhancesPK.setEpoch(epoch);
+    }
 
     @Override
     public String getVersion() {
-        return obsoletesPK.getVersion();
+        return enhancesPK.getVersion();
     }
 
     @Override
     public void setVersion(String version) {
-        obsoletesPK.setVersion(version);
+        enhancesPK.setVersion(version);
     }
 
     @Override
     public String getRelease() {
-        return obsoletesPK.getRelease();
+        return enhancesPK.getRelease();
     }
 
     @Override
     public void setRelease(String release) {
-        obsoletesPK.setRelease(release);
+        enhancesPK.setRelease(release);
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.obsoletesPK);
-        hash = 97 * hash + Objects.hashCode(this.pkgKey);
+        hash = 83 * hash + Objects.hashCode(this.enhancesPK);
+        hash = 83 * hash + Objects.hashCode(this.pkgKey);
         return hash;
     }
 
@@ -127,12 +128,11 @@ public class Obsoletes extends AbstractEntry implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Obsoletes other = (Obsoletes) obj;
-        if (!Objects.equals(this.obsoletesPK, other.obsoletesPK)) {
+        final Provides other = (Provides) obj;
+        if (!Objects.equals(this.enhancesPK, other.providesPK)) {
             return false;
         }
         return true;
     }
-    
-    
+
 }
