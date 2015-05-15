@@ -7,39 +7,17 @@
 package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ConstraintMode;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-@Entity
-@Table(name = "files")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Files.findAll", query = "SELECT f FROM Files f"),
-    @NamedQuery(name = "Files.findByName", query = "SELECT f FROM Files f WHERE f.name = :name"),
-    @NamedQuery(name = "Files.findByType", query = "SELECT f FROM Files f WHERE f.type = :type")})
 public class Files implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Column(name = "name")
     private String name;
-    @Column(name = "type")
     private String type;
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    @ManyToOne
     private Packages pkgKey;
 
     public Files() {

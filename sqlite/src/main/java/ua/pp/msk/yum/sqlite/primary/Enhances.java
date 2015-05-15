@@ -7,20 +7,6 @@ package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ConstraintMode;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
 import ua.pp.msk.yum.sqlite.common.Entry;
@@ -29,29 +15,15 @@ import ua.pp.msk.yum.sqlite.common.Entry;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-@Entity
-@Table(name = "enhances")
+
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Enhances.findAll", query = "SELECT e FROM Enhances e"),
-    @NamedQuery(name = "Enhances.findByName", query = "SELECT e FROM Enhances e WHERE e.enhancesPK.name = :name"),
-    @NamedQuery(name = "Enhances.findByFlags", query = "SELECT e FROM Enhances e WHERE e.flags = :flags"),
-    @NamedQuery(name = "Enhances.findByEpoch", query = "SELECT e FROM Enhances e WHERE e.enhancesPK.epoch = :epoch"),
-    @NamedQuery(name = "Enhances.findByVersion", query = "SELECT e FROM Enhances e WHERE e.enhancesPK.version = :version"),
-    @NamedQuery(name = "Enhances.findByRelease", query = "SELECT e FROM Enhances e WHERE e.enhancesPK.release = :release")})
+
 public class Enhances extends AbstractEntry implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Embedded
     protected EntryPK enhancesPK;
-    @Column(name = "flags")
     private String flags;
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    @ManyToOne
     private Packages pkgKey;
-
-        @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE)
     private long id;
     
     public long getId() {

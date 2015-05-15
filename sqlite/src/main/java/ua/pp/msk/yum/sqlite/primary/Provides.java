@@ -8,20 +8,6 @@ package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ConstraintMode;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
 import ua.pp.msk.yum.sqlite.common.Entry;
@@ -30,20 +16,10 @@ import ua.pp.msk.yum.sqlite.common.Entry;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-@Entity
-@Table(name = "provides")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Provides.findAll", query = "SELECT p FROM Provides p"),
-    @NamedQuery(name = "Provides.findByName", query = "SELECT p FROM Provides p WHERE p.providesPK.name = :name"),
-    @NamedQuery(name = "Provides.findByFlags", query = "SELECT p FROM Provides p WHERE p.flags = :flags"),
-    @NamedQuery(name = "Provides.findByEpoch", query = "SELECT p FROM Provides p WHERE p.providesPK.epoch = :epoch"),
-    @NamedQuery(name = "Provides.findByVersion", query = "SELECT p FROM Provides p WHERE p.providesPK.version = :version"),
-    @NamedQuery(name = "Provides.findByRelease", query = "SELECT p FROM Provides p WHERE p.providesPK.release = :release")})
+
 public class Provides extends AbstractEntry implements Serializable {
     private static final long serialVersionUID = 1L;
-        @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE)
     private long id;
     
     public long getId() {
@@ -53,12 +29,8 @@ public class Provides extends AbstractEntry implements Serializable {
     public void setId(long id) {
         this.id = id;
     }
-    @Embedded
     protected EntryPK providesPK;
-    @Column(name = "flags")
     private String flags;
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    @ManyToOne
     private Packages pkgKey;
 
     public Provides() {
