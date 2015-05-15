@@ -5,10 +5,19 @@
  */
 package ua.pp.msk.yum.sqlite.primary;
 
-import java.io.Serializable;
 import java.util.Collection;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import ua.pp.msk.yum.sqlite.common.Conflicts;
+import ua.pp.msk.yum.sqlite.common.Enhances;
+import ua.pp.msk.yum.sqlite.common.Files;
+import ua.pp.msk.yum.sqlite.common.Obsoletes;
+import ua.pp.msk.yum.sqlite.common.Packages;
+import ua.pp.msk.yum.sqlite.common.Provides;
+import ua.pp.msk.yum.sqlite.common.Recommends;
+import ua.pp.msk.yum.sqlite.common.Requires;
+import ua.pp.msk.yum.sqlite.common.Suggests;
+import ua.pp.msk.yum.sqlite.common.Supplements;
 
 
 /**
@@ -45,15 +54,15 @@ public class PackagesImpl implements Packages {
     private String locationHref;
     private String locationBase;
     private String checksumType;
-    private Collection<ConflictsImpl> conflictsCollection;
-    private Collection<ObsoletesImpl> obsoletesCollection;
-    private Collection<FilesImpl> filesCollection;
-    private Collection<ProvidesImpl> providesCollection;
-    private Collection<SuggestsImpl> suggestsCollection;
-    private Collection<EnhancesImpl> enhancesCollection;
-    private Collection<RequiresImpl> requiresCollection;
-    private Collection<SupplementsImpl> supplementsCollection;
-    private Collection<RecommendsImpl> recommendsCollection;
+    private Collection<Conflicts> conflictsCollection;
+    private Collection<Obsoletes> obsoletesCollection;
+    private Collection<Files> filesCollection;
+    private Collection<Provides> providesCollection;
+    private Collection<Suggests> suggestsCollection;
+    private Collection<Enhances> enhancesCollection;
+    private Collection<Requires> requiresCollection;
+    private Collection<Supplements> supplementsCollection;
+    private Collection<Recommends> recommendsCollection;
     private static final long serialVersionUID = 1L;
     private Integer pkgKey;
     private String pkgId;
@@ -323,103 +332,101 @@ public class PackagesImpl implements Packages {
         this.checksumType = checksumType;
     }
 
-    @XmlTransient
-    @Override
-    public Collection<ConflictsImpl> getConflicts1Collection() {
+    public Collection<Conflicts> getConflictsCollection() {
         return conflictsCollection;
     }
 
-    @Override
-    public void setConflicts1Collection(Collection<ConflictsImpl> conflicts1Collection) {
-        this.conflictsCollection = conflicts1Collection;
+
+    public void setConflictsCollection(Collection<Conflicts> conflictsCollection) {
+        this.conflictsCollection = conflictsCollection;
     }
 
     @XmlTransient
     @Override
-    public Collection<ObsoletesImpl> getObsoletes1Collection() {
+    public Collection<Obsoletes> getObsoletesCollection() {
         return obsoletesCollection;
     }
 
     @Override
-    public void setObsoletes1Collection(Collection<ObsoletesImpl> obsoletes1Collection) {
-        this.obsoletesCollection = obsoletes1Collection;
+    public void setObsoletesCollection(Collection<Obsoletes> obsoletesCollection) {
+        this.obsoletesCollection = obsoletesCollection;
     }
 
     @XmlTransient
     @Override
-    public Collection<FilesImpl> getFiles1Collection() {
+    public Collection<Files> getFilesCollection() {
         return filesCollection;
     }
 
     @Override
-    public void setFiles1Collection(Collection<FilesImpl> files1Collection) {
-        this.filesCollection = files1Collection;
+    public void setFilesCollection(Collection<Files> filesCollection) {
+        this.filesCollection = filesCollection;
     }
 
     @XmlTransient
     @Override
-    public Collection<ProvidesImpl> getProvides1Collection() {
+    public Collection<Provides> getProvidesCollection() {
         return providesCollection;
     }
 
     @Override
-    public void setProvides1Collection(Collection<ProvidesImpl> provides1Collection) {
-        this.providesCollection = provides1Collection;
+    public void setProvidesCollection(Collection<Provides> providesCollection) {
+        this.providesCollection = providesCollection;
     }
 
     @XmlTransient
     @Override
-    public Collection<SuggestsImpl> getSuggests1Collection() {
+    public Collection<Suggests> getSuggestsCollection() {
         return suggestsCollection;
     }
 
     @Override
-    public void setSuggests1Collection(Collection<SuggestsImpl> suggests1Collection) {
-        this.suggestsCollection = suggests1Collection;
+    public void setSuggestsCollection(Collection<Suggests> suggestsCollection) {
+        this.suggestsCollection = suggestsCollection;
     }
 
     @XmlTransient
     @Override
-    public Collection<EnhancesImpl> getEnhances1Collection() {
+    public Collection<Enhances> getEnhancesCollection() {
         return enhancesCollection;
     }
 
     @Override
-    public void setEnhances1Collection(Collection<EnhancesImpl> enhances1Collection) {
-        this.enhancesCollection = enhances1Collection;
+    public void setEnhancesCollection(Collection<Enhances> enhancesCollection) {
+        this.enhancesCollection = enhancesCollection;
     }
 
     @XmlTransient
     @Override
-    public Collection<RequiresImpl> getRequires1Collection() {
+    public Collection<Requires> getRequiresCollection() {
         return requiresCollection;
     }
 
     @Override
-    public void setRequires1Collection(Collection<RequiresImpl> requires1Collection) {
-        this.requiresCollection = requires1Collection;
+    public void setRequiresCollection(Collection<Requires> requiresCollection) {
+        this.requiresCollection = requiresCollection;
     }
 
     @XmlTransient
     @Override
-    public Collection<SupplementsImpl> getSupplements1Collection() {
+    public Collection<Supplements> getSupplementsCollection() {
         return supplementsCollection;
     }
 
     @Override
-    public void setSupplements1Collection(Collection<SupplementsImpl> supplements1Collection) {
-        this.supplementsCollection = supplements1Collection;
+    public void setSupplementsCollection(Collection<Supplements> supplementsCollection) {
+        this.supplementsCollection = supplementsCollection;
     }
 
     @XmlTransient
     @Override
-    public Collection<RecommendsImpl> getRecommends1Collection() {
+    public Collection<Recommends> getRecommendsCollection() {
         return recommendsCollection;
     }
 
     @Override
-    public void setRecommends1Collection(Collection<RecommendsImpl> recommends1Collection) {
-        this.recommendsCollection = recommends1Collection;
+    public void setRecommendsCollection(Collection<Recommends> recommendsCollection) {
+        this.recommendsCollection = recommendsCollection;
     }
 
 

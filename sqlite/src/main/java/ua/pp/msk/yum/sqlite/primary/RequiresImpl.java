@@ -6,10 +6,11 @@
 
 package ua.pp.msk.yum.sqlite.primary;
 
-import java.io.Serializable;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlRootElement;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
 import ua.pp.msk.yum.sqlite.common.Entry;
+import ua.pp.msk.yum.sqlite.common.Requires;
 
 /**
  *
@@ -19,46 +20,54 @@ import ua.pp.msk.yum.sqlite.common.Entry;
 
 public class RequiresImpl extends AbstractEntry implements Requires {
     private static final long serialVersionUID = 1L;
+  
     private long id;
+    private String name;
+    private String flags;
+    private String epoch;
+    private String version;
+    private String release;
+    private int pkgKey;
+    private boolean pre;
     
-    @Override
     public long getId() {
         return id;
     }
 
-    @Override
+  
     public void setId(long id) {
         this.id = id;
     }
-    protected EntryPK requiresPK;
-    private String flags;
-    private boolean pre;
-    private PackagesImpl pkgKey;
+    public RequiresImpl() {}
 
-    public RequiresImpl() {
-        requiresPK = new EntryPK();
+    public RequiresImpl(String name, String flags, String epoch, String version, String release, boolean pre) {
+        this.name = name;
+        this.flags = flags;
+        this.epoch = epoch;
+        this.version = version;
+        this.release = release;
+        this.pre = pre;
     }
-    public RequiresImpl(Entry entry){
-       this(new EntryPK(entry));
-    }
-    public RequiresImpl(EntryPK requiresPK) {
-        this.requiresPK = requiresPK;
-    }
+    
+    /**
+     *Prerequires flag is default to false 
+     * @param entry
+     * 
+     */
+     public RequiresImpl(Entry entry){
+         this(entry, false);
+     }
 
-    public RequiresImpl(String name, String epoch, String version, String release) {
-        this.requiresPK = new EntryPK(name, epoch, version, release);
+    /**
+     *
+     * @param entry
+     * @param pre Prerequires flag if set to true will create Prerequires record in the spec file
+     */
+    public RequiresImpl(Entry entry, boolean pre){
+      this(entry.getName(), entry.getFlags(), entry.getEpoch(), entry.getVersion(), entry.getRelease(), pre);
     }
-
-    @Override
-    public EntryPK getRequiresPK() {
-        return requiresPK;
-    }
-
-    @Override
-    public void setRequiresPK(EntryPK requires1PK) {
-        this.requiresPK = requires1PK;
-    }
-
+    
+      
     @Override
     public String getFlags() {
         return flags;
@@ -80,78 +89,103 @@ public class RequiresImpl extends AbstractEntry implements Requires {
     }
 
     @Override
-    public PackagesImpl getPkgKey() {
+    public int getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(PackagesImpl pkgKey) {
+    public void setPkgKey(int pkgKey) {
         this.pkgKey = pkgKey;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (requiresPK != null ? requiresPK.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RequiresImpl)) {
-            return false;
-        }
-        RequiresImpl other = (RequiresImpl) object;
-        if ((this.requiresPK == null && other.requiresPK != null) || (this.requiresPK != null && !this.requiresPK.equals(other.requiresPK))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Requires[ requires1PK=" + requiresPK + " ]";
-    }
-
+    
     @Override
     public String getName() {
-        return requiresPK.getName();
+        return name;
     }
 
     @Override
     public void setName(String name) {
-        requiresPK.setName(name);
+        this.name = name;
     }
 
     @Override
     public String getEpoch() {
-        return requiresPK.getEpoch();
+        return epoch;
     }
 
     @Override
     public void setEpoch(String epoch) {
-        requiresPK.setEpoch(epoch);
+        this.epoch = epoch;
         }
 
     @Override
     public String getVersion() {
-        return requiresPK.getVersion();
+        return version;
     }
 
     @Override
     public void setVersion(String version) {
-        requiresPK.setVersion(version);
+        this.version = version;
     }
 
     @Override
     public String getRelease() {
-        return requiresPK.getRelease();
+        return release;
     }
 
     @Override
     public void setRelease(String release) {
-        requiresPK.setRelease(release);
+        this.release = release;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 59 * hash + Objects.hashCode(this.name);
+        hash = 59 * hash + Objects.hashCode(this.flags);
+        hash = 59 * hash + Objects.hashCode(this.epoch);
+        hash = 59 * hash + Objects.hashCode(this.version);
+        hash = 59 * hash + Objects.hashCode(this.release);
+        hash = 59 * hash + this.pkgKey;
+        hash = 59 * hash + (this.pre ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RequiresImpl other = (RequiresImpl) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.flags, other.flags)) {
+            return false;
+        }
+        if (!Objects.equals(this.epoch, other.epoch)) {
+            return false;
+        }
+        if (!Objects.equals(this.version, other.version)) {
+            return false;
+        }
+        if (!Objects.equals(this.release, other.release)) {
+            return false;
+        }
+        if (this.pre != other.pre) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

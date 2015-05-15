@@ -6,7 +6,6 @@
 
 package ua.pp.msk.yum.sqlite.primary;
 
-import java.io.Serializable;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlRootElement;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
@@ -28,19 +27,21 @@ public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
     private String version;
     private String release;
     private int pkgKey;
+    private long id ;
 
+    public ObsoletesImpl() {}
     
-    
-//    public ObsoletesImpl() {
-//        obsoletesPK = new EntryPK();
-//    }
-//    public ObsoletesImpl(Entry entry){
-//       this(new EntryPK(entry));
-//    }
-//    public ObsoletesImpl(EntryPK name) {
-//        this.obsoletesPK = name;
-//    }
-//    
+    public ObsoletesImpl(String name, String flags, String epoch, String version, String release) {
+        this.name = name;
+        this.flags = flags;
+        this.epoch = epoch;
+        this.version = version;
+        this.release = release;
+    }
+    public ObsoletesImpl(Entry entry){
+      this(entry.getName(), entry.getFlags(), entry.getEpoch(), entry.getVersion(), entry.getRelease());
+    }
+   
 
     @Override
     public String getFlags() {
@@ -52,7 +53,15 @@ public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
         this.flags = flags;
     }
 
-   
+      @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
 
     @Override
     public int getPkgKey() {
@@ -148,6 +157,8 @@ public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
         }
         return true;
     }
+
+  
 
     
 }

@@ -6,11 +6,11 @@
 
 package ua.pp.msk.yum.sqlite.primary;
 
-import java.io.Serializable;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlRootElement;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
 import ua.pp.msk.yum.sqlite.common.Entry;
+import ua.pp.msk.yum.sqlite.common.Provides;
 
 /**
  *
@@ -20,31 +20,36 @@ import ua.pp.msk.yum.sqlite.common.Entry;
 
 public class ProvidesImpl extends AbstractEntry implements Provides {
     private static final long serialVersionUID = 1L;
-    private long id;
     
-    @Override
+    private long id;
+    private String name;
+    private String flags;
+    private String epoch;
+    private String version;
+    private String release;
+    private int pkgKey;
+      
+     public ProvidesImpl() {}
+    
+    public ProvidesImpl(String name, String flags, String epoch, String version, String release) {
+        this.name = name;
+        this.flags = flags;
+        this.epoch = epoch;
+        this.version = version;
+        this.release = release;
+    }
+    public ProvidesImpl(Entry entry){
+      this(entry.getName(), entry.getFlags(), entry.getEpoch(), entry.getVersion(), entry.getRelease());
+    }
+
+    
     public long getId() {
         return id;
     }
 
-    @Override
     public void setId(long id) {
         this.id = id;
     }
-    protected EntryPK providesPK;
-    private String flags;
-    private PackagesImpl pkgKey;
-
-    public ProvidesImpl() {
-        providesPK = new EntryPK();
-    }
-    public ProvidesImpl(Entry entry){
-       this(new EntryPK(entry));
-    }
-    public ProvidesImpl(EntryPK epk) {
-        this.providesPK = epk;
-    }
-
 
 
     @Override
@@ -59,59 +64,64 @@ public class ProvidesImpl extends AbstractEntry implements Provides {
 
      @Override
     public String getName() {
-        return providesPK.getName();
+        return name;
     }
 
     @Override
     public void setName(String name) {
-        providesPK.setName(name);
+        this.name = name;
     }
 
     @Override
     public String getEpoch() {
-        return providesPK.getEpoch();
+        return epoch;
     }
 
     @Override
     public void setEpoch(String epoch) {
-        providesPK.setEpoch(epoch);
+        this.epoch = epoch;
         }
 
     @Override
     public String getVersion() {
-        return providesPK.getVersion();
+        return version;
     }
 
     @Override
     public void setVersion(String version) {
-        providesPK.setVersion(version);
+       this.version = version;
     }
 
     @Override
     public String getRelease() {
-        return providesPK.getRelease();
+        return release;
     }
 
     @Override
     public void setRelease(String release) {
-        providesPK.setRelease(release);
+        this.release = release;
     }
 
     @Override
-    public PackagesImpl getPkgKey() {
+    public int getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(PackagesImpl pkgKey) {
+    public void setPkgKey(int pkgKey) {
         this.pkgKey = pkgKey;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + Objects.hashCode(this.providesPK);
-        hash = 83 * hash + Objects.hashCode(this.pkgKey);
+        int hash = 7;
+        hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.flags);
+        hash = 97 * hash + Objects.hashCode(this.epoch);
+        hash = 97 * hash + Objects.hashCode(this.version);
+        hash = 97 * hash + Objects.hashCode(this.release);
+        hash = 97 * hash + this.pkgKey;
         return hash;
     }
 
@@ -124,17 +134,31 @@ public class ProvidesImpl extends AbstractEntry implements Provides {
             return false;
         }
         final ProvidesImpl other = (ProvidesImpl) obj;
-        if (!Objects.equals(this.providesPK, other.providesPK)) {
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.flags, other.flags)) {
+            return false;
+        }
+        if (!Objects.equals(this.epoch, other.epoch)) {
+            return false;
+        }
+        if (!Objects.equals(this.version, other.version)) {
+            return false;
+        }
+        if (!Objects.equals(this.release, other.release)) {
             return false;
         }
         return true;
     }
 
- 
-
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Provides[ name=" + providesPK + " ]";
+        return "ProvidesImpl{" + "id=" + id + ", name=" + name + ", flags=" + flags + ", epoch=" + epoch + ", version=" + version + ", release=" + release + ", pkgKey=" + pkgKey + '}';
     }
-
+    
+    
 }

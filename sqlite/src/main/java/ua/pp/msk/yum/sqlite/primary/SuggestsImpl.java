@@ -6,47 +6,52 @@
 
 package ua.pp.msk.yum.sqlite.primary;
 
-import java.io.Serializable;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlRootElement;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
 import ua.pp.msk.yum.sqlite.common.Entry;
+import ua.pp.msk.yum.sqlite.common.Suggests;
 
 /**
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-@XmlRootElement
+
     
 public class SuggestsImpl extends AbstractEntry implements Suggests {
     private static final long serialVersionUID = 1L;
     private long id;
+    private String name;
+    private String flags;
+    private String epoch;
+    private String version;
+    private String release;
+    private int pkgKey;
+   
+    public SuggestsImpl() {}
     
-    @Override
+    public SuggestsImpl(String name, String flags, String epoch, String version, String release) {
+        this.name = name;
+        this.flags = flags;
+        this.epoch = epoch;
+        this.version = version;
+        this.release = release;
+    }
+    public SuggestsImpl(Entry entry){
+      this(entry.getName(), entry.getFlags(), entry.getEpoch(), entry.getVersion(), entry.getRelease());
+    }
+    
+    
+    
+    
     public long getId() {
         return id;
     }
 
-    @Override
     public void setId(long id) {
         this.id = id;
     }
-    protected EntryPK suggestsPK;
-    private String flags;
-    private PackagesImpl pkgKey;
-
-    public SuggestsImpl() {
-        suggestsPK = new EntryPK();
-    }
-    public SuggestsImpl(String name, String epoch, String version, String release) {
-        this.suggestsPK = new EntryPK(name, epoch, version, release);
-    }
-    public SuggestsImpl(EntryPK name) {
-        this.suggestsPK = name;
-    }
-    public SuggestsImpl(Entry entry){
-       this(new EntryPK(entry));
-    }
-   
+    
     @Override
     public String getFlags() {
         return flags;
@@ -60,82 +65,104 @@ public class SuggestsImpl extends AbstractEntry implements Suggests {
    
 
     @Override
-    public PackagesImpl getPkgKey() {
+    public int getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(PackagesImpl pkgKey) {
+    public void setPkgKey(int pkgKey) {
         this.pkgKey = pkgKey;
     }
 
-  
+
 
     @Override
-    public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Suggests[ name=" + suggestsPK + " ]";
+    public String getName() {
+        return name;
     }
 
-       @Override
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getEpoch() {
+        return epoch;
+    }
+
+    @Override
+    public void setEpoch(String epoch) {
+        this.name =name;
+    }
+
+    @Override
+    public String getVersion() {
+        return version;
+    }
+
+    @Override
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    @Override
+    public String getRelease() {
+        return release;
+    }
+
+    @Override
+    public void setRelease(String release) {
+        this.release = release;
+    }
+
+    @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (suggestsPK != null ? suggestsPK.hashCode() : 0);
+        int hash = 7;
+        hash = 71 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 71 * hash + Objects.hashCode(this.name);
+        hash = 71 * hash + Objects.hashCode(this.flags);
+        hash = 71 * hash + Objects.hashCode(this.epoch);
+        hash = 71 * hash + Objects.hashCode(this.version);
+        hash = 71 * hash + Objects.hashCode(this.release);
+        hash = 71 * hash + this.pkgKey;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RequiresImpl)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        RequiresImpl other = (RequiresImpl) object;
-        if ((this.suggestsPK == null && other.requiresPK != null) || (this.suggestsPK != null && !this.suggestsPK.equals(other.requiresPK))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SuggestsImpl other = (SuggestsImpl) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.flags, other.flags)) {
+            return false;
+        }
+        if (!Objects.equals(this.epoch, other.epoch)) {
+            return false;
+        }
+        if (!Objects.equals(this.version, other.version)) {
+            return false;
+        }
+        if (!Objects.equals(this.release, other.release)) {
             return false;
         }
         return true;
     }
 
-   
-
     @Override
-    public String getName() {
-        return suggestsPK.getName();
+    public String toString() {
+        return "SuggestsImpl{" + "id=" + id + ", name=" + name + ", flags=" + flags + ", epoch=" + epoch + ", version=" + version + ", release=" + release + ", pkgKey=" + pkgKey + '}';
     }
-
-    @Override
-    public void setName(String name) {
-        suggestsPK.setName(name);
-    }
-
-    @Override
-    public String getEpoch() {
-        return suggestsPK.getEpoch();
-    }
-
-    @Override
-    public void setEpoch(String epoch) {
-        suggestsPK.setEpoch(epoch);
-        }
-
-    @Override
-    public String getVersion() {
-        return suggestsPK.getVersion();
-    }
-
-    @Override
-    public void setVersion(String version) {
-        suggestsPK.setVersion(version);
-    }
-
-    @Override
-    public String getRelease() {
-        return suggestsPK.getRelease();
-    }
-
-    @Override
-    public void setRelease(String release) {
-        suggestsPK.setRelease(release);
-    }
+     
 
 }
