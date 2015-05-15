@@ -6,7 +6,7 @@
 
 package ua.pp.msk.yum.sqlite.other;
 
-import java.io.Serializable;
+import ua.pp.msk.yum.sqlite.common.Changelog;
 
 /**
  *
@@ -14,20 +14,10 @@ import java.io.Serializable;
  */
 public class ChangelogImpl implements Changelog {
     private static final long serialVersionUID = 1L;
-    private long id;
-    
-    @Override
-    public long getId() {
-        return id;
-    }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
     protected ChangelogPK changelogPK;
     private String changelog;
-    private Packages pkgKey;
+    private int pkgKey;
 
     public ChangelogImpl() {
         this.changelogPK = new ChangelogPK();
@@ -41,12 +31,12 @@ public class ChangelogImpl implements Changelog {
         this.changelogPK = new ChangelogPK(author, date);
     }
 
-    @Override
+   
     public ChangelogPK getChangelogPK() {
         return changelogPK;
     }
 
-    @Override
+  
     public void setChangelogPK(ChangelogPK changelogPK) {
         this.changelogPK = changelogPK;
     }
@@ -62,12 +52,12 @@ public class ChangelogImpl implements Changelog {
     }
 
     @Override
-    public Packages getPkgKey() {
+    public int getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(Packages pkgKey) {
+    public void setPkgKey(int pkgKey) {
         this.pkgKey = pkgKey;
     }
 

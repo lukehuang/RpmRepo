@@ -6,8 +6,18 @@
 package ua.pp.msk.yum.sqlite;
 
 import ua.pp.msk.yum.sqlite.common.RPM;
-import java.io.Serializable;
 import java.util.Collection;
+import ua.pp.msk.yum.sqlite.common.Changelog;
+import ua.pp.msk.yum.sqlite.common.Conflicts;
+import ua.pp.msk.yum.sqlite.common.Enhances;
+import ua.pp.msk.yum.sqlite.common.Filelist;
+import ua.pp.msk.yum.sqlite.common.Files;
+import ua.pp.msk.yum.sqlite.common.Obsoletes;
+import ua.pp.msk.yum.sqlite.common.Provides;
+import ua.pp.msk.yum.sqlite.common.Recommends;
+import ua.pp.msk.yum.sqlite.common.Requires;
+import ua.pp.msk.yum.sqlite.common.Suggests;
+import ua.pp.msk.yum.sqlite.common.Supplements;
 import ua.pp.msk.yum.sqlite.filelist.FilelistImpl;
 import ua.pp.msk.yum.sqlite.other.ChangelogImpl;
 import ua.pp.msk.yum.sqlite.primary.ConflictsImpl;
@@ -20,14 +30,13 @@ import ua.pp.msk.yum.sqlite.primary.RequiresImpl;
 import ua.pp.msk.yum.sqlite.primary.SuggestsImpl;
 import ua.pp.msk.yum.sqlite.primary.SupplementsImpl;
 /**
- */**
- *
+ 
  * @author Maksym Shkolnyi aka maskimko
  */
 
 public class RpmPackage implements RPM {
 
-    private Collection<ChangelogImpl> changelogCollection;
+    private Collection<Changelog> changelogCollection;
     private String name;
     private String arch;
     private String version;
@@ -52,19 +61,19 @@ public class RpmPackage implements RPM {
     private String locationHref;
     private String locationBase;
     private String checksumType;
-    private Collection<ConflictsImpl> conflictsCollection;
-    private Collection<ObsoletesImpl> obsoletesCollection;
-    private Collection<FilesImpl> filesCollection;
-    private Collection<ProvidesImpl> providesCollection;
-    private Collection<SuggestsImpl> suggestsCollection;
-    private Collection<EnhancesImpl> enhancesCollection;
-    private Collection<RequiresImpl> requiresCollection;
-    private Collection<SupplementsImpl> supplementsCollection;
-    private Collection<RecommendsImpl> recommendsCollection;
+    private Collection<Conflicts> conflictsCollection;
+    private Collection<Obsoletes> obsoletesCollection;
+    private Collection<Files> filesCollection;
+    private Collection<Provides> providesCollection;
+    private Collection<Suggests> suggestsCollection;
+    private Collection<Enhances> enhancesCollection;
+    private Collection<Requires> requiresCollection;
+    private Collection<Supplements> supplementsCollection;
+    private Collection<Recommends> recommendsCollection;
     private static final long serialVersionUID = 1L;
     private Integer pkgKey;
     private String pkgId;
-    private Collection<FilelistImpl> filelistCollection;
+    private Collection<Filelist> filelistCollection;
 
     public RpmPackage() {
     }
@@ -94,12 +103,12 @@ public class RpmPackage implements RPM {
     }
 
     @Override
-    public Collection<FilelistImpl> getFilelistCollection() {
+    public Collection<Filelist> getFilelistCollection() {
         return filelistCollection;
     }
 
     @Override
-    public void setFilelistCollection(Collection<FilelistImpl> filelistCollection) {
+    public void setFilelistCollection(Collection<Filelist> filelistCollection) {
         this.filelistCollection = filelistCollection;
     }
 
@@ -344,102 +353,102 @@ public class RpmPackage implements RPM {
     }
 
     @Override
-    public Collection<ConflictsImpl> getConflictsCollection() {
+    public Collection<Conflicts> getConflictsCollection() {
         return conflictsCollection;
     }
 
     @Override
-    public void setConflictsCollection(Collection<ConflictsImpl> conflictsCollection) {
+    public void setConflictsCollection(Collection<Conflicts> conflictsCollection) {
         this.conflictsCollection = conflictsCollection;
     }
 
     @Override
-    public Collection<ObsoletesImpl> getObsoletesCollection() {
+    public Collection<Obsoletes> getObsoletesCollection() {
         return obsoletesCollection;
     }
 
     @Override
-    public void setObsoletesCollection(Collection<ObsoletesImpl> obsoletesCollection) {
+    public void setObsoletesCollection(Collection<Obsoletes> obsoletesCollection) {
         this.obsoletesCollection = obsoletesCollection;
     }
 
     @Override
-    public Collection<FilesImpl> getFilesCollection() {
+    public Collection<Files> getFilesCollection() {
         return filesCollection;
     }
 
     @Override
-    public void setFilesCollection(Collection<FilesImpl> filesCollection) {
+    public void setFilesCollection(Collection<Files> filesCollection) {
         this.filesCollection = filesCollection;
     }
 
     @Override
-    public Collection<ProvidesImpl> getProvidesCollection() {
+    public Collection<Provides> getProvidesCollection() {
         return providesCollection;
     }
 
     @Override
-    public void setProvidesCollection(Collection<ProvidesImpl> providesCollection) {
+    public void setProvidesCollection(Collection<Provides> providesCollection) {
         this.providesCollection = providesCollection;
     }
 
     @Override
-    public Collection<SuggestsImpl> getSuggestsCollection() {
+    public Collection<Suggests> getSuggestsCollection() {
         return suggestsCollection;
     }
 
     @Override
-    public void setSuggestsCollection(Collection<SuggestsImpl> suggestsCollection) {
+    public void setSuggestsCollection(Collection<Suggests> suggestsCollection) {
         this.suggestsCollection = suggestsCollection;
     }
 
     @Override
-    public Collection<EnhancesImpl> getEnhancesCollection() {
+    public Collection<Enhances> getEnhancesCollection() {
         return enhancesCollection;
     }
 
     @Override
-    public void setEnhancesCollection(Collection<EnhancesImpl> enhancesCollection) {
+    public void setEnhancesCollection(Collection<Enhances> enhancesCollection) {
         this.enhancesCollection = enhancesCollection;
     }
 
     @Override
-    public Collection<RequiresImpl> getRequiresCollection() {
+    public Collection<Requires> getRequiresCollection() {
         return requiresCollection;
     }
 
     @Override
-    public void setRequiresCollection(Collection<RequiresImpl> requiresCollection) {
+    public void setRequiresCollection(Collection<Requires> requiresCollection) {
         this.requiresCollection = requiresCollection;
     }
 
     @Override
-    public Collection<SupplementsImpl> getSupplementsCollection() {
+    public Collection<Supplements> getSupplementsCollection() {
         return supplementsCollection;
     }
 
     @Override
-    public void setSupplementsCollection(Collection<SupplementsImpl> supplementsCollection) {
+    public void setSupplementsCollection(Collection<Supplements> supplementsCollection) {
         this.supplementsCollection = supplementsCollection;
     }
 
     @Override
-    public Collection<RecommendsImpl> getRecommendsCollection() {
+    public Collection<Recommends> getRecommendsCollection() {
         return recommendsCollection;
     }
 
     @Override
-    public void setRecommendsCollection(Collection<RecommendsImpl> recommendsCollection) {
+    public void setRecommendsCollection(Collection<Recommends> recommendsCollection) {
         this.recommendsCollection = recommendsCollection;
     }
 
     @Override
-    public Collection<ChangelogImpl> getChangelogCollection() {
+    public Collection<Changelog> getChangelogCollection() {
         return changelogCollection;
     }
 
     @Override
-    public void setChangelogCollection(Collection<ChangelogImpl> changelogCollection) {
+    public void setChangelogCollection(Collection<Changelog> changelogCollection) {
         this.changelogCollection = changelogCollection;
     }
 

@@ -7,7 +7,6 @@
 package ua.pp.msk.yum.sqlite.primary;
 
 import ua.pp.msk.yum.sqlite.common.Conflicts;
-import java.io.Serializable;
 import java.util.Objects;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
 import ua.pp.msk.yum.sqlite.common.Entry;
@@ -18,19 +17,10 @@ import ua.pp.msk.yum.sqlite.common.Entry;
  */
 public class ConflictsImpl extends AbstractEntry implements Conflicts{
     private static final long serialVersionUID = 1L;
-    private long id;
-    
-    @Override
-    public long getId() {
-        return id;
-    }
+  
+    private String name;
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    protected EntryPK conflictsPK;
+   
    
     private String flags;
    
@@ -53,12 +43,12 @@ public class ConflictsImpl extends AbstractEntry implements Conflicts{
     
     @Override
     public String getName() {
-        return conflictsPK.getName();
+        return name;
     }
 
     @Override
     public void setName(String name) {
-         conflictsPK.setName(name);
+        this.name = name;
     }
 
     @Override

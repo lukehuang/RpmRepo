@@ -6,7 +6,7 @@
 
 package ua.pp.msk.yum.sqlite.filelist;
 
-import java.io.Serializable;
+import ua.pp.msk.yum.sqlite.common.Filelist;
 
 
 /**
@@ -19,19 +19,11 @@ public class FilelistImpl implements Filelist {
       
     private long id;
     
-    @Override
-    public long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
+  
     protected FilelistPK filelistPK;
     
     private String filetypes;
-    private Packages pkgKey;
+    private int pkgKey;
 
     public FilelistImpl() {
         this.filelistPK = new FilelistPK();
@@ -46,12 +38,12 @@ public class FilelistImpl implements Filelist {
         
     }
 
-    @Override
+  
     public FilelistPK getFilelistPK() {
         return filelistPK;
     }
 
-    @Override
+   
     public void setFilelistPK(FilelistPK filelistPK) {
         this.filelistPK = filelistPK;
     }
@@ -87,12 +79,12 @@ public class FilelistImpl implements Filelist {
     }
 
     @Override
-    public Packages getPkgKey() {
+    public int getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(Packages pkgKey) {
+    public void setPkgKey(int pkgKey) {
         this.pkgKey = pkgKey;
     }
 
