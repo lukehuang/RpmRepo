@@ -7,7 +7,6 @@ package ua.pp.msk.yum.sqlite.common;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -19,18 +18,15 @@ public interface Packages extends Serializable {
 
     String getChecksumType();
 
-    @XmlTransient
-    Collection<ConflictsImpl> getConflicts1Collection();
+    Collection<Conflicts> getConflicts1Collection();
 
     String getDescription();
 
-    @XmlTransient
-    Collection<EnhancesImpl> getEnhances1Collection();
+    Collection<Enhances> getEnhances1Collection();
 
     String getEpoch();
 
-    @XmlTransient
-    Collection<FilesImpl> getFiles1Collection();
+    Collection<Files> getFiles1Collection();
 
     String getLocationBase();
 
@@ -38,23 +34,19 @@ public interface Packages extends Serializable {
 
     String getName();
 
-    @XmlTransient
-    Collection<ObsoletesImpl> getObsoletes1Collection();
+    Collection<Obsoletes> getObsoletes1Collection();
 
     String getPkgId();
 
     Integer getPkgKey();
 
-    @XmlTransient
-    Collection<ProvidesImpl> getProvides1Collection();
+    Collection<Provides> getProvides1Collection();
 
-    @XmlTransient
-    Collection<RecommendsImpl> getRecommends1Collection();
+    Collection<Recommends> getRecommends1Collection();
 
     String getRelease();
 
-    @XmlTransient
-    Collection<RequiresImpl> getRequires1Collection();
+    Collection<Requires> getRequires1Collection();
 
     String getRpmBuildhost();
 
@@ -78,13 +70,11 @@ public interface Packages extends Serializable {
 
     Integer getSizePackage();
 
-    @XmlTransient
-    Collection<SuggestsImpl> getSuggests1Collection();
+    Collection<Suggests> getSuggests1Collection();
 
     String getSummary();
 
-    @XmlTransient
-    Collection<SupplementsImpl> getSupplements1Collection();
+    Collection<Supplements> getSupplements1Collection();
 
     Integer getTimeBuild();
 
@@ -98,15 +88,15 @@ public interface Packages extends Serializable {
 
     void setChecksumType(String checksumType);
 
-    void setConflicts1Collection(Collection<ConflictsImpl> conflicts1Collection);
+    void setConflictsCollection(Collection<Conflicts> conflictsCollection);
 
     void setDescription(String description);
 
-    void setEnhances1Collection(Collection<EnhancesImpl> enhances1Collection);
+    void setEnhancesCollection(Collection<Enhances> enhancesCollection);
 
     void setEpoch(String epoch);
 
-    void setFiles1Collection(Collection<FilesImpl> files1Collection);
+    void setFilesCollection(Collection<Files> files1Collection);
 
     void setLocationBase(String locationBase);
 
@@ -114,19 +104,19 @@ public interface Packages extends Serializable {
 
     void setName(String name);
 
-    void setObsoletes1Collection(Collection<ObsoletesImpl> obsoletes1Collection);
+    void setObsoletesCollection(Collection<Obsoletes> obsoletes1Collection);
 
     void setPkgId(String pkgId);
 
     void setPkgKey(Integer pkgKey);
 
-    void setProvides1Collection(Collection<ProvidesImpl> provides1Collection);
+    void setProvidesCollection(Collection<Provides> providesCollection);
 
-    void setRecommends1Collection(Collection<RecommendsImpl> recommends1Collection);
+    void setRecommendsCollection(Collection<Recommends> recommendsCollection);
 
     void setRelease(String release);
 
-    void setRequires1Collection(Collection<RequiresImpl> requires1Collection);
+    void setRequiresCollection(Collection<Requires> requiresCollection);
 
     void setRpmBuildhost(String rpmBuildhost);
 
@@ -150,11 +140,11 @@ public interface Packages extends Serializable {
 
     void setSizePackage(Integer sizePackage);
 
-    void setSuggests1Collection(Collection<SuggestsImpl> suggests1Collection);
+    void setSuggestsCollection(Collection<Suggests> suggestsCollection);
 
     void setSummary(String summary);
 
-    void setSupplements1Collection(Collection<SupplementsImpl> supplements1Collection);
+    void setSupplementsCollection(Collection<Supplements> supplementsCollection);
 
     void setTimeBuild(Integer timeBuild);
 
@@ -163,5 +153,5 @@ public interface Packages extends Serializable {
     void setUrl(String url);
 
     void setVersion(String version);
-    
+
 }

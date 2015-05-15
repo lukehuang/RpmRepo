@@ -12,14 +12,16 @@ import java.io.Serializable;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-public class Changelog implements Serializable {
+public class ChangelogImpl implements Changelog {
     private static final long serialVersionUID = 1L;
     private long id;
     
+    @Override
     public long getId() {
         return id;
     }
 
+    @Override
     public void setId(long id) {
         this.id = id;
     }
@@ -27,38 +29,44 @@ public class Changelog implements Serializable {
     private String changelog;
     private Packages pkgKey;
 
-    public Changelog() {
+    public ChangelogImpl() {
         this.changelogPK = new ChangelogPK();
     }
 
-    public Changelog(ChangelogPK changelogPK) {
+    public ChangelogImpl(ChangelogPK changelogPK) {
         this.changelogPK = changelogPK;
     }
 
-    public Changelog(String author, Integer date) {
+    public ChangelogImpl(String author, Integer date) {
         this.changelogPK = new ChangelogPK(author, date);
     }
 
+    @Override
     public ChangelogPK getChangelogPK() {
         return changelogPK;
     }
 
+    @Override
     public void setChangelogPK(ChangelogPK changelogPK) {
         this.changelogPK = changelogPK;
     }
 
+    @Override
     public String getChangelog() {
         return changelog;
     }
 
+    @Override
     public void setChangelog(String changelog) {
         this.changelog = changelog;
     }
 
+    @Override
     public Packages getPkgKey() {
         return pkgKey;
     }
 
+    @Override
     public void setPkgKey(Packages pkgKey) {
         this.pkgKey = pkgKey;
     }
@@ -73,10 +81,10 @@ public class Changelog implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Changelog)) {
+        if (!(object instanceof ChangelogImpl)) {
             return false;
         }
-        Changelog other = (Changelog) object;
+        ChangelogImpl other = (ChangelogImpl) object;
         if ((this.changelogPK == null && other.changelogPK != null) || (this.changelogPK != null && !this.changelogPK.equals(other.changelogPK))) {
             return false;
         }

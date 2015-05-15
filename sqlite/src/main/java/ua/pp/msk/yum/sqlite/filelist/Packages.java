@@ -20,7 +20,7 @@ public class Packages implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer pkgKey;
    
-    private Collection<Filelist> filelistCollection;
+    private Collection<FilelistImpl> filelistCollection;
 
     public Packages() {
     }
@@ -35,11 +35,11 @@ public class Packages implements Serializable {
 
  
 
-    public Collection<Filelist> getFilelistCollection() {
+    public Collection<FilelistImpl> getFilelistCollection() {
         return filelistCollection;
     }
 
-    public void setFilelistCollection(Collection<Filelist> filelist1Collection) {
+    public void setFilelistCollection(Collection<FilelistImpl> filelist1Collection) {
         this.filelistCollection = filelist1Collection;
     }
 

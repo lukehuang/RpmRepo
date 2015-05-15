@@ -9,20 +9,16 @@ import java.io.Serializable;
 
 /**
  *
- * @author edem
+ * @author Maksym Shkolnyi aka maskimko
  */
-public interface Files extends Serializable {
+public interface Changelog extends Serializable {
 
-    String getName();
+    String getChangelog();
 
     int getPkgKey();
 
-    String getType();
-
-    void setName(String name);
+    void setChangelog(String changelog);
 
     void setPkgKey(int pkgKey);
-
-    void setType(String type);
 
 }

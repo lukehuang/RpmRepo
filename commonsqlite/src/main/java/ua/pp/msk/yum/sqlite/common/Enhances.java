@@ -9,40 +9,10 @@ package ua.pp.msk.yum.sqlite.common;
  *
  * @author edem
  */
-public interface Enhances  {
-
-    boolean equals(Object obj);
-
-    String getEpoch();
-
-    String getFlags();
-
-    long getId();
-
-    String getName();
+public interface Enhances extends Entry {
 
     int getPkgKey();
 
-    String getRelease();
-
-    String getVersion();
-
-    int hashCode();
-
-    void setEpoch(String epoch);
-
-    void setFlags(String flags);
-
-    void setId(long id);
-
-    void setName(String name);
-
     void setPkgKey(int pkgKey);
 
-    void setRelease(String release);
-
-    void setVersion(String version);
-
-    String toString();
-    
 }

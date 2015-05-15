@@ -9,18 +9,24 @@ import java.io.Serializable;
 
 /**
  *
- * @author edem
+ * @author Maksym Shkolnyi aka maskimko
  */
-public interface Recommends extends Entry {
+public interface Filelist extends Serializable {
 
-  
+    String getDirname();
+
+    String getFilenames();
+
+    String getFiletypes();
 
     int getPkgKey();
 
-   
+    void setDirname(String dirname);
+
+    void setFilenames(String filenames);
+
+    void setFiletypes(String filetypes);
 
     void setPkgKey(int pkgKey);
 
-   
-    
 }

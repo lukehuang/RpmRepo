@@ -13,8 +13,8 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.sqlite.RpmPackage;
-
-
+import ua.pp.msk.yum.sqlite.common.Conflicts;
+import ua.pp.msk.yum.sqlite.common.Files;
 
 
 

@@ -14,7 +14,7 @@ import java.util.Collection;
  */
 public class Packages implements Serializable {
 
-    private Collection<Changelog> changelogCollection;
+    private Collection<ChangelogImpl> changelogCollection;
 
     private static final long serialVersionUID = 1L;
     private Integer pkgKey;
@@ -39,11 +39,11 @@ public class Packages implements Serializable {
         this.pkgId = pkgId;
     }
 
-    public Collection<Changelog> getChangelog1Collection() {
+    public Collection<ChangelogImpl> getChangelog1Collection() {
         return changelogCollection;
     }
 
-    public void setChangelog1Collection(Collection<Changelog> changelog1Collection) {
+    public void setChangelog1Collection(Collection<ChangelogImpl> changelog1Collection) {
         this.changelogCollection = changelog1Collection;
     }
 

@@ -8,8 +8,8 @@ package ua.pp.msk.yum.sqlite;
 import ua.pp.msk.yum.sqlite.common.RPM;
 import java.io.Serializable;
 import java.util.Collection;
-import ua.pp.msk.yum.sqlite.filelist.Filelist;
-import ua.pp.msk.yum.sqlite.other.Changelog;
+import ua.pp.msk.yum.sqlite.filelist.FilelistImpl;
+import ua.pp.msk.yum.sqlite.other.ChangelogImpl;
 import ua.pp.msk.yum.sqlite.primary.ConflictsImpl;
 import ua.pp.msk.yum.sqlite.primary.EnhancesImpl;
 import ua.pp.msk.yum.sqlite.primary.FilesImpl;
@@ -27,7 +27,7 @@ import ua.pp.msk.yum.sqlite.primary.SupplementsImpl;
 
 public class RpmPackage implements RPM {
 
-    private Collection<Changelog> changelogCollection;
+    private Collection<ChangelogImpl> changelogCollection;
     private String name;
     private String arch;
     private String version;
@@ -64,7 +64,7 @@ public class RpmPackage implements RPM {
     private static final long serialVersionUID = 1L;
     private Integer pkgKey;
     private String pkgId;
-    private Collection<Filelist> filelistCollection;
+    private Collection<FilelistImpl> filelistCollection;
 
     public RpmPackage() {
     }
@@ -94,12 +94,12 @@ public class RpmPackage implements RPM {
     }
 
     @Override
-    public Collection<Filelist> getFilelistCollection() {
+    public Collection<FilelistImpl> getFilelistCollection() {
         return filelistCollection;
     }
 
     @Override
-    public void setFilelistCollection(Collection<Filelist> filelistCollection) {
+    public void setFilelistCollection(Collection<FilelistImpl> filelistCollection) {
         this.filelistCollection = filelistCollection;
     }
 
@@ -434,12 +434,12 @@ public class RpmPackage implements RPM {
     }
 
     @Override
-    public Collection<Changelog> getChangelogCollection() {
+    public Collection<ChangelogImpl> getChangelogCollection() {
         return changelogCollection;
     }
 
     @Override
-    public void setChangelogCollection(Collection<Changelog> changelogCollection) {
+    public void setChangelogCollection(Collection<ChangelogImpl> changelogCollection) {
         this.changelogCollection = changelogCollection;
     }
 
