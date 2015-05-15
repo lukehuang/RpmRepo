@@ -6,6 +6,7 @@
 
 package ua.pp.msk.yum.sqlite.primary;
 
+import ua.pp.msk.yum.sqlite.common.Conflicts;
 import java.io.Serializable;
 import java.util.Objects;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
@@ -15,14 +16,16 @@ import ua.pp.msk.yum.sqlite.common.Entry;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-public class Conflicts extends AbstractEntry implements Serializable{
+public class ConflictsImpl extends AbstractEntry implements Conflicts{
     private static final long serialVersionUID = 1L;
     private long id;
     
+    @Override
     public long getId() {
         return id;
     }
 
+    @Override
     public void setId(long id) {
         this.id = id;
     }
@@ -34,28 +37,31 @@ public class Conflicts extends AbstractEntry implements Serializable{
    
     private Packages pkgKey;
 
-    public Conflicts() {
+    public ConflictsImpl() {
         conflictsPK = new EntryPK();
     }
 
-    public Conflicts(EntryPK pk) {
+    public ConflictsImpl(EntryPK pk) {
         this.conflictsPK = pk;
     }
     
-    public Conflicts(Entry entry){
+    public ConflictsImpl(Entry entry){
        this(new EntryPK(entry));
     }
 
     
     
+    @Override
     public String getName() {
         return conflictsPK.getName();
     }
 
+    @Override
     public void setName(String name) {
          conflictsPK.setName(name);
     }
 
+    @Override
     public String getFlags() {
         return flags;
     }
@@ -95,10 +101,12 @@ public class Conflicts extends AbstractEntry implements Serializable{
         this.conflictsPK.setRelease(release);
     }
 
+    @Override
     public Packages getPkgKey() {
         return pkgKey;
     }
 
+    @Override
     public void setPkgKey(Packages pkgKey) {
         this.pkgKey = pkgKey;
     }
@@ -119,7 +127,7 @@ public class Conflicts extends AbstractEntry implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Conflicts other = (Conflicts) obj;
+        final ConflictsImpl other = (ConflictsImpl) obj;
         if (!Objects.equals(this.conflictsPK, other.conflictsPK)) {
             return false;
         }

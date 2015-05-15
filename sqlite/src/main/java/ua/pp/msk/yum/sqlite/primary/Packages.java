@@ -45,12 +45,12 @@ public class Packages implements Serializable {
     private String locationHref;
     private String locationBase;
     private String checksumType;
-    private Collection<Conflicts> conflictsCollection;
-    private Collection<Obsoletes> obsoletesCollection;
-    private Collection<Files> filesCollection;
+    private Collection<ConflictsImpl> conflictsCollection;
+    private Collection<ObsoletesImpl> obsoletesCollection;
+    private Collection<FilesImpl> filesCollection;
     private Collection<Provides> providesCollection;
     private Collection<Suggests> suggestsCollection;
-    private Collection<Enhances> enhancesCollection;
+    private Collection<EnhancesImpl> enhancesCollection;
     private Collection<Requires> requiresCollection;
     private Collection<Supplements> supplementsCollection;
     private Collection<Recommends> recommendsCollection;
@@ -272,29 +272,29 @@ public class Packages implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Conflicts> getConflicts1Collection() {
+    public Collection<ConflictsImpl> getConflicts1Collection() {
         return conflictsCollection;
     }
 
-    public void setConflicts1Collection(Collection<Conflicts> conflicts1Collection) {
+    public void setConflicts1Collection(Collection<ConflictsImpl> conflicts1Collection) {
         this.conflictsCollection = conflicts1Collection;
     }
 
     @XmlTransient
-    public Collection<Obsoletes> getObsoletes1Collection() {
+    public Collection<ObsoletesImpl> getObsoletes1Collection() {
         return obsoletesCollection;
     }
 
-    public void setObsoletes1Collection(Collection<Obsoletes> obsoletes1Collection) {
+    public void setObsoletes1Collection(Collection<ObsoletesImpl> obsoletes1Collection) {
         this.obsoletesCollection = obsoletes1Collection;
     }
 
     @XmlTransient
-    public Collection<Files> getFiles1Collection() {
+    public Collection<FilesImpl> getFiles1Collection() {
         return filesCollection;
     }
 
-    public void setFiles1Collection(Collection<Files> files1Collection) {
+    public void setFiles1Collection(Collection<FilesImpl> files1Collection) {
         this.filesCollection = files1Collection;
     }
 
@@ -317,11 +317,11 @@ public class Packages implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Enhances> getEnhances1Collection() {
+    public Collection<EnhancesImpl> getEnhances1Collection() {
         return enhancesCollection;
     }
 
-    public void setEnhances1Collection(Collection<Enhances> enhances1Collection) {
+    public void setEnhances1Collection(Collection<EnhancesImpl> enhances1Collection) {
         this.enhancesCollection = enhances1Collection;
     }
 

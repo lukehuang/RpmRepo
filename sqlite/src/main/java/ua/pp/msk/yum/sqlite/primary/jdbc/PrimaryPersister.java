@@ -105,7 +105,7 @@ public class PrimaryPersister implements Persister, AutoCloseable {
         packagesStmt.executeUpdate();
         
         while (filesIterator.hasNext()){
-                Files nextFile = filesIterator.next();
+                FilesImpl nextFile = filesIterator.next();
             filesStmt.setString(1, nextFile.getName());
             filesStmt.setString(2, nextFile.getType());
             filesStmt.setInt(3, lk);

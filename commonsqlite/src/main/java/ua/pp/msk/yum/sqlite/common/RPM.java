@@ -7,17 +7,7 @@ package ua.pp.msk.yum.sqlite.common;
 
 import java.io.Serializable;
 import java.util.Collection;
-import ua.pp.msk.yum.sqlite.filelist.Filelist;
-import ua.pp.msk.yum.sqlite.other.Changelog;
-import ua.pp.msk.yum.sqlite.primary.Conflicts;
-import ua.pp.msk.yum.sqlite.primary.Enhances;
-import ua.pp.msk.yum.sqlite.primary.Files;
-import ua.pp.msk.yum.sqlite.primary.Obsoletes;
-import ua.pp.msk.yum.sqlite.primary.Provides;
-import ua.pp.msk.yum.sqlite.primary.Recommends;
-import ua.pp.msk.yum.sqlite.primary.Requires;
-import ua.pp.msk.yum.sqlite.primary.Suggests;
-import ua.pp.msk.yum.sqlite.primary.Supplements;
+
 
 /**
  *
