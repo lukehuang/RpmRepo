@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
@@ -16,35 +15,38 @@ import ua.pp.msk.yum.sqlite.common.Entry;
  * @author Maksym Shkolnyi aka maskimko
  */
 @XmlRootElement
-    
-public class Suggests extends AbstractEntry implements Serializable {
+public class RecommendsImpl extends AbstractEntry implements Recommends {
+
     private static final long serialVersionUID = 1L;
     private long id;
     
+    @Override
     public long getId() {
         return id;
     }
 
+    @Override
     public void setId(long id) {
         this.id = id;
     }
-    protected EntryPK suggestsPK;
+    protected EntryPK recommendsPK;
     private String flags;
-    private Packages pkgKey;
+    private PackagesImpl pkgKey;
 
-    public Suggests() {
-        suggestsPK = new EntryPK();
+    public RecommendsImpl() {
+        recommendsPK = new EntryPK();
     }
-    public Suggests(String name, String epoch, String version, String release) {
-        this.suggestsPK = new EntryPK(name, epoch, version, release);
+
+    public RecommendsImpl(String name, String epoch, String version, String release) {
+        this.recommendsPK = new EntryPK(name, epoch, version, release);
     }
-    public Suggests(EntryPK name) {
-        this.suggestsPK = name;
+
+    public RecommendsImpl(EntryPK epk) {
+        this.recommendsPK = epk;
     }
-    public Suggests(Entry entry){
+    public RecommendsImpl(Entry entry){
        this(new EntryPK(entry));
     }
-   
     @Override
     public String getFlags() {
         return flags;
@@ -55,83 +57,79 @@ public class Suggests extends AbstractEntry implements Serializable {
         this.flags = flags;
     }
 
-   
-
-    public Packages getPkgKey() {
+    @Override
+    public PackagesImpl getPkgKey() {
         return pkgKey;
     }
 
-    public void setPkgKey(Packages pkgKey) {
+    @Override
+    public void setPkgKey(PackagesImpl pkgKey) {
         this.pkgKey = pkgKey;
     }
 
-  
-
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Suggests[ name=" + suggestsPK + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Recommends[ name=" + recommendsPK + " ]";
     }
 
-       @Override
+    @Override
     public int hashCode() {
         int hash = 0;
-        hash += (suggestsPK != null ? suggestsPK.hashCode() : 0);
+        hash += (recommendsPK != null ? recommendsPK.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Requires)) {
+        if (!(object instanceof RequiresImpl)) {
             return false;
         }
-        Requires other = (Requires) object;
-        if ((this.suggestsPK == null && other.requiresPK != null) || (this.suggestsPK != null && !this.suggestsPK.equals(other.requiresPK))) {
+        RequiresImpl other = (RequiresImpl) object;
+        if ((this.recommendsPK == null && other.requiresPK != null) || (this.recommendsPK != null && !this.recommendsPK.equals(other.requiresPK))) {
             return false;
         }
         return true;
     }
 
-   
-
     @Override
     public String getName() {
-        return suggestsPK.getName();
+        return recommendsPK.getName();
     }
 
     @Override
     public void setName(String name) {
-        suggestsPK.setName(name);
+        recommendsPK.setName(name);
     }
 
     @Override
     public String getEpoch() {
-        return suggestsPK.getEpoch();
+        return recommendsPK.getEpoch();
     }
 
     @Override
     public void setEpoch(String epoch) {
-        suggestsPK.setEpoch(epoch);
-        }
+        recommendsPK.setEpoch(epoch);
+    }
 
     @Override
     public String getVersion() {
-        return suggestsPK.getVersion();
+        return recommendsPK.getVersion();
     }
 
     @Override
     public void setVersion(String version) {
-        suggestsPK.setVersion(version);
+        recommendsPK.setVersion(version);
     }
 
     @Override
     public String getRelease() {
-        return suggestsPK.getRelease();
+        return recommendsPK.getRelease();
     }
 
     @Override
     public void setRelease(String release) {
-        suggestsPK.setRelease(release);
+        recommendsPK.setRelease(release);
     }
 
 }

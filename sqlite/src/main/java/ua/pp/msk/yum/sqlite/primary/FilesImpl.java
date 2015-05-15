@@ -18,7 +18,7 @@ public class FilesImpl implements Files {
     private static final long serialVersionUID = 1L;
     private String name;
     private String type;
-    private Packages pkgKey;
+    private PackagesImpl pkgKey;
 
     public FilesImpl() {
     }
@@ -48,12 +48,12 @@ public class FilesImpl implements Files {
     }
 
     @Override
-    public Packages getPkgKey() {
+    public PackagesImpl getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(Packages pkgKey) {
+    public void setPkgKey(PackagesImpl pkgKey) {
         this.pkgKey = pkgKey;
     }
 

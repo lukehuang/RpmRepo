@@ -23,7 +23,7 @@ public class EnhancesImpl extends AbstractEntry implements Enhances {
     private static final long serialVersionUID = 1L;
     protected EntryPK enhancesPK;
     private String flags;
-    private Packages pkgKey;
+    private PackagesImpl pkgKey;
     private long id;
     
     @Override
@@ -58,12 +58,12 @@ public class EnhancesImpl extends AbstractEntry implements Enhances {
     }
 
     @Override
-    public Packages getPkgKey() {
+    public PackagesImpl getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(Packages pkgKey) {
+    public void setPkgKey(PackagesImpl pkgKey) {
         this.pkgKey = pkgKey;
     }
 
@@ -128,7 +128,7 @@ public class EnhancesImpl extends AbstractEntry implements Enhances {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Provides other = (Provides) obj;
+        final ProvidesImpl other = (ProvidesImpl) obj;
         if (!Objects.equals(this.enhancesPK, other.providesPK)) {
             return false;
         }
