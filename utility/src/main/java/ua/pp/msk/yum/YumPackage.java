@@ -5,6 +5,7 @@
  */
 package ua.pp.msk.yum;
 
+import ua.pp.msk.yum.sqlite.common.RpmPackage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;

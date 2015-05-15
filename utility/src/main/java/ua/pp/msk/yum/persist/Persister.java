@@ -5,7 +5,7 @@
  */
 package ua.pp.msk.yum.persist;
 
-import ua.pp.msk.yum.RpmPackage;
+import ua.pp.msk.yum.sqlite.common.RpmPackage;
 
 /**
  *

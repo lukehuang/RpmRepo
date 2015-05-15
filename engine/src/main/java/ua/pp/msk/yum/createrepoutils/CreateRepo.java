@@ -15,7 +15,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.DirectoryScanner;
-import ua.pp.msk.yum.RpmPackage;
+import ua.pp.msk.yum.sqlite.common.RpmPackage;
 import ua.pp.msk.yum.YumPackage;
 import ua.pp.msk.yum.internal.createrepo.YumStore;
 import ua.pp.msk.yum.internal.RpmScanner;

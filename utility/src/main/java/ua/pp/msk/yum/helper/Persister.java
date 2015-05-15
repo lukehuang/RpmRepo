@@ -8,7 +8,7 @@ package ua.pp.msk.yum.helper;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import org.slf4j.LoggerFactory;
-import ua.pp.msk.yum.RpmPackage;
+import ua.pp.msk.yum.sqlite.common.RpmPackage;
 import ua.pp.msk.yum.sqlite.primary.PrimarySqlite;
 
 /**

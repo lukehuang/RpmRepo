@@ -15,11 +15,9 @@
         <module>createrepo</module>
         <module>web</module>
         <module>server</module>
-        <module>primarysqlite</module>
-        <module>othersqlite</module>
-        <module>filelistsqlite</module>
         <module>commonsqlite</module>
         <module>engine</module>
+        <module>sqlite</module>
     </modules>
     <scm>
         <connection>scm:git:http://maskimko@ci-dev-veneno.ea.intropro.com:8080/gitblit/r/RpmRepo.git</connection>
