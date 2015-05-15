@@ -8,20 +8,6 @@ package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ConstraintMode;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
 import ua.pp.msk.yum.sqlite.common.Entry;
@@ -30,20 +16,10 @@ import ua.pp.msk.yum.sqlite.common.Entry;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-@Entity
-@Table(name = "obsoletes")
+
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Obsoletes.findAll", query = "SELECT o FROM Obsoletes o"),
-    @NamedQuery(name = "Obsoletes.findByName", query = "SELECT o FROM Obsoletes o WHERE o.obsoletesPK.name = :name"),
-    @NamedQuery(name = "Obsoletes.findByFlags", query = "SELECT o FROM Obsoletes o WHERE o.flags = :flags"),
-    @NamedQuery(name = "Obsoletes.findByEpoch", query = "SELECT o FROM Obsoletes o WHERE o.obsoletesPK.epoch = :epoch"),
-    @NamedQuery(name = "Obsoletes.findByVersion", query = "SELECT o FROM Obsoletes o WHERE o.obsoletesPK.version = :version"),
-    @NamedQuery(name = "Obsoletes.findByRelease", query = "SELECT o FROM Obsoletes o WHERE o.obsoletesPK.release = :release")})
 public class Obsoletes extends AbstractEntry implements Serializable {
     private static final long serialVersionUID = 1L;
-        @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE)
     private long id;
     
     public long getId() {
@@ -53,12 +29,8 @@ public class Obsoletes extends AbstractEntry implements Serializable {
     public void setId(long id) {
         this.id = id;
     } 
-    @Embedded
     protected EntryPK obsoletesPK;
-    @Column(name = "flags")
     private String flags;
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    @ManyToOne
     private Packages pkgKey;
 
     public Obsoletes() {

@@ -7,20 +7,7 @@
 package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ConstraintMode;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
 import ua.pp.msk.yum.sqlite.common.Entry;
@@ -29,20 +16,11 @@ import ua.pp.msk.yum.sqlite.common.Entry;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-@Entity
-@Table(name = "supplements")
+
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Supplements.findAll", query = "SELECT s FROM Supplements s"),
-    @NamedQuery(name = "Supplements.findByName", query = "SELECT s FROM Supplements s WHERE s.supplementsPK.name = :name"),
-    @NamedQuery(name = "Supplements.findByFlags", query = "SELECT s FROM Supplements s WHERE s.flags = :flags"),
-    @NamedQuery(name = "Supplements.findByEpoch", query = "SELECT s FROM Supplements s WHERE s.supplementsPK.epoch = :epoch"),
-    @NamedQuery(name = "Supplements.findByVersion", query = "SELECT s FROM Supplements s WHERE s.supplementsPK.version = :version"),
-    @NamedQuery(name = "Supplements.findByRelease", query = "SELECT s FROM Supplements s WHERE s.supplementsPK.release = :release")})
+
 public class Supplements extends AbstractEntry implements Serializable {
     private static final long serialVersionUID = 1L;
-        @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE)
     private long id;
     
     public long getId() {
@@ -52,12 +30,8 @@ public class Supplements extends AbstractEntry implements Serializable {
     public void setId(long id) {
         this.id = id;
     }
-    @Embedded
     protected EntryPK supplementsPK;
-    @Column(name = "flags")
     private String flags;
-    @JoinColumn(name = "pkgKey", referencedColumnName = "pkgKey", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    @ManyToOne
     private Packages pkgKey;
 
     public Supplements() {
