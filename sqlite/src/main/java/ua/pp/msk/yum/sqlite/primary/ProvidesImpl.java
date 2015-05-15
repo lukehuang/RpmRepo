@@ -18,28 +18,30 @@ import ua.pp.msk.yum.sqlite.common.Entry;
  */
 @XmlRootElement
 
-public class Provides extends AbstractEntry implements Serializable {
+public class ProvidesImpl extends AbstractEntry implements Provides {
     private static final long serialVersionUID = 1L;
     private long id;
     
+    @Override
     public long getId() {
         return id;
     }
 
+    @Override
     public void setId(long id) {
         this.id = id;
     }
     protected EntryPK providesPK;
     private String flags;
-    private Packages pkgKey;
+    private PackagesImpl pkgKey;
 
-    public Provides() {
+    public ProvidesImpl() {
         providesPK = new EntryPK();
     }
-    public Provides(Entry entry){
+    public ProvidesImpl(Entry entry){
        this(new EntryPK(entry));
     }
-    public Provides(EntryPK epk) {
+    public ProvidesImpl(EntryPK epk) {
         this.providesPK = epk;
     }
 
@@ -95,11 +97,13 @@ public class Provides extends AbstractEntry implements Serializable {
         providesPK.setRelease(release);
     }
 
-    public Packages getPkgKey() {
+    @Override
+    public PackagesImpl getPkgKey() {
         return pkgKey;
     }
 
-    public void setPkgKey(Packages pkgKey) {
+    @Override
+    public void setPkgKey(PackagesImpl pkgKey) {
         this.pkgKey = pkgKey;
     }
 
@@ -119,7 +123,7 @@ public class Provides extends AbstractEntry implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Provides other = (Provides) obj;
+        final ProvidesImpl other = (ProvidesImpl) obj;
         if (!Objects.equals(this.providesPK, other.providesPK)) {
             return false;
         }

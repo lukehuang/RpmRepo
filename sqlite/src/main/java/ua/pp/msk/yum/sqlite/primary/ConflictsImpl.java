@@ -35,7 +35,7 @@ public class ConflictsImpl extends AbstractEntry implements Conflicts{
     private String flags;
    
    
-    private Packages pkgKey;
+    private PackagesImpl pkgKey;
 
     public ConflictsImpl() {
         conflictsPK = new EntryPK();
@@ -102,12 +102,12 @@ public class ConflictsImpl extends AbstractEntry implements Conflicts{
     }
 
     @Override
-    public Packages getPkgKey() {
+    public PackagesImpl getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(Packages pkgKey) {
+    public void setPkgKey(PackagesImpl pkgKey) {
         this.pkgKey = pkgKey;
     }
 

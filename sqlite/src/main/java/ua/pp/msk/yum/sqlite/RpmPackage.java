@@ -14,12 +14,13 @@ import ua.pp.msk.yum.sqlite.primary.ConflictsImpl;
 import ua.pp.msk.yum.sqlite.primary.EnhancesImpl;
 import ua.pp.msk.yum.sqlite.primary.FilesImpl;
 import ua.pp.msk.yum.sqlite.primary.ObsoletesImpl;
-import ua.pp.msk.yum.sqlite.primary.Provides;
-import ua.pp.msk.yum.sqlite.primary.Recommends;
-import ua.pp.msk.yum.sqlite.primary.Requires;
-import ua.pp.msk.yum.sqlite.primary.Suggests;
-import ua.pp.msk.yum.sqlite.primary.Supplements;
+import ua.pp.msk.yum.sqlite.primary.ProvidesImpl;
+import ua.pp.msk.yum.sqlite.primary.RecommendsImpl;
+import ua.pp.msk.yum.sqlite.primary.RequiresImpl;
+import ua.pp.msk.yum.sqlite.primary.SuggestsImpl;
+import ua.pp.msk.yum.sqlite.primary.SupplementsImpl;
 /**
+ */**
  *
  * @author Maksym Shkolnyi aka maskimko
  */
@@ -54,12 +55,12 @@ public class RpmPackage implements RPM {
     private Collection<ConflictsImpl> conflictsCollection;
     private Collection<ObsoletesImpl> obsoletesCollection;
     private Collection<FilesImpl> filesCollection;
-    private Collection<Provides> providesCollection;
-    private Collection<Suggests> suggestsCollection;
+    private Collection<ProvidesImpl> providesCollection;
+    private Collection<SuggestsImpl> suggestsCollection;
     private Collection<EnhancesImpl> enhancesCollection;
-    private Collection<Requires> requiresCollection;
-    private Collection<Supplements> supplementsCollection;
-    private Collection<Recommends> recommendsCollection;
+    private Collection<RequiresImpl> requiresCollection;
+    private Collection<SupplementsImpl> supplementsCollection;
+    private Collection<RecommendsImpl> recommendsCollection;
     private static final long serialVersionUID = 1L;
     private Integer pkgKey;
     private String pkgId;
@@ -373,22 +374,22 @@ public class RpmPackage implements RPM {
     }
 
     @Override
-    public Collection<Provides> getProvidesCollection() {
+    public Collection<ProvidesImpl> getProvidesCollection() {
         return providesCollection;
     }
 
     @Override
-    public void setProvidesCollection(Collection<Provides> providesCollection) {
+    public void setProvidesCollection(Collection<ProvidesImpl> providesCollection) {
         this.providesCollection = providesCollection;
     }
 
     @Override
-    public Collection<Suggests> getSuggestsCollection() {
+    public Collection<SuggestsImpl> getSuggestsCollection() {
         return suggestsCollection;
     }
 
     @Override
-    public void setSuggestsCollection(Collection<Suggests> suggestsCollection) {
+    public void setSuggestsCollection(Collection<SuggestsImpl> suggestsCollection) {
         this.suggestsCollection = suggestsCollection;
     }
 
@@ -403,32 +404,32 @@ public class RpmPackage implements RPM {
     }
 
     @Override
-    public Collection<Requires> getRequiresCollection() {
+    public Collection<RequiresImpl> getRequiresCollection() {
         return requiresCollection;
     }
 
     @Override
-    public void setRequiresCollection(Collection<Requires> requiresCollection) {
+    public void setRequiresCollection(Collection<RequiresImpl> requiresCollection) {
         this.requiresCollection = requiresCollection;
     }
 
     @Override
-    public Collection<Supplements> getSupplementsCollection() {
+    public Collection<SupplementsImpl> getSupplementsCollection() {
         return supplementsCollection;
     }
 
     @Override
-    public void setSupplementsCollection(Collection<Supplements> supplementsCollection) {
+    public void setSupplementsCollection(Collection<SupplementsImpl> supplementsCollection) {
         this.supplementsCollection = supplementsCollection;
     }
 
     @Override
-    public Collection<Recommends> getRecommendsCollection() {
+    public Collection<RecommendsImpl> getRecommendsCollection() {
         return recommendsCollection;
     }
 
     @Override
-    public void setRecommendsCollection(Collection<Recommends> recommendsCollection) {
+    public void setRecommendsCollection(Collection<RecommendsImpl> recommendsCollection) {
         this.recommendsCollection = recommendsCollection;
     }
 

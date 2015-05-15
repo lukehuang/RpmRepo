@@ -33,7 +33,7 @@ public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
     } 
     protected EntryPK obsoletesPK;
     private String flags;
-    private Packages pkgKey;
+    private PackagesImpl pkgKey;
 
     public ObsoletesImpl() {
         obsoletesPK = new EntryPK();
@@ -60,12 +60,12 @@ public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
    
 
     @Override
-    public Packages getPkgKey() {
+    public PackagesImpl getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(Packages pkgKey) {
+    public void setPkgKey(PackagesImpl pkgKey) {
         this.pkgKey = pkgKey;
     }
 

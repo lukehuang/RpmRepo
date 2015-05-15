@@ -7,6 +7,7 @@
 package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
 import ua.pp.msk.yum.sqlite.common.Entry;
@@ -15,44 +16,48 @@ import ua.pp.msk.yum.sqlite.common.Entry;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
+
 @XmlRootElement
 
-public class Requires extends AbstractEntry implements Serializable {
+public class SupplementsImpl extends AbstractEntry implements Supplements {
     private static final long serialVersionUID = 1L;
     private long id;
     
+    @Override
     public long getId() {
         return id;
     }
 
+    @Override
     public void setId(long id) {
         this.id = id;
     }
-    protected EntryPK requiresPK;
+    protected EntryPK supplementsPK;
     private String flags;
-    private boolean pre;
-    private Packages pkgKey;
+    private PackagesImpl pkgKey;
 
-    public Requires() {
-        requiresPK = new EntryPK();
+    public SupplementsImpl() {
+        supplementsPK = new EntryPK();
     }
-    public Requires(Entry entry){
+
+    public SupplementsImpl(EntryPK supplements1PK) {
+        this.supplementsPK = supplements1PK;
+    }
+
+    public SupplementsImpl(String name, String epoch, String version, String release) {
+        this.supplementsPK = new EntryPK(name, epoch, version, release);
+    }
+    public SupplementsImpl(Entry entry){
        this(new EntryPK(entry));
     }
-    public Requires(EntryPK requiresPK) {
-        this.requiresPK = requiresPK;
+    @Override
+    public EntryPK getSupplementsPK() {
+        return supplementsPK;
     }
 
-    public Requires(String name, String epoch, String version, String release) {
-        this.requiresPK = new EntryPK(name, epoch, version, release);
-    }
-
-    public EntryPK getRequiresPK() {
-        return requiresPK;
-    }
-
-    public void setRequiresPK(EntryPK requires1PK) {
-        this.requiresPK = requires1PK;
+    @Override
+    public void setSupplementsPK(EntryPK supplementsPK) {
+        this.supplementsPK = supplementsPK;
     }
 
     @Override
@@ -65,37 +70,31 @@ public class Requires extends AbstractEntry implements Serializable {
         this.flags = flags;
     }
 
-    public boolean getPre() {
-        return pre;
-    }
-
-    public void setPre(boolean pre) {
-        this.pre = pre;
-    }
-
-    public Packages getPkgKey() {
+    @Override
+    public PackagesImpl getPkgKey() {
         return pkgKey;
     }
 
-    public void setPkgKey(Packages pkgKey) {
+    @Override
+    public void setPkgKey(PackagesImpl pkgKey) {
         this.pkgKey = pkgKey;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (requiresPK != null ? requiresPK.hashCode() : 0);
+        hash += (supplementsPK != null ? supplementsPK.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Requires)) {
+        if (!(object instanceof SupplementsImpl)) {
             return false;
         }
-        Requires other = (Requires) object;
-        if ((this.requiresPK == null && other.requiresPK != null) || (this.requiresPK != null && !this.requiresPK.equals(other.requiresPK))) {
+        SupplementsImpl other = (SupplementsImpl) object;
+        if ((this.supplementsPK == null && other.supplementsPK != null) || (this.supplementsPK != null && !this.supplementsPK.equals(other.supplementsPK))) {
             return false;
         }
         return true;
@@ -103,47 +102,47 @@ public class Requires extends AbstractEntry implements Serializable {
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Requires[ requires1PK=" + requiresPK + " ]";
+        return "ua.pp.msk.yum.sqlite.primary.Supplements[ supplements1PK=" + supplementsPK + " ]";
     }
 
     @Override
     public String getName() {
-        return requiresPK.getName();
+        return supplementsPK.getName();
     }
 
     @Override
     public void setName(String name) {
-        requiresPK.setName(name);
+        supplementsPK.setName(name);
     }
 
     @Override
     public String getEpoch() {
-        return requiresPK.getEpoch();
+        return supplementsPK.getEpoch();
     }
 
     @Override
     public void setEpoch(String epoch) {
-        requiresPK.setEpoch(epoch);
-        }
+        supplementsPK.setEpoch(epoch);
+    }
 
     @Override
     public String getVersion() {
-        return requiresPK.getVersion();
+        return supplementsPK.getVersion();
     }
 
     @Override
     public void setVersion(String version) {
-        requiresPK.setVersion(version);
+        supplementsPK.setVersion(version);
     }
 
     @Override
     public String getRelease() {
-        return requiresPK.getRelease();
+        return supplementsPK.getRelease();
     }
 
     @Override
     public void setRelease(String release) {
-        requiresPK.setRelease(release);
+        supplementsPK.setRelease(release);
     }
 
 }
