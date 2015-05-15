@@ -5,13 +5,8 @@
  */
 package ua.pp.msk.yum.helper;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.RpmPackage;
 import ua.pp.msk.yum.sqlite.primary.PrimarySqlite;
@@ -114,11 +109,11 @@ public class Persister implements AutoCloseable {
         String[] filelistUrlSplit;
         String[] othersUrlSplit;
 
-        try {
+        //try {
             if (primary != null) {
                 primaryUrlSplit = primary.getProperties().get("javax.persistence.jdbc.url").toString().split(":");
                 LoggerFactory.getLogger(this.getClass()).debug("Primary db path: " + primaryUrlSplit[primaryUrlSplit.length - 1]);
-                PrimarySqlite.ensurePath(primaryUrlSplit[primaryUrlSplit.length - 1]);
+               // PrimarySqlite.ensurePath(primaryUrlSplit[primaryUrlSplit.length - 1]);
 
             }
             //TODO use it later
@@ -133,9 +128,9 @@ public class Persister implements AutoCloseable {
 //                LoggerFactory.getLogger(this.getClass()).debug("Others db path: " + othersUrlSplit[othersUrlSplit.length - 1]);
 //                ensurePath(othersUrlSplit[othersUrlSplit.length - 1]);
 //            }
-        } catch (IOException ex) {
-            LoggerFactory.getLogger(this.getClass()).error("Cannot create db directory", ex);
-        }
+//        } catch (IOException ex) {
+//            LoggerFactory.getLogger(this.getClass()).error("Cannot create db directory", ex);
+//        }
 
 //         Map<String, Object> primaryProperties = primary.getProperties();
 //        for (Map.Entry<String,Object> p: primaryProperties.entrySet()){

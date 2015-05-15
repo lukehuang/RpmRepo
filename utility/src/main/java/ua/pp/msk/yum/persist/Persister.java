@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.pp.msk.yum.sqlite.common;
+package ua.pp.msk.yum.persist;
 
 import ua.pp.msk.yum.RpmPackage;
 

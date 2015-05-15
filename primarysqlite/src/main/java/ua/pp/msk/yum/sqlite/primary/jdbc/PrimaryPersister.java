@@ -8,10 +8,15 @@ package ua.pp.msk.yum.sqlite.primary.jdbc;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Iterator;
 import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.RpmPackage;
-import ua.pp.msk.yum.sqlite.common.Persister;
+import ua.pp.msk.yum.persist.Persister;
+
+
+import ua.pp.msk.yum.sqlite.primary.Files;
 
 /**
  *
@@ -20,22 +25,21 @@ import ua.pp.msk.yum.sqlite.common.Persister;
 public class PrimaryPersister implements Persister, AutoCloseable {
 
     private static final String PACKAGES_TABLE = "packages";
+    private static final String FILES_TABLE = "files";
 
     public final static String persistPakages = "INSERT INTO " + PACKAGES_TABLE
             + "(   pkgId ,  name ,  arch ,  version ,  epoch ,  release ,  summary ,  description ,  url ,  time_file ,  time_build ,  rpm_license ,  rpm_vendor ,  rpm_group ,  rpm_buildhost ,  rpm_sourcerpm ,  rpm_header_start ,  rpm_header_end ,  rpm_packager ,  size_package ,  size_installed ,  size_archive ,  location_href ,  location_base ,  checksum_type ) "
             + "VALUES ( ? ,  ? ,  ? ,  ? , ? ,  ? ,  ? ,  ? ,  ? ,  ? ,  ? ,  ? ,  ? ,  ? , ? ,  ? ,  ? , ? ,  ? ,  ? , ? ,  ? ,  ? ,  ? ,  ?)";
-
+    public final static String persistFiles = "INSERT INTO " + FILES_TABLE+"(name, type, pkgKey) VALUES (? ,?, ?)";
+    public final static String getLastPackageKey = "SELECT pkgKey FROM "+PACKAGES_TABLE+" ORDER BY  pkgKey  DESC  LIMIT 1";
     private PreparedStatement packagesStmt;
+    private PreparedStatement filesStmt;
+    private PreparedStatement lastKey;
 
     private final Connection dbCon;
 
     /*
-     CREATE TABLE packages (  pkgKey INTEGER PRIMARY KEY,  pkgId TEXT,  name TEXT,  arch TEXT,  version TEXT, 
-     epoch TEXT,  release TEXT,  summary TEXT,  description TEXT,  url TEXT,  
-     time_file INTEGER,  time_build INTEGER,  rpm_license TEXT,  rpm_vendor TEXT,  
-     rpm_group TEXT,  rpm_buildhost TEXT,  rpm_sourcerpm TEXT,  rpm_header_start INTEGER,
-     rpm_header_end INTEGER,  rpm_packager TEXT,  size_package INTEGER,  size_installed INTEGER,  
-     size_archive INTEGER,  location_href TEXT,  location_base TEXT,  checksum_type TEXT);
+     
      CREATE TABLE files (  name TEXT,  type TEXT,  pkgKey INTEGER);
      */
     public PrimaryPersister(Path dbpath, String username, String password) {
@@ -45,15 +49,34 @@ public class PrimaryPersister implements Persister, AutoCloseable {
         dbCon = idb.getConnection();
         try {
             packagesStmt = dbCon.prepareStatement(persistPakages);
+            filesStmt = dbCon.prepareStatement(persistFiles);
+            lastKey = dbCon.prepareStatement(getLastPackageKey);
         } catch (SQLException ex){
             LoggerFactory.getLogger(this.getClass()).error("Cannot prepare statement " + ex.getMessage(), ex);
         }
                 
     }
 
+    
+    public int getLastPkgKey(){
+        int qty = 0 ;
+        try {
+            ResultSet lastKeyResultSet = lastKey.executeQuery();
+            qty = lastKeyResultSet.last()?lastKeyResultSet.getInt(1) : 0;
+            
+        
+        } catch (SQLException ex) {
+          LoggerFactory.getLogger(this.getClass()).error("Cannot prepare statement " + ex.getMessage(), ex);
+        }
+       return qty;
+    }
+    
+    
     @Override
     public void persist(RpmPackage rpm) {
+        Iterator<Files> filesIterator = rpm.getFilesCollection().iterator();
         try {    
+            dbCon.setAutoCommit(false);
         packagesStmt.setString(1,rpm.getPkgId());
         packagesStmt.setString(2,rpm.getName());
         packagesStmt.setString(1,rpm.getPkgId());
@@ -66,18 +89,18 @@ public class PrimaryPersister implements Persister, AutoCloseable {
         packagesStmt.setString(1,rpm.getPkgId());
         packagesStmt.setString(1,rpm.getPkgId());
         
-        } catch (SQLException ex ) {
-             LoggerFactory.getLogger(this.getClass()).error("Cannot prepare statement " + ex.getMessage(), ex);
-        }
+      
         
+      
         
-        
-        
-        try {
-        dbCon.setAutoCommit(false);
         packagesStmt.executeUpdate();
         
-        
+        while (filesIterator.hasNext()){
+                Files nextFile = filesIterator.next();
+            filesStmt.setString(1, nextFile.getName());
+            filesStmt.setString(2, nextFile.getType());
+            filesStmt.setInt(3, rpm.getPkgKey());
+        }
         
         
         dbCon.commit();

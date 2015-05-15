@@ -21,6 +21,7 @@ import ua.pp.msk.yum.sqlite.common.ResourceReader;
 public class InitDb implements Runnable, AutoCloseable {
 
     //Database schema initialization query
+    //Todo implement db_info fill up
 /*
     CREATE TABLE db_info (dbversion INTEGER, checksum TEXT);
     CREATE TABLE packages (  pkgKey INTEGER PRIMARY KEY,  pkgId TEXT,  name TEXT,  arch TEXT,  version TEXT,  epoch TEXT,  release TEXT,  summary TEXT,  description TEXT,  url TEXT,  time_file INTEGER,  time_build INTEGER,  rpm_license TEXT,  rpm_vendor TEXT,  rpm_group TEXT,  rpm_buildhost TEXT,  rpm_sourcerpm TEXT,  rpm_header_start INTEGER,  rpm_header_end INTEGER,  rpm_packager TEXT,  size_package INTEGER,  size_installed INTEGER,  size_archive INTEGER,  location_href TEXT,  location_base TEXT,  checksum_type TEXT);
@@ -70,6 +71,7 @@ public class InitDb implements Runnable, AutoCloseable {
    
     private Connection conn = null;
   private  Statement stmt = null;
+  
 
     @Override
     public void run() {
