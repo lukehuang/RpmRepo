@@ -23,12 +23,14 @@ import ua.pp.msk.yum.sqlite.common.Recommends;
 import ua.pp.msk.yum.sqlite.common.Requires;
 import ua.pp.msk.yum.sqlite.common.Suggests;
 import ua.pp.msk.yum.sqlite.common.Supplements;
+import ua.pp.msk.yum.sqlite.common.exceptions.PersistException;
+import ua.pp.msk.yum.sqlite.primary.exceptions.ClosingException;
 
 /**
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-public class PrimaryPersister implements Persister, AutoCloseable {
+public class PrimaryPersister implements Persister {
 
     private static final String PACKAGES_TABLE = "packages";
     private static final String FILES_TABLE = "files";
@@ -67,11 +69,65 @@ public class PrimaryPersister implements Persister, AutoCloseable {
     private PreparedStatement recommendsStmt;
     private PreparedStatement supplementsStmt;
 
-    private final Connection dbCon;
+    private Connection dbCon;
 
-    public PrimaryPersister(Path dbpath, String username, String password) {
+    private String dbUrl;
+    private String username;
+    private String password;
 
-        InitDb idb = new InitDb(dbpath, username, password);
+    public PrimaryPersister(String url, String username, String password) {
+
+        this.dbUrl= url;
+        this.username = username;
+        this.password = password;
+        init();
+    }
+    public PrimaryPersister(Path dbPath, String username, String password) {
+
+        this.dbUrl= "jdbc:sqlite:"+dbPath.toString();
+        this.username = username;
+        this.password = password;
+        init();
+    }
+
+    public PrimaryPersister() {
+    }
+
+    public void setDbPath(Path dbPath){
+        setDbUrl("jdbc:sqlite:"+dbPath.toString());
+    }
+    
+    @Override
+    public void setDbUrl(String dbUrl) {
+        this.dbUrl = dbUrl;
+    }
+
+    @Override
+    public String getDbUrl() {
+        return dbUrl;
+    }
+
+    
+
+    @Override
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public Connection getDbCon() {
+        return dbCon;
+    }
+    
+    
+
+    private void init() {
+        InitDb idb = new InitDb(dbUrl, username, password);
         idb.run();
         dbCon = idb.getConnection();
         try {
@@ -89,7 +145,6 @@ public class PrimaryPersister implements Persister, AutoCloseable {
         } catch (SQLException ex) {
             LoggerFactory.getLogger(this.getClass()).error("Cannot prepare statement " + ex.getMessage(), ex);
         }
-
     }
 
     public int getLastPkgKey() {
@@ -105,7 +160,7 @@ public class PrimaryPersister implements Persister, AutoCloseable {
     }
 
     @Override
-    public void persist(RPM rpm) {
+    public void persist(RPM rpm) throws PersistException {
         Iterator<Files> filesIterator = rpm.getFilesCollection().iterator();
         Iterator<Conflicts> conflictsIterator = rpm.getConflictsCollection().iterator();
         Iterator<Requires> requiresIterator = rpm.getRequiresCollection().iterator();
@@ -273,14 +328,110 @@ public class PrimaryPersister implements Persister, AutoCloseable {
 
             dbCon.commit();
         } catch (SQLException ex) {
-
+            LoggerFactory.getLogger(this.getClass()).error("Cannot persist package " + rpm.toString(), ex);
+            throw new PersistException("Cannot persist package " + rpm.toString(), ex);
         }
 
     }
 
     @Override
     public void close() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (packagesStmt != null) {
+            try {
+                packagesStmt.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot close packages statement");
+                throw new ClosingException(ex);
+            }
+        }
+        if (filesStmt != null) {
+            try {
+                filesStmt.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot close files statement");
+                throw new ClosingException(ex);
+            }
+        }
+        if (lastKey != null) {
+            try {
+                lastKey.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot close last key statement");
+                throw new ClosingException(ex);
+            }
+        }
+        if (conflictsStmt != null) {
+            try {
+                conflictsStmt.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot close conflicts statement");
+                throw new ClosingException(ex);
+            }
+        }
+        if (requiresStmt != null) {
+            try {
+                requiresStmt.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot close requires statement");
+                throw new ClosingException(ex);
+            }
+        }
+        if (providesStmt != null) {
+            try {
+                providesStmt.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot close provides statement");
+                throw new ClosingException(ex);
+            }
+        }
+        if (obsoletesStmt != null) {
+            try {
+                obsoletesStmt.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot close obsoletes statement");
+                throw new ClosingException(ex);
+            }
+        }
+        if (suggestsStmt != null) {
+            try {
+                suggestsStmt.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot close suggests statement");
+                throw new ClosingException(ex);
+            }
+        }
+        if (enhancesStmt != null) {
+            try {
+                enhancesStmt.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot close enhances statement");
+                throw new ClosingException(ex);
+            }
+        }
+        if (recommendsStmt != null) {
+            try {
+                recommendsStmt.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot close recommends statement");
+                throw new ClosingException(ex);
+            }
+        }
+        if (supplementsStmt != null) {
+            try {
+                supplementsStmt.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot close supplements statement");
+                throw new ClosingException(ex);
+            }
+        }
+        if (dbCon != null) {
+            try {
+                dbCon.close();
+            } catch (SQLException ex) {
+                LoggerFactory.getLogger(this.getClass()).error("Cannot close connection", ex);
+                throw new ClosingException(ex);
+            }
+        }
     }
 
 }

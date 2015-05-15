@@ -18,17 +18,6 @@ import ua.pp.msk.yum.sqlite.common.Recommends;
 import ua.pp.msk.yum.sqlite.common.Requires;
 import ua.pp.msk.yum.sqlite.common.Suggests;
 import ua.pp.msk.yum.sqlite.common.Supplements;
-import ua.pp.msk.yum.sqlite.filelist.FilelistImpl;
-import ua.pp.msk.yum.sqlite.other.ChangelogImpl;
-import ua.pp.msk.yum.sqlite.primary.ConflictsImpl;
-import ua.pp.msk.yum.sqlite.primary.EnhancesImpl;
-import ua.pp.msk.yum.sqlite.primary.FilesImpl;
-import ua.pp.msk.yum.sqlite.primary.ObsoletesImpl;
-import ua.pp.msk.yum.sqlite.primary.ProvidesImpl;
-import ua.pp.msk.yum.sqlite.primary.RecommendsImpl;
-import ua.pp.msk.yum.sqlite.primary.RequiresImpl;
-import ua.pp.msk.yum.sqlite.primary.SuggestsImpl;
-import ua.pp.msk.yum.sqlite.primary.SupplementsImpl;
 /**
  
  * @author Maksym Shkolnyi aka maskimko
@@ -248,7 +237,7 @@ public class RpmPackage implements RPM {
     }
 
     @Override
-    public void setRpmBuildhost(String rpmBuildhost) {
+    public void setRpmBuildHost(String rpmBuildhost) {
         this.rpmBuildhost = rpmBuildhost;
     }
 

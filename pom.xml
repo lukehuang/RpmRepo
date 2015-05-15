@@ -11,13 +11,13 @@
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
     <modules>
-        <module>utility</module>
         <module>createrepo</module>
         <module>web</module>
         <module>server</module>
         <module>commonsqlite</module>
         <module>engine</module>
         <module>sqlite</module>
+        <module>commons</module>
     </modules>
     <scm>
         <connection>scm:git:http://maskimko@ci-dev-veneno.ea.intropro.com:8080/gitblit/r/RpmRepo.git</connection>

@@ -127,7 +127,7 @@ public interface RPM extends Serializable {
 
     void setRequiresCollection(Collection<Requires> requiresCollection);
 
-    void setRpmBuildhost(String rpmBuildhost);
+    void setRpmBuildHost(String rpmBuildhost);
 
     void setRpmGroup(String rpmGroup);
 

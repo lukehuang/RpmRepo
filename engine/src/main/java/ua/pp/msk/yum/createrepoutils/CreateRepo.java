@@ -22,7 +22,7 @@ import ua.pp.msk.yum.internal.RpmScanner;
 import ua.pp.msk.yum.internal.createrepo.YumStoreFactory;
 import ua.pp.msk.yum.internal.createrepo.YumStoreFactoryImpl;
 import ua.pp.msk.yum.helper.DirSupport;
-import ua.pp.msk.yum.helper.Persister;
+import ua.pp.msk.yum.sqlite.RpmPersister;
 
 /**
  *
@@ -36,7 +36,7 @@ public class CreateRepo {
     private RpmScanner scanner;
     private static final String REPO_TMP_FOLDER = "tmpRepodata";
     private Logger logger;
-    private Persister p ;
+    private RpmPersister p ;
 
 //    private static final Logger LOG = LoggerFactory.getLogger(CreateRepo.class);
     public CreateRepo(File rpmDir, File repoBaseDir){
@@ -48,7 +48,7 @@ public class CreateRepo {
         this.repoBaseDir = repoBaseDir;
         this.scanner = scanner;
         this.logger = LoggerFactory.getLogger(this.getClass());
-         p = Persister.getPersister(repoBaseDir.getAbsolutePath() + File.separator  +PATH_OF_REPODATA);
+         p = RpmPersister.getPersister(repoBaseDir.getAbsolutePath() + File.separator  +PATH_OF_REPODATA);
     }
 
     public void setRpmDir(File rpmDir) {
