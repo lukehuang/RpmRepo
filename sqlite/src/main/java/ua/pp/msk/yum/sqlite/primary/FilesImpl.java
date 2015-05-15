@@ -8,6 +8,7 @@ package ua.pp.msk.yum.sqlite.primary;
 
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
+import ua.pp.msk.yum.sqlite.common.Files;
 
 /**
  *
@@ -18,7 +19,7 @@ public class FilesImpl implements Files {
     private static final long serialVersionUID = 1L;
     private String name;
     private String type;
-    private PackagesImpl pkgKey;
+    private int pkgKey;
 
     public FilesImpl() {
     }
@@ -48,12 +49,12 @@ public class FilesImpl implements Files {
     }
 
     @Override
-    public PackagesImpl getPkgKey() {
+    public int getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(PackagesImpl pkgKey) {
+    public void setPkgKey(int pkgKey) {
         this.pkgKey = pkgKey;
     }
 

@@ -19,24 +19,28 @@ public class ConflictsImpl extends AbstractEntry implements Conflicts{
     private static final long serialVersionUID = 1L;
   
     private String name;
-
-   
-   
     private String flags;
-   
-   
-    private PackagesImpl pkgKey;
+    private int pkgKey;
+    private String epoch;
+    private String version;
+    private String release;
+    
+    
 
-    public ConflictsImpl() {
-        conflictsPK = new EntryPK();
+    public ConflictsImpl() {}
+
+    public ConflictsImpl(String name, String flags, String epoch, String version, String release) {
+        this.name = name;
+        this.flags = flags;
+        this.epoch = epoch;
+        this.version = version;
+        this.release = release;
     }
 
-    public ConflictsImpl(EntryPK pk) {
-        this.conflictsPK = pk;
-    }
+  
     
     public ConflictsImpl(Entry entry){
-       this(new EntryPK(entry));
+      this(entry.getName(), entry.getFlags(), entry.getEpoch(), entry.getVersion(), entry.getRelease());
     }
 
     
@@ -63,49 +67,52 @@ public class ConflictsImpl extends AbstractEntry implements Conflicts{
 
     @Override
     public String getEpoch() {
-        return conflictsPK.getEpoch();
+        return epoch;
     }
 
     @Override
     public void setEpoch(String epoch) {
-        this.conflictsPK.setEpoch(epoch);
+        this.epoch = epoch;
     }
 
     @Override
     public String getVersion() {
-        return conflictsPK.getVersion();
+        return version;
     }
 
     @Override
     public void setVersion(String version) {
-        this.conflictsPK.setVersion(version);
+        this.version = version;
     }
 
     @Override
     public String getRelease() {
-        return conflictsPK.getRelease();
+        return release;
     }
 
     @Override
     public void setRelease(String release) {
-        this.conflictsPK.setRelease(release);
+        this.release = release;
     }
-
     @Override
-    public PackagesImpl getPkgKey() {
+    public int getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(PackagesImpl pkgKey) {
-        this.pkgKey = pkgKey;
+    public void setPkgKey(int pkgKey) {
+        this.pkgKey = pkgKey; 
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.conflictsPK);
-        hash = 59 * hash + Objects.hashCode(this.pkgKey);
+        hash = 29 * hash + Objects.hashCode(this.name);
+        hash = 29 * hash + Objects.hashCode(this.flags);
+        hash = 29 * hash + this.pkgKey;
+        hash = 29 * hash + Objects.hashCode(this.epoch);
+        hash = 29 * hash + Objects.hashCode(this.version);
+        hash = 29 * hash + Objects.hashCode(this.release);
         return hash;
     }
 
@@ -118,17 +125,32 @@ public class ConflictsImpl extends AbstractEntry implements Conflicts{
             return false;
         }
         final ConflictsImpl other = (ConflictsImpl) obj;
-        if (!Objects.equals(this.conflictsPK, other.conflictsPK)) {
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.flags, other.flags)) {
+            return false;
+        }
+        if (!Objects.equals(this.epoch, other.epoch)) {
+            return false;
+        }
+        if (!Objects.equals(this.version, other.version)) {
+            return false;
+        }
+        if (!Objects.equals(this.release, other.release)) {
             return false;
         }
         return true;
     }
 
-   
-
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Conflicts[ name=" + conflictsPK + " ]";
+        return "ConflictsImpl{" + "name=" + name + ", flags=" + flags + ", pkgKey=" + pkgKey + ", epoch=" + epoch + ", version=" + version + ", release=" + release + '}';
     }
+
+   
+   
+
+    
 
 }
