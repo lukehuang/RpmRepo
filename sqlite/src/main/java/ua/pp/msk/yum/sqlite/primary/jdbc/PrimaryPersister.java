@@ -16,7 +16,7 @@ import ua.pp.msk.yum.sqlite.RpmPackage;
 
 
 
-import ua.pp.msk.yum.sqlite.primary.Files;
+
 
 /**
  *
@@ -26,31 +26,38 @@ public class PrimaryPersister implements Persister, AutoCloseable {
 
     private static final String PACKAGES_TABLE = "packages";
     private static final String FILES_TABLE = "files";
+     private static final String CONFLICTS_TABLE = "conflicts";
+     
 
     public final static String persistPakages = "INSERT INTO " + PACKAGES_TABLE
             + "(   pkgId ,  name ,  arch ,  version ,  epoch ,  release ,  summary ,  description ,  url ,  time_file ,  time_build ,  rpm_license ,  rpm_vendor ,  rpm_group ,  rpm_buildhost ,  rpm_sourcerpm ,  rpm_header_start ,  rpm_header_end ,  rpm_packager ,  size_package ,  size_installed ,  size_archive ,  location_href ,  location_base ,  checksum_type ) "
             + "VALUES ( ? ,  ? ,  ? ,  ? , ? ,  ? ,  ? ,  ? ,  ? ,  ? ,  ? ,  ? ,  ? ,  ? , ? ,  ? ,  ? , ? ,  ? ,  ? , ? ,  ? ,  ? ,  ? ,  ?)";
     public final static String persistFiles = "INSERT INTO " + FILES_TABLE+"(name, type, pkgKey) VALUES (? ,?, ?)";
     public final static String getLastPackageKey = "SELECT pkgKey FROM "+PACKAGES_TABLE+" ORDER BY  pkgKey  DESC  LIMIT 1";
+    public final static String persistConflicts = "INSERT INTO " + CONFLICTS_TABLE+"(name, flags,  epoch,  version ,  release , pkgKey) VALUES (? ,?, ?, ?, ?, ?)";
+    
     private PreparedStatement packagesStmt;
     private PreparedStatement filesStmt;
     private PreparedStatement lastKey;
+      private PreparedStatement conflictsStmt;
 
     private final Connection dbCon;
 
     /*
      
      CREATE TABLE files (  name TEXT,  type TEXT,  pkgKey INTEGER);
+    CREATE TABLE conflicts (  name TEXT,  flags TEXT,  epoch TEXT,  version TEXT,  release TEXT,  pkgKey INTEGER );
      */
     public PrimaryPersister(Path dbpath, String username, String password) {
 
         InitDb idb = new InitDb(dbpath, username, password);
         idb.run();
         dbCon = idb.getConnection();
-        try {
+        try {            lastKey = dbCon.prepareStatement(getLastPackageKey);
+
             packagesStmt = dbCon.prepareStatement(persistPakages);
             filesStmt = dbCon.prepareStatement(persistFiles);
-            lastKey = dbCon.prepareStatement(getLastPackageKey);
+            conflictsStmt = dbCon.prepareStatement(persistConflicts);
         } catch (SQLException ex){
             LoggerFactory.getLogger(this.getClass()).error("Cannot prepare statement " + ex.getMessage(), ex);
         }
@@ -75,7 +82,8 @@ public class PrimaryPersister implements Persister, AutoCloseable {
     @Override
     public void persist(RpmPackage rpm) {
         Iterator<Files> filesIterator = rpm.getFilesCollection().iterator();
-       int lk = getLastPkgKey();
+         Iterator<Conflicts> conflictsIterator = rpm.getConflictsCollection().iterator();
+       int lk = getLastPkgKey() + 1;
         try {    
             dbCon.setAutoCommit(false);
         packagesStmt.setString(1,rpm.getPkgId());
@@ -100,7 +108,14 @@ public class PrimaryPersister implements Persister, AutoCloseable {
                 Files nextFile = filesIterator.next();
             filesStmt.setString(1, nextFile.getName());
             filesStmt.setString(2, nextFile.getType());
-            filesStmt.setInt(3, rpm.getPkgKey());
+            filesStmt.setInt(3, lk);
+        }
+        
+         while (conflictsIterator.hasNext()){
+                Conflicts nextFile = filesIterator.next();
+            conflictsStmt.setString(1, nextFile.getName());
+            conflictsStmt.setString(2, nextFile.getType());
+            conflictsStmt.setInt(3, lk);
         }
         
         
