@@ -12,8 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 import org.slf4j.LoggerFactory;
-import ua.pp.msk.yum.RpmPackage;
-import ua.pp.msk.yum.persist.Persister;
+import ua.pp.msk.yum.sqlite.RpmPackage;
+
 
 
 import ua.pp.msk.yum.sqlite.primary.Files;
@@ -75,6 +75,7 @@ public class PrimaryPersister implements Persister, AutoCloseable {
     @Override
     public void persist(RpmPackage rpm) {
         Iterator<Files> filesIterator = rpm.getFilesCollection().iterator();
+       int lk = getLastPkgKey();
         try {    
             dbCon.setAutoCommit(false);
         packagesStmt.setString(1,rpm.getPkgId());

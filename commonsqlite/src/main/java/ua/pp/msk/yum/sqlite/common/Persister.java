@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.pp.msk.yum.persist;
+package ua.pp.msk.yum.sqlite.common;
 
-import ua.pp.msk.yum.sqlite.common.RpmPackage;
+
 
 /**
  *
  * @author maskimko
  */
 public interface Persister {
-    public void persist(RpmPackage rpm);
+    public void persist(RPM rpm);
 }
