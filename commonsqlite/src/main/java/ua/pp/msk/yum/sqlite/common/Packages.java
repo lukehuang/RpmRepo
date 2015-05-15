@@ -18,15 +18,15 @@ public interface Packages extends Serializable {
 
     String getChecksumType();
 
-    Collection<Conflicts> getConflicts1Collection();
+    Collection<Conflicts> getConflictsCollection();
 
     String getDescription();
 
-    Collection<Enhances> getEnhances1Collection();
+    Collection<Enhances> getEnhancesCollection();
 
     String getEpoch();
 
-    Collection<Files> getFiles1Collection();
+    Collection<Files> getFilesCollection();
 
     String getLocationBase();
 
@@ -34,19 +34,19 @@ public interface Packages extends Serializable {
 
     String getName();
 
-    Collection<Obsoletes> getObsoletes1Collection();
+    Collection<Obsoletes> getObsoletesCollection();
 
     String getPkgId();
 
     Integer getPkgKey();
 
-    Collection<Provides> getProvides1Collection();
+    Collection<Provides> getProvidesCollection();
 
-    Collection<Recommends> getRecommends1Collection();
+    Collection<Recommends> getRecommendsCollection();
 
     String getRelease();
 
-    Collection<Requires> getRequires1Collection();
+    Collection<Requires> getRequiresCollection();
 
     String getRpmBuildhost();
 
@@ -70,11 +70,11 @@ public interface Packages extends Serializable {
 
     Integer getSizePackage();
 
-    Collection<Suggests> getSuggests1Collection();
+    Collection<Suggests> getSuggestsCollection();
 
     String getSummary();
 
-    Collection<Supplements> getSupplements1Collection();
+    Collection<Supplements> getSupplementsCollection();
 
     Integer getTimeBuild();
 
@@ -96,7 +96,7 @@ public interface Packages extends Serializable {
 
     void setEpoch(String epoch);
 
-    void setFilesCollection(Collection<Files> files1Collection);
+    void setFilesCollection(Collection<Files> filesCollection);
 
     void setLocationBase(String locationBase);
 
@@ -104,7 +104,7 @@ public interface Packages extends Serializable {
 
     void setName(String name);
 
-    void setObsoletesCollection(Collection<Obsoletes> obsoletes1Collection);
+    void setObsoletesCollection(Collection<Obsoletes> obsoletesCollection);
 
     void setPkgId(String pkgId);
 

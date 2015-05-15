@@ -5,10 +5,9 @@
  */
 package ua.pp.msk.yum.sqlite.primary;
 
-import java.io.Serializable;
 import java.util.Objects;
-import javax.xml.bind.annotation.XmlRootElement;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
+import ua.pp.msk.yum.sqlite.common.Enhances;
 import ua.pp.msk.yum.sqlite.common.Entry;
 
 /**
@@ -16,36 +15,31 @@ import ua.pp.msk.yum.sqlite.common.Entry;
  * @author Maksym Shkolnyi aka maskimko
  */
 
-@XmlRootElement
 
 public class EnhancesImpl extends AbstractEntry implements Enhances {
-
     private static final long serialVersionUID = 1L;
-    protected EntryPK enhancesPK;
+   
+    private String name;
     private String flags;
-    private PackagesImpl pkgKey;
-    private long id;
+    private String epoch;
+    private String version;
+    private String release;
+    private int pkgKey;
     
-    @Override
-    public long getId() {
-        return id;
+    
+    public EnhancesImpl() {}
+    
+    public EnhancesImpl(String name, String flags, String epoch, String version, String release) {
+        this.name = name;
+        this.flags = flags;
+        this.epoch = epoch;
+        this.version = version;
+        this.release = release;
     }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
+    public EnhancesImpl(Entry entry){
+      this(entry.getName(), entry.getFlags(), entry.getEpoch(), entry.getVersion(), entry.getRelease());
     }
-    public EnhancesImpl() {
-        enhancesPK = new EntryPK();
-    }
-
-    public EnhancesImpl(EntryPK name) {
-        this.enhancesPK = name;
-    }
-
-    public EnhancesImpl(Entry entry) {
-        this(new EntryPK(entry));
-    }
+    
 
     @Override
     public String getFlags() {
@@ -57,66 +51,74 @@ public class EnhancesImpl extends AbstractEntry implements Enhances {
         this.flags = flags;
     }
 
+   
     @Override
-    public PackagesImpl getPkgKey() {
+    public int getPkgKey() {
         return pkgKey;
     }
 
+ 
     @Override
-    public void setPkgKey(PackagesImpl pkgKey) {
+    public void setPkgKey(int pkgKey) {
         this.pkgKey = pkgKey;
     }
 
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Enhances[ name=" + enhancesPK + " ]";
+        return "EnhancesImpl{" + "name=" + name + ", flags=" + flags + ", epoch=" + epoch + ", version=" + version + ", release=" + release + ", pkgKey=" + pkgKey + '}';
     }
+
+   
 
     @Override
     public String getName() {
-        return enhancesPK.getName();
+        return this.name;
     }
 
     @Override
     public void setName(String name) {
-        enhancesPK.setName(name);
+        this.name = name;
     }
 
     @Override
     public String getEpoch() {
-        return enhancesPK.getEpoch();
+        return epoch;
     }
 
     @Override
     public void setEpoch(String epoch) {
-        enhancesPK.setEpoch(epoch);
+        this.epoch = epoch;
     }
 
     @Override
     public String getVersion() {
-        return enhancesPK.getVersion();
+        return version;
     }
 
     @Override
     public void setVersion(String version) {
-        enhancesPK.setVersion(version);
+        this.version = version;
     }
 
     @Override
     public String getRelease() {
-        return enhancesPK.getRelease();
+        return release;
     }
 
     @Override
     public void setRelease(String release) {
-        enhancesPK.setRelease(release);
+        this.release = release;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + Objects.hashCode(this.enhancesPK);
-        hash = 83 * hash + Objects.hashCode(this.pkgKey);
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.name);
+        hash = 47 * hash + Objects.hashCode(this.flags);
+        hash = 47 * hash + Objects.hashCode(this.epoch);
+        hash = 47 * hash + Objects.hashCode(this.version);
+        hash = 47 * hash + Objects.hashCode(this.release);
+        hash = 47 * hash + this.pkgKey;
         return hash;
     }
 
@@ -128,11 +130,24 @@ public class EnhancesImpl extends AbstractEntry implements Enhances {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ProvidesImpl other = (ProvidesImpl) obj;
-        if (!Objects.equals(this.enhancesPK, other.providesPK)) {
+        final EnhancesImpl other = (EnhancesImpl) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.flags, other.flags)) {
+            return false;
+        }
+        if (!Objects.equals(this.epoch, other.epoch)) {
+            return false;
+        }
+        if (!Objects.equals(this.version, other.version)) {
+            return false;
+        }
+        if (!Objects.equals(this.release, other.release)) {
             return false;
         }
         return true;
     }
+
 
 }

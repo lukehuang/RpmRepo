@@ -6,11 +6,11 @@
 
 package ua.pp.msk.yum.sqlite.primary;
 
-import java.io.Serializable;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlRootElement;
 import ua.pp.msk.yum.sqlite.common.AbstractEntry;
 import ua.pp.msk.yum.sqlite.common.Entry;
+import ua.pp.msk.yum.sqlite.common.Obsoletes;
 
 /**
  *
@@ -20,32 +20,28 @@ import ua.pp.msk.yum.sqlite.common.Entry;
 @XmlRootElement
 public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
     private static final long serialVersionUID = 1L;
-    private long id;
-    
-    @Override
-    public long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    } 
-    protected EntryPK obsoletesPK;
+   
+    private String name;
     private String flags;
-    private PackagesImpl pkgKey;
+    private String epoch;
+    private String version;
+    private String release;
+    private int pkgKey;
+    private long id ;
 
-    public ObsoletesImpl() {
-        obsoletesPK = new EntryPK();
+    public ObsoletesImpl() {}
+    
+    public ObsoletesImpl(String name, String flags, String epoch, String version, String release) {
+        this.name = name;
+        this.flags = flags;
+        this.epoch = epoch;
+        this.version = version;
+        this.release = release;
     }
     public ObsoletesImpl(Entry entry){
-       this(new EntryPK(entry));
+      this(entry.getName(), entry.getFlags(), entry.getEpoch(), entry.getVersion(), entry.getRelease());
     }
-    public ObsoletesImpl(EntryPK name) {
-        this.obsoletesPK = name;
-    }
-
-  
+   
 
     @Override
     public String getFlags() {
@@ -57,69 +53,81 @@ public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
         this.flags = flags;
     }
 
-   
+      @Override
+    public long getId() {
+        return id;
+    }
 
     @Override
-    public PackagesImpl getPkgKey() {
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public int getPkgKey() {
         return pkgKey;
     }
 
     @Override
-    public void setPkgKey(PackagesImpl pkgKey) {
+    public void setPkgKey(int pkgKey) {
         this.pkgKey = pkgKey;
     }
 
-   
-
     @Override
     public String toString() {
-        return "ua.pp.msk.yum.sqlite.primary.Obsoletes[ name=" + obsoletesPK + " ]";
+        return "ObsoletesImpl{" + "name=" + name + ", flags=" + flags + ", epoch=" + epoch + ", version=" + version + ", release=" + release + ", pkgKey=" + pkgKey + '}';
     }
-   @Override
+
+       
+    @Override
     public String getName() {
-        return obsoletesPK.getName();
+        return name;
     }
 
     @Override
     public void setName(String name) {
-        obsoletesPK.setName(name);
+        this.name =name;
     }
 
     @Override
     public String getEpoch() {
-        return obsoletesPK.getEpoch();
+        return epoch;
     }
 
     @Override
     public void setEpoch(String epoch) {
-        obsoletesPK.setEpoch(epoch);
+        this.epoch = epoch;
         }
 
     @Override
     public String getVersion() {
-        return obsoletesPK.getVersion();
+        return version;
     }
 
     @Override
     public void setVersion(String version) {
-        obsoletesPK.setVersion(version);
+        this.version = version;
     }
 
     @Override
     public String getRelease() {
-        return obsoletesPK.getRelease();
+        return release;
     }
 
     @Override
     public void setRelease(String release) {
-        obsoletesPK.setRelease(release);
+        this.release = release;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.obsoletesPK);
-        hash = 97 * hash + Objects.hashCode(this.pkgKey);
+        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 67 * hash + Objects.hashCode(this.flags);
+        hash = 67 * hash + Objects.hashCode(this.epoch);
+        hash = 67 * hash + Objects.hashCode(this.version);
+        hash = 67 * hash + Objects.hashCode(this.release);
+        hash = 67 * hash + this.pkgKey;
         return hash;
     }
 
@@ -132,11 +140,25 @@ public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
             return false;
         }
         final ObsoletesImpl other = (ObsoletesImpl) obj;
-        if (!Objects.equals(this.obsoletesPK, other.obsoletesPK)) {
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.flags, other.flags)) {
+            return false;
+        }
+        if (!Objects.equals(this.epoch, other.epoch)) {
+            return false;
+        }
+        if (!Objects.equals(this.version, other.version)) {
+            return false;
+        }
+        if (!Objects.equals(this.release, other.release)) {
             return false;
         }
         return true;
     }
-    
+
+  
+
     
 }
