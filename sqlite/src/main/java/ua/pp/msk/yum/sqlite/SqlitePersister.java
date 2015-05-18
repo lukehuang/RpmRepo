@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.util.Map;
 
 import org.slf4j.LoggerFactory;
+import ua.pp.msk.yum.persist.AbstractPersister;
 import ua.pp.msk.yum.sqlite.common.Persister;
 import ua.pp.msk.yum.sqlite.common.RPM;
 
@@ -17,7 +18,7 @@ import ua.pp.msk.yum.sqlite.common.RPM;
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-public class SqlitePersister {
+public class SqlitePersister extends AbstractPersister {
 
     private Persister primaryPersister, filelistPersister, othersPersister;
     private static SqlitePersister pr = null;
@@ -38,8 +39,9 @@ public class SqlitePersister {
        
     }
 
-    public synchronized void persist(RPM rpm) {
-
+    @Override
+    public  void persist(RPM rpm) {
+        //TODO implement later
     }
 
     @Override

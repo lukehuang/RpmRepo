@@ -25,7 +25,9 @@ public class AbstractPersister<T extends Persister> {
     
     public void persist(RPM rpm) {
         try {
-            persister.persist(rpm);
+            synchronized(this){
+                persister.persist(rpm);
+            }
         } catch (PersistException ex) {
             LoggerFactory.getLogger(this.getClass()).error("Cannot persist RPM ", ex);
         }
