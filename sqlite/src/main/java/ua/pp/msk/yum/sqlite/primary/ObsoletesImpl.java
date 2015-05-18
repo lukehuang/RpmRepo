@@ -27,7 +27,6 @@ public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
     private String version;
     private String release;
     private int pkgKey;
-    private long id ;
 
     public ObsoletesImpl() {}
     
@@ -53,15 +52,7 @@ public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
         this.flags = flags;
     }
 
-      @Override
-    public long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
+   
 
     @Override
     public int getPkgKey() {
