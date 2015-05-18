@@ -5,13 +5,22 @@
  */
 package ua.pp.msk.yum;
 
-
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.sqlite.common.Changelog;
 import ua.pp.msk.yum.sqlite.common.Conflicts;
 import ua.pp.msk.yum.sqlite.common.Enhances;
+import ua.pp.msk.yum.sqlite.common.Entry;
 import ua.pp.msk.yum.sqlite.common.Filelist;
 import ua.pp.msk.yum.sqlite.common.Files;
 import ua.pp.msk.yum.sqlite.common.Obsoletes;
@@ -54,13 +63,15 @@ public class YumPackage implements RPM {
     private Integer sizeInstalled;
     private Integer sizeArchive;
 
-    private List<Entry> provides;
-    private List<Entry> requires;
-    private List<Entry> conflicts;
-    private List<Entry> obsoletes;
+    private List<PackageEntry> provides;
+    private List<RequiresPackageEntry> requires;
+    private List<PackageEntry> conflicts;
+    private List<PackageEntry> obsoletes;
 
     private List<File> files;
     private List<ChangeLog> changes;
+
+    private final static String DATE_FORMAT = "EEE MMM dd yyyy";
 
     public String getUniqueId() {
         return name + ":" + epoch + ":" + version + ":" + release;
@@ -307,35 +318,35 @@ public class YumPackage implements RPM {
         this.sizeArchive = sizeArchive;
     }
 
-    public List<Entry> getProvides() {
+    public List<PackageEntry> getProvides() {
         return provides;
     }
 
-    public void setProvides(List<Entry> provides) {
+    public void setProvides(List<PackageEntry> provides) {
         this.provides = provides;
     }
 
-    public List<Entry> getRequires() {
+    public List<RequiresPackageEntry> getRequires() {
         return requires;
     }
 
-    public void setRequires(List<Entry> requires) {
+    public void setRequires(List<RequiresPackageEntry> requires) {
         this.requires = requires;
     }
 
-    public List<Entry> getConflicts() {
+    public List<PackageEntry> getConflicts() {
         return conflicts;
     }
 
-    public void setConflicts(List<Entry> conflicts) {
+    public void setConflicts(List<PackageEntry> conflicts) {
         this.conflicts = conflicts;
     }
 
-    public List<Entry> getObsoletes() {
+    public List<PackageEntry> getObsoletes() {
         return obsoletes;
     }
 
-    public void setObsoletes(List<Entry> obsoletes) {
+    public void setObsoletes(List<PackageEntry> obsoletes) {
         this.obsoletes = obsoletes;
     }
 
@@ -355,100 +366,117 @@ public class YumPackage implements RPM {
         this.changes = changes;
     }
 
+    private <T extends Entry> T transform(Class<T> c, final Entry e) {
+        T t = null;
+        try {
+            t = c.newInstance();
+            t.setEpoch(e.getEpoch());
+            t.setFlags(e.getFlags());
+            t.setName(e.getName());
+            t.setRelease(e.getRelease());
+            t.setVersion(e.getVersion());
+
+        } catch (InstantiationException ex) {
+            LoggerFactory.getLogger(this.getClass()).warn("Cannot instantiate class " + c.getCanonicalName(), ex);
+        } catch (IllegalAccessException ex) {
+            LoggerFactory.getLogger(this.getClass()).warn("Have no access to instantiate class " + c.getCanonicalName(), ex);
+        }
+        return t;
+    }
+
     @Override
     public Collection<Changelog> getChangelogCollection() {
-       ArrayList<Changelog> changes = new ArrayList<>();
-        
-       for (ChangeLog cl: getChanges()){
-           changes.add(new Changelog() {
-               
-               ChangeLog()
-               private final String author = cl.author;
-               private final String text = cl.text;
-               private int date = cl.date;
-               
-               @Override
-               public String getChangelog() {
-                   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-               }
-
-               @Override
-               public int getPkgKey() {
-                   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-               }
-
-               @Override
-               public void setChangelog(String changelog) {
-                   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-               }
-
-               @Override
-               public void setPkgKey(int pkgKey) {
-                   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-               }
-           });
-       }
-       
+        ArrayList<Changelog> changes = new ArrayList<>();
+        for (ChangeLog cl : getChanges()) {
+            changes.add(cl);
+        }
+        return changes;
     }
 
     @Override
     public Collection<Conflicts> getConflictsCollection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Conflicts> conflicts = new ArrayList<>();
+        for (PackageEntry pe : getConflicts()) {
+            conflicts.add(transform(Conflicts.class, pe));
+        }
+        return conflicts;
     }
 
     @Override
     public Collection<Enhances> getEnhancesCollection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ArrayList<>();
     }
 
     @Override
     public Collection<Filelist> getFilelistCollection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Files> filesCollection = new ArrayList<>();
+        List<File> files1 = getFiles();
+        for (File f : files1){
+            
+        }
     }
 
     @Override
     public Collection<Files> getFilesCollection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public String getLocationBase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed locationBase in " + this.getClass().getCanonicalName());
+        return "";
     }
 
     @Override
     public String getLocationHref() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return location;
     }
 
     @Override
     public Collection<Obsoletes> getObsoletesCollection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Obsoletes> obsoletes = new ArrayList<>();
+        for (PackageEntry pe : getObsoletes()) {
+            obsoletes.add(transform(Obsoletes.class, pe));
+        }
+        return obsoletes;
     }
 
     @Override
     public Integer getPkgKey() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
     @Override
     public Collection<Provides> getProvidesCollection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        ArrayList<Provides> provides = new ArrayList<>();
+        for (PackageEntry pe : getProvides()) {
+            provides.add(transform(Provides.class, pe));
+        }
+        return provides;
     }
 
     @Override
     public Collection<Recommends> getRecommendsCollection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        return new ArrayList<>();
     }
 
     @Override
     public Collection<Requires> getRequiresCollection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Requires> requires = new ArrayList<>();
+        for (RequiresPackageEntry rpe : getRequires()) {
+            Requires r = transform(Requires.class, rpe);
+            r.setPre(rpe.getPre());
+            requires.add(r);
+        }
+        return requires;
     }
 
     @Override
     public String getRpmBuildhost() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed rpmBuildHost in " + this.getClass().getCanonicalName());
+        return "";
     }
 
     @Override
@@ -458,17 +486,20 @@ public class YumPackage implements RPM {
 
     @Override
     public String getRpmSourcerpm() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed sourceRpm in " + this.getClass().getCanonicalName());
+        return "";
     }
 
     @Override
     public Collection<Suggests> getSuggestsCollection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed suggestsCollection in " + this.getClass().getCanonicalName() + " Will return -1");
+        return new ArrayList<>();
     }
 
     @Override
     public Collection<Supplements> getSupplementsCollection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed supplements in " + this.getClass().getCanonicalName() + " Will return -1");
+        return new ArrayList<>();
     }
 
     @Override
@@ -531,8 +562,6 @@ public class YumPackage implements RPM {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-   
-
     @Override
     public void setRpmPackager(String rpmPackager) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -553,23 +582,91 @@ public class YumPackage implements RPM {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public static class Entry {
+    public static class PackageEntry implements Entry {
 
         String name;
         String flags;
         String epoch;
         String version;
         String release;
-        boolean pre;
 
         @Override
         public String toString() {
-            return "Entry{" + "name=" + name + ", flags=" + flags + ", epoch=" + epoch + ", version=" + version + ", release=" + release + ", pre=" + pre + '}';
+            return "Entry{" + "name=" + name + ", flags=" + flags + ", epoch=" + epoch + ", version=" + version + ", release=" + release + '}';
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getFlags() {
+            return flags;
+        }
+
+        @Override
+        public void setFlags(String flags) {
+            this.flags = flags;
+        }
+
+        @Override
+        public String getEpoch() {
+            return epoch;
+        }
+
+        @Override
+        public void setEpoch(String epoch) {
+            this.epoch = epoch;
+        }
+
+        @Override
+        public String getVersion() {
+            return version;
+        }
+
+        @Override
+        public void setVersion(String version) {
+            this.version = version;
+        }
+
+        @Override
+        public String getRelease() {
+            return release;
+        }
+
+        @Override
+        public void setRelease(String release) {
+            this.release = release;
         }
 
     }
 
-    public static class File {
+    public static class RequiresPackageEntry extends PackageEntry implements Entry {
+
+        boolean pre;
+
+        @Override
+        public String toString() {
+            return "RequiresEntry{" + "name=" + name + ", flags=" + flags + ", epoch=" + epoch + ", version=" + version + ", release=" + release + ", pre=" + pre + '}';
+        }
+
+        public boolean getPre() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        public void setPre(boolean pre) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+    }
+
+    public static class File implements Files, Filelist{
 
         String name;
         FileType type;
@@ -580,6 +677,67 @@ public class YumPackage implements RPM {
             return "File{" + "name=" + name + ", type=" + type + ", primary=" + primary + '}';
         }
 
+        @Override
+        public String getName() {
+            return name;
+            }
+
+        @Override
+        public int getPkgKey() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getType() {
+            return type.toString();
+        }
+
+        @Override
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public void setPkgKey(int pkgKey) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void setType(String type) {
+            
+            this.type = 
+        }
+
+        @Override
+        public String getDirname() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getFilenames() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getFiletypes() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void setDirname(String dirname) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void setFilenames(String filenames) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void setFiletypes(String filetypes) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
     }
 
     public static enum FileType {
@@ -587,7 +745,7 @@ public class YumPackage implements RPM {
         file, dir, ghost
     }
 
-    public static class ChangeLog {
+    public static class ChangeLog implements Changelog {
 
         String author;
         Integer date;
@@ -598,7 +756,61 @@ public class YumPackage implements RPM {
             return "ChangeLog{" + "author=" + author + ", date=" + date + ", text=" + text + '}';
         }
 
+        @Override
+        public String getChangelog() {
+            StringBuilder sb = new StringBuilder();
+            DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+            sb.append(df.format(new Date(((long) date) * 1000))).append(" ").append(author).append(" -").append(text);
+            return sb.toString();
+
+        }
+
+        @Override
+        public int getPkgKey() {
+            LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed pkgKey in " + this.getClass().getCanonicalName() + " Will return -1");
+            return -1;
+        }
+
+        @Override
+        public void setChangelog(String changelog) {
+            if (changelog != null && !changelog.isEmpty()) {
+                String[] firstLineElements = changelog.split("- ")[0].replaceAll("\\n", "").replaceAll("\\r", "").split(" ");
+                if (firstLineElements.length < 5) {
+                    LoggerFactory.getLogger(this.getClass()).warn("Cannot parse first line of change log: " + Arrays.toString(firstLineElements));
+                    date = 0;
+                    author = "";
+                    text = changelog;
+
+                } else {
+                    DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+                    String composedDate = firstLineElements[0] + " " + firstLineElements[1] + " " + firstLineElements[2] + " " + firstLineElements[3];
+                    Date parsedDate = null;
+                    try {
+                        parsedDate = df.parse(composedDate);
+                    } catch (ParseException ex) {
+                        LoggerFactory.getLogger(this.getClass()).warn("Cannot parse composed date. Using current date ");
+                        parsedDate = Calendar.getInstance().getTime();
+                    }
+                    date = (int) parsedDate.getTime() / 1000;
+
+                    StringBuilder sb = new StringBuilder(firstLineElements[4]);
+                    for (int i = 5; i < firstLineElements.length; i++) {
+                        sb.append(" ").append(firstLineElements[i]);
+                    }
+                    author = sb.toString();
+                    //TODO fix it in future
+                    text = changelog;
+
+                }
+            }
+
+        }
+
+        @Override
+        public void setPkgKey(int pkgKey) {
+            LoggerFactory.getLogger(this.getClass()).warn("Trying to assign value " + pkgKey + " to dummy filed pkgKey in " + this.getClass().getCanonicalName());
+        }
+
     }
 
-    
 }
