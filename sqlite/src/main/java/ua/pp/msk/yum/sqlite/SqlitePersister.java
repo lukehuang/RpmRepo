@@ -5,18 +5,21 @@
  */
 package ua.pp.msk.yum.sqlite;
 
+import java.sql.Connection;
 import java.util.Map;
 
 import org.slf4j.LoggerFactory;
+import ua.pp.msk.yum.sqlite.common.Persister;
+import ua.pp.msk.yum.sqlite.common.RPM;
 
 
 /**
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-public class SqlitePersister extends AbstractPersister {
+public class SqlitePersister {
 
-    private Persister p
+    private Persister primaryPersister, filelistPersister, othersPersister;
     private static SqlitePersister pr = null;
 
     public static SqlitePersister getPersister(String path) {
@@ -31,8 +34,8 @@ public class SqlitePersister extends AbstractPersister {
     }
 
     private SqlitePersister(String path) {
-
-        primary = PrimarySqlite.getEntityManger(path);
+        
+       
     }
 
     public synchronized void persist(RPM rpm) {
@@ -94,5 +97,7 @@ public class SqlitePersister extends AbstractPersister {
 //            LoggerFactory.getLogger(this.getClass()).debug("Primary property key: " + p.getKey() + " value: " + p.getValue());
 //        }
     }
+
+   
 
 }
