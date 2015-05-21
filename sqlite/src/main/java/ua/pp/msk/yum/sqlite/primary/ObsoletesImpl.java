@@ -27,7 +27,6 @@ public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
     private String version;
     private String release;
     private int pkgKey;
-    private long id ;
 
     public ObsoletesImpl() {}
     

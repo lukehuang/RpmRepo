@@ -5,6 +5,7 @@
  */
 package ua.pp.msk.yum.sqlite;
 
+import java.sql.Connection;
 import java.util.Map;
 import ua.pp.msk.yum.persist.AbstractPersister;
 
@@ -93,5 +94,7 @@ public class SqlitePersister extends AbstractPersister {
 //            LoggerFactory.getLogger(this.getClass()).debug("Primary property key: " + p.getKey() + " value: " + p.getValue());
 //        }
     }
+
+   
 
 }

@@ -483,7 +483,8 @@ public class YumPackage implements RPM {
 
     @Override
     public String getRpmPackager() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed rpmPackager in " + this.getClass().getCanonicalName());
+        return "";
     }
 
     @Override
@@ -723,32 +724,36 @@ public class YumPackage implements RPM {
 
         @Override
         public String getDirname() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+             LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed dirname in " + this.getClass().getCanonicalName());
+        return "";
         }
 
         @Override
         public String getFilenames() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed filenames in " + this.getClass().getCanonicalName());
+        return "";
         }
 
         @Override
         public String getFiletypes() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+             LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed filetypes in " + this.getClass().getCanonicalName());
+        return "";
         }
 
         @Override
         public void setDirname(String dirname) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+             LoggerFactory.getLogger(this.getClass()).warn("Trying to assign value "+dirname +" to  dummy filed dirname in " + this.getClass().getCanonicalName());
+        
         }
 
         @Override
         public void setFilenames(String filenames) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                 LoggerFactory.getLogger(this.getClass()).warn("Trying to assign value "+filenames +" to  dummy filed dirname in " + this.getClass().getCanonicalName());
         }
 
         @Override
         public void setFiletypes(String filetypes) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                 LoggerFactory.getLogger(this.getClass()).warn("Trying to assign value "+filetypes +" to  dummy filed dirname in " + this.getClass().getCanonicalName());
         }
 
     }
