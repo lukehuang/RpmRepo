@@ -13,9 +13,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.sqlite.common.Changelog;
 import ua.pp.msk.yum.sqlite.common.Conflicts;
@@ -409,16 +408,19 @@ public class YumPackage implements RPM {
 
     @Override
     public Collection<Filelist> getFilelistCollection() {
-        ArrayList<Files> filesCollection = new ArrayList<>();
+        Collection<Filelist> filesCollection = new LinkedList<>();
         List<File> files1 = getFiles();
-        for (File f : files1){
-            
-        }
+        filesCollection.addAll(files1);
+        return filesCollection;
     }
 
     @Override
     public Collection<Files> getFilesCollection() {
-        
+        Collection<Files> result = new LinkedList<>();
+        List<File> fls = getFiles();
+        result.addAll(fls);
+        return result;
+                
     }
 
     @Override
@@ -704,8 +706,19 @@ public class YumPackage implements RPM {
 
         @Override
         public void setType(String type) {
+            if (type.equals(FileType.dir.toString())){
+                     this.type = FileType.dir;
+            } else
+            if (type.equals(FileType.file.toString())){
+                     this.type = FileType.file;
+            } else
+            if (type.equals(FileType.ghost.toString())){
+                     this.type = FileType.ghost;
+            } else {
+                LoggerFactory.getLogger(this.getClass()).warn("Cannot assign such file type " + type + " will use default " + FileType.file.toString());
+            }
             
-            this.type = 
+           
         }
 
         @Override

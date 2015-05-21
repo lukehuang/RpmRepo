@@ -6,9 +6,10 @@
 package ua.pp.msk.yum.sqlite;
 
 import java.util.Map;
+import ua.pp.msk.yum.persist.AbstractPersister;
 
 import org.slf4j.LoggerFactory;
-import ua.pp.msk.yum.
+
 
 /**
  *
@@ -16,7 +17,7 @@ import ua.pp.msk.yum.
  */
 public class SqlitePersister extends AbstractPersister {
 
-    private Persister p
+    
     private static SqlitePersister pr = null;
 
     public static SqlitePersister getPersister(String path) {
@@ -32,12 +33,10 @@ public class SqlitePersister extends AbstractPersister {
 
     private SqlitePersister(String path) {
 
-        primary = PrimarySqlite.getEntityManger(path);
+       
     }
 
-    public synchronized void persist(RPM rpm) {
-
-    }
+   
 
     @Override
     public void close() throws Exception {

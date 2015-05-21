@@ -53,17 +53,7 @@ public class ObsoletesImpl extends AbstractEntry implements Obsoletes {
         this.flags = flags;
     }
 
-      @Override
-    public long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Override
+     @Override
     public int getPkgKey() {
         return pkgKey;
     }
