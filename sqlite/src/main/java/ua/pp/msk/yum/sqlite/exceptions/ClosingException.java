@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ua.pp.msk.yum.sqlite.primary.exceptions;
+package ua.pp.msk.yum.sqlite.exceptions;
 
 /**
  *

@@ -4,23 +4,27 @@
  * and open the template in the editor.
  */
 
-package ua.pp.msk.yum.sqlite.primary.exceptions;
+package ua.pp.msk.yum.sqlite.exceptions;
 
 /**
  *
  * @author Maksym Shkolnyi aka maskimko
  */
-public class DatabaseInitializationException extends Exception {
+public class DbPathException extends Exception {
 
-    public DatabaseInitializationException() {
+    public DbPathException() {
     }
 
-    public DatabaseInitializationException(String message) {
+    public DbPathException(String message) {
         super(message);
     }
 
-    public DatabaseInitializationException(String message, Throwable cause) {
+    public DbPathException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    public DbPathException(Throwable cause) {
+        super(cause);
     }
 
 }

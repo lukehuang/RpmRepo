@@ -40,9 +40,14 @@ public class AbstractPersister implements AutoCloseable {
         persisters.add(p);
     }
 
+    protected Iterable<Persister> getPersisters(){
+        return persisters;
+    }
+    
     @Override
     public void close() throws Exception {
         for (Persister p : persisters){
+           LoggerFactory.getLogger(this.getClass()).debug("Closing persister " + p.getDbUrl());
             p.close();
         }
     }

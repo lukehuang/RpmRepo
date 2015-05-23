@@ -24,7 +24,7 @@ import ua.pp.msk.yum.sqlite.common.Requires;
 import ua.pp.msk.yum.sqlite.common.Suggests;
 import ua.pp.msk.yum.sqlite.common.Supplements;
 import ua.pp.msk.yum.sqlite.common.exceptions.PersistException;
-import ua.pp.msk.yum.sqlite.primary.exceptions.ClosingException;
+import ua.pp.msk.yum.sqlite.exceptions.ClosingException;
 
 /**
  *
