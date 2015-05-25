@@ -78,20 +78,21 @@ public class PrimaryPersister implements Persister {
 
     public PrimaryPersister(String url, String username, String password) {
 
-        this.dbUrl= (url.endsWith(".sqlite")) ? url : url + File.pathSeparatorChar + "primary.sqlite";
+        this.dbUrl = (url.endsWith(".sqlite")) ? url : url + File.separator + "primary.sqlite";
         this.username = username;
         this.password = password;
         init();
     }
+
     /**
-     * 
+     *
      * @param dbPath Path to the sqlite database file
      * @param username User name for database connection
      * @param password User password for database connection
      */
     public PrimaryPersister(Path dbPath, String username, String password) {
 
-        this.dbUrl= "jdbc:sqlite:"+dbPath.toString();
+        this.dbUrl = "jdbc:sqlite:" + dbPath.toString();
         this.username = username;
         this.password = password;
         init();
@@ -100,10 +101,10 @@ public class PrimaryPersister implements Persister {
     public PrimaryPersister() {
     }
 
-    public void setDbPath(Path dbPath){
-        setDbUrl("jdbc:sqlite:"+dbPath.toString());
+    public void setDbPath(Path dbPath) {
+        setDbUrl("jdbc:sqlite:" + dbPath.toString());
     }
-    
+
     @Override
     public void setDbUrl(String dbUrl) {
         this.dbUrl = dbUrl;
@@ -113,8 +114,6 @@ public class PrimaryPersister implements Persister {
     public String getDbUrl() {
         return dbUrl;
     }
-
-    
 
     @Override
     public void setUsername(String username) {
@@ -130,8 +129,6 @@ public class PrimaryPersister implements Persister {
     public Connection getDbCon() {
         return dbCon;
     }
-    
-    
 
     private void init() {
         InitDb idb = new InitDb(dbUrl, username, password);
@@ -148,6 +145,7 @@ public class PrimaryPersister implements Persister {
             suggestsStmt = dbCon.prepareStatement(persistSuggests);
             recommendsStmt = dbCon.prepareStatement(persistRecommends);
             supplementsStmt = dbCon.prepareStatement(persistSuppelemnts);
+            providesStmt = dbCon.prepareStatement(persistProvides);
 
         } catch (SQLException ex) {
             LoggerFactory.getLogger(this.getClass()).error("Cannot prepare statement " + ex.getMessage(), ex);
@@ -156,12 +154,18 @@ public class PrimaryPersister implements Persister {
 
     public int getLastPkgKey() {
         int qty = 0;
-        try {
-            ResultSet lastKeyResultSet = lastKey.executeQuery();
-            qty = lastKeyResultSet.last() ? lastKeyResultSet.getInt(1) : 0;
+        try (ResultSet lastKeyResultSet = lastKey.executeQuery()) {
+
+            boolean afterLast = lastKeyResultSet.isAfterLast();
+            if (afterLast) {
+                LoggerFactory.getLogger(this.getClass()).warn("It seems to be there is no stored packages in the database yet");
+            } else {
+                lastKeyResultSet.next();
+                qty = lastKeyResultSet.getInt(1);
+            }
 
         } catch (SQLException ex) {
-            LoggerFactory.getLogger(this.getClass()).error("Cannot prepare statement " + ex.getMessage(), ex);
+            LoggerFactory.getLogger(this.getClass()).error("Cannot last package key " + ex.getMessage(), ex);
         }
         return qty;
     }
@@ -206,7 +210,7 @@ public class PrimaryPersister implements Persister {
             packagesStmt.setInt(22, rpm.getSizeArchive());
             packagesStmt.setString(23, rpm.getLocationHref());
             packagesStmt.setString(24, rpm.getLocationBase());
-            packagesStmt.setString(26, rpm.getChecksumType());
+            packagesStmt.setString(25, rpm.getChecksumType());
 
             packagesStmt.executeUpdate();
 

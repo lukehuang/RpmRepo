@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import org.slf4j.LoggerFactory;
+import ua.pp.msk.yum.persist.GeneralEntry;
 import ua.pp.msk.yum.sqlite.common.Changelog;
 import ua.pp.msk.yum.sqlite.common.Conflicts;
 import ua.pp.msk.yum.sqlite.common.Enhances;
@@ -369,7 +370,7 @@ public class YumPackage implements RPM {
         T t = null;
         try {
             t = c.newInstance();
-            t.setEpoch(e.getEpoch());
+            t.setEpoch(((e.getEpoch() == null) ? "0" : e.getEpoch()));
             t.setFlags(e.getFlags());
             t.setName(e.getName());
             t.setRelease(e.getRelease());
@@ -394,9 +395,11 @@ public class YumPackage implements RPM {
 
     @Override
     public Collection<Conflicts> getConflictsCollection() {
+       
         ArrayList<Conflicts> conflicts = new ArrayList<>();
+         if (getConflicts() == null) return conflicts;
         for (PackageEntry pe : getConflicts()) {
-            conflicts.add(transform(Conflicts.class, pe));
+            conflicts.add(transform(GeneralEntry.class, pe));
         }
         return conflicts;
     }
@@ -437,8 +440,9 @@ public class YumPackage implements RPM {
     @Override
     public Collection<Obsoletes> getObsoletesCollection() {
         ArrayList<Obsoletes> obsoletes = new ArrayList<>();
+         if (getObsoletes() == null) return obsoletes;
         for (PackageEntry pe : getObsoletes()) {
-            obsoletes.add(transform(Obsoletes.class, pe));
+            obsoletes.add(transform(GeneralEntry.class, pe));
         }
         return obsoletes;
     }
@@ -453,7 +457,7 @@ public class YumPackage implements RPM {
 
         ArrayList<Provides> provides = new ArrayList<>();
         for (PackageEntry pe : getProvides()) {
-            provides.add(transform(Provides.class, pe));
+            provides.add(transform(GeneralEntry.class, pe));
         }
         return provides;
     }
@@ -468,7 +472,7 @@ public class YumPackage implements RPM {
     public Collection<Requires> getRequiresCollection() {
         ArrayList<Requires> requires = new ArrayList<>();
         for (RequiresPackageEntry rpe : getRequires()) {
-            Requires r = transform(Requires.class, rpe);
+            Requires r = transform(GeneralEntry.class, rpe);
             r.setPre(rpe.getPre());
             requires.add(r);
         }
@@ -656,15 +660,15 @@ public class YumPackage implements RPM {
 
         @Override
         public String toString() {
-            return "RequiresEntry{" + "name=" + name + ", flags=" + flags + ", epoch=" + epoch + ", version=" + version + ", release=" + release + ", pre=" + pre + '}';
+            return "RequiresPackageEntry{" + "name=" + name + ", flags=" + flags + ", epoch=" + epoch + ", version=" + version + ", release=" + release + ", pre=" + pre + '}';
         }
 
         public boolean getPre() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return pre;
         }
 
         public void setPre(boolean pre) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+           this.pre = pre;
         }
 
     }

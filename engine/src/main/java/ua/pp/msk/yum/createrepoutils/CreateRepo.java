@@ -50,7 +50,7 @@ public class CreateRepo {
         this.repoBaseDir = repoBaseDir;
         this.scanner = scanner;
         this.logger = LoggerFactory.getLogger(this.getClass());
-        p = SqlitePersister.getPersister(repoBaseDir.getAbsolutePath() + File.separator + PATH_OF_REPODATA);
+        // p = SqlitePersister.getPersister(repoBaseDir.getAbsolutePath() + File.separator + PATH_OF_REPODATA);
     }
 
     public void setRpmDir(File rpmDir) {
@@ -106,10 +106,9 @@ public class CreateRepo {
 //        LOG.debug("Generating Yum-Repository for '{}' ...", getRpmDir());
         final File repoRepodataDir = new File(repoBaseDir, PATH_OF_REPODATA);
         final File repoTmpDir = new File(repoBaseDir, REPO_TMP_FOLDER + File.separator + UUID.randomUUID().toString());
-
         DirSupport.mkdir(repoTmpDir);
         final File repoTmpRepodataDir = new File(repoTmpDir, PATH_OF_REPODATA);
-
+        p = SqlitePersister.getPersister(repoTmpRepodataDir);
         DirSupport.mkdir(repoTmpRepodataDir);
         YumStoreFactory ysf = new YumStoreFactoryImpl();
         YumStore yumStore = ysf.create("test");

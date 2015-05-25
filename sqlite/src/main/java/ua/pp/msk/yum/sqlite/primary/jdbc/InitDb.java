@@ -5,7 +5,9 @@
  */
 package ua.pp.msk.yum.sqlite.primary.jdbc;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -73,26 +75,44 @@ public class InitDb implements Runnable, AutoCloseable {
     private Connection conn = null;
     private Statement stmt = null;
 
+    private boolean checkFileExistence() {
+        if (DB_URL != null && DB_URL.length() > 12) {
+            Path dbPath = Paths.get(DB_URL.replaceAll("jdbc:sqlite:", ""));
+            boolean exists = Files.exists(dbPath);
+            LoggerFactory.getLogger(this.getClass()).debug("Database file " + dbPath.toAbsolutePath().toString() + (exists ? " exists" : " does not exist"));
+            return exists;
+        } else {
+            LoggerFactory.getLogger(this.getClass()).warn("Looks like database url is malformed " + DB_URL);
+            return false;
+        }
+    }
+
     @Override
     public void run() {
 
         try {
+
 //We do not need it in JDBS Driver version 4
 //      //STEP 2: Register JDBC driver
 //      Class.forName("com.mysql.jdbc.Driver");
-
             //STEP 3: Open a connection
-            LoggerFactory.getLogger(this.getClass()).debug("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            //Check DB Existence firstly
+            if (checkFileExistence()) {
+                LoggerFactory.getLogger(this.getClass()).warn("Database file exists, will not create new database. Skipping initialize new database");
+                LoggerFactory.getLogger(this.getClass()).debug("Connecting to the brand new database...");
+                conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            } else {
+                LoggerFactory.getLogger(this.getClass()).debug("Connecting to existing database...");
+                conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                //STEP 4: Execute a query
+                LoggerFactory.getLogger(this.getClass()).debug("Creating database...");
+                stmt = conn.createStatement();
 
-            //STEP 4: Execute a query
-            LoggerFactory.getLogger(this.getClass()).debug("Creating database...");
-            stmt = conn.createStatement();
-
-            String sql = ResourceReader.readFile("sql/InitDB.sql", getClass().getClassLoader());
-            LoggerFactory.getLogger(this.getClass()).debug("About to execute query:\n" + sql);
-            stmt.executeUpdate(sql);
-            LoggerFactory.getLogger(this.getClass()).debug("Database created successfully...");
+                String sql = ResourceReader.readFile("sql/InitDB.sql", getClass().getClassLoader());
+                LoggerFactory.getLogger(this.getClass()).debug("About to execute query:\n" + sql);
+                stmt.executeUpdate(sql);
+                LoggerFactory.getLogger(this.getClass()).debug("Database created successfully...");
+            }
         } catch (SQLException se) {
             //Handle errors for JDBC
             LoggerFactory.getLogger(this.getClass()).error("SQL exception " + se.getMessage(), se);

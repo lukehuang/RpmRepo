@@ -5,6 +5,7 @@
  */
 package ua.pp.msk.yum.sqlite;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,11 +15,8 @@ import ua.pp.msk.yum.persist.AbstractPersister;
 
 import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.sqlite.common.Persister;
-import ua.pp.msk.yum.sqlite.common.RPM;
-import ua.pp.msk.yum.sqlite.common.exceptions.PersistException;
 import ua.pp.msk.yum.sqlite.exceptions.DbPathException;
 import ua.pp.msk.yum.sqlite.primary.jdbc.PrimaryPersister;
-
 
 /**
  *
@@ -26,60 +24,87 @@ import ua.pp.msk.yum.sqlite.primary.jdbc.PrimaryPersister;
  */
 public class SqlitePersister extends AbstractPersister {
 
-    
     private static SqlitePersister pr = null;
 
     /**
-     * 
-     * @param path File system path to the folder where sqlite databases should exist 
+     *
+     * @param path File system path to the folder where sqlite databases should
+     * exist
      * @return Instance of SqlitePersister
      */
     public static SqlitePersister getPersister(String path) {
-        synchronized (SqlitePersister.class) {
-            if (pr == null) {
-                synchronized (SqlitePersister.class) {
+
+        if (pr == null) {
+            synchronized (SqlitePersister.class) {
+                if (pr == null) {
                     pr = new SqlitePersister(path);
                 }
             }
         }
+
+        return pr;
+    }
+     public static SqlitePersister getPersister(File file) {
+
+        if (pr == null) {
+            synchronized (SqlitePersister.class) {
+                if (pr == null) {
+                    pr = new SqlitePersister(file);
+                }
+            }
+        }
+
         return pr;
     }
 
     private SqlitePersister(String path) {
         super();
-        addPersister(new PrimaryPersister("jdbc:sqlite:"+path, null, null));
-       //TODO add two more persisters here
-    }
-
-    private Path getSqliteDbPath(Persister p){
-        String stringPath = p.getDbUrl().replaceAll("jdbc:sqlite:", "");
-        return Paths.get(stringPath);
-    }
-   
-
-        public void ensurePath() throws DbPathException {
-        
-
-        Iterator<Persister> persisterIterator = getPersisters().iterator();
-        while(persisterIterator.hasNext()){
-            Persister nextPersister = persisterIterator.next();
-            Path sqliteDbPath = getSqliteDbPath(nextPersister);
-            Path parentPath = sqliteDbPath.getParent();
-            if (!Files.exists(parentPath)){
-                LoggerFactory.getLogger(this.getClass()).warn("Parent directory for database "+sqliteDbPath.toAbsolutePath() + "does not exist. Will attempt to create it");
-                try {
-                    Files.createDirectories(parentPath);
-                    LoggerFactory.getLogger(this.getClass()).info("Parent directory " + parentPath.toAbsolutePath()+" dor database " + sqliteDbPath.toString() + " has been successfuly created");
-                } catch (IOException ex) {
-                    LoggerFactory.getLogger(this.getClass()).error("Parent directory " + parentPath.toAbsolutePath()+" dor database " + sqliteDbPath.toString() + " has been failed to create");
-                    throw new DbPathException("Could not ensure path for database " + sqliteDbPath.toAbsolutePath().toString() ,  ex);
-                }
-            }
-            if (!Files.exists(getSqliteDbPath(nextPersister))){
-                LoggerFactory.getLogger(this.getClass()).info("Database (URL: "+ nextPersister.getDbUrl()+") does not exist.");
-            }
-            
+        try {
+            ensurePath(path, "primary");
+            addPersister(new PrimaryPersister("jdbc:sqlite:" + path, null, null));
+        } catch (DbPathException ex) {
+            LoggerFactory.getLogger(this.getClass()).error("Database path error " + ex.getMessage(), ex);
         }
+        //TODO add two more persisters here
+    }
+    private SqlitePersister(File file) {
+       this(file.getAbsolutePath());
+    }
+/**
+ * 
+ * @param url Database URL for JDBS to connect
+ * @param dbName Database name without .sqlite ending
+ * @return Path to the database
+ */
+    private Path getSqliteDbPath(String url, String dbName) {
+        String stringPath = url.replaceAll("jdbc:sqlite:", "");
+        if (stringPath.endsWith(dbName + ".sqlite")) {
+            return Paths.get(stringPath);
+        } else {
+            return Paths.get(stringPath+ File.separator + dbName + ".sqlite");
+        }
+    }
+
+    public final void ensurePath(String path, String dbName) throws DbPathException {
+
+        Path sqliteDbPath = getSqliteDbPath(path, dbName);
+        Path parentPath = sqliteDbPath.getParent();
+        LoggerFactory.getLogger(this.getClass()).debug("Parent folder of database "+path+" path: " + parentPath.toAbsolutePath().toString());
+        if (!Files.exists(parentPath)) {
+            LoggerFactory.getLogger(this.getClass()).warn("Parent directory for database " + sqliteDbPath.toAbsolutePath() + "does not exist. Will attempt to create it");
+            try {
+                Files.createDirectories(parentPath);
+                LoggerFactory.getLogger(this.getClass()).info("Parent directory " + parentPath.toAbsolutePath() + " dor database " + sqliteDbPath.toString() + " has been successfuly created");
+            } catch (IOException ex) {
+                LoggerFactory.getLogger(this.getClass()).error("Parent directory " + parentPath.toAbsolutePath() + " dor database " + sqliteDbPath.toString() + " has been failed to create");
+                throw new DbPathException("Could not ensure path for database " + sqliteDbPath.toAbsolutePath().toString(), ex);
+            }
+        }
+        if (!Files.exists(sqliteDbPath)) {
+            LoggerFactory.getLogger(this.getClass()).info("Database (path: " + sqliteDbPath + ") does not exist.");
+        }
+
+    }
         //TODO use it later
 //            if (filelist != null) {
 //                filelistUrlSplit = filelist.getProperties().get("javax.persistence.jdbc.url").toString().split(":");
@@ -99,19 +124,16 @@ public class SqlitePersister extends AbstractPersister {
 //        for (Map.Entry<String,Object> p: primaryProperties.entrySet()){
 //            LoggerFactory.getLogger(this.getClass()).debug("Primary property key: " + p.getKey() + " value: " + p.getValue());
 //        }
-    }
 
-    @Override
-    public synchronized void persist(RPM rpm) throws PersistException {
-        try {
-        ensurePath();
-        super.persist(rpm); //To change body of generated methods, choose Tools | Templates.
-        } catch (DbPathException ex){
-            throw new PersistException(ex);
-        }
-                
-    }
-
-   
-
+//    public void moveToTemp(){
+//        Iterator<Persister> iterator = getPersisters().iterator();
+//        while (iterator.hasNext()){
+//            Persister np = iterator.next();
+//            Path dbPath = Paths.get(np.getDbUrl().replaceAll("jdbc:sqlite:", ""));
+//            Path parentDbPath = dbPath.getParent();
+//            parentDbPath.
+//            Files.copy(dbPath, dbPath, options)
+//            
+//        }
+//    }
 }
