@@ -5,6 +5,7 @@
  */
 package ua.pp.msk.yum.sqlite.primary.jdbc;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -77,11 +78,17 @@ public class PrimaryPersister implements Persister {
 
     public PrimaryPersister(String url, String username, String password) {
 
-        this.dbUrl= url;
+        this.dbUrl= (url.endsWith(".sqlite")) ? url : url + File.pathSeparatorChar + "primary.sqlite";
         this.username = username;
         this.password = password;
         init();
     }
+    /**
+     * 
+     * @param dbPath Path to the sqlite database file
+     * @param username User name for database connection
+     * @param password User password for database connection
+     */
     public PrimaryPersister(Path dbPath, String username, String password) {
 
         this.dbUrl= "jdbc:sqlite:"+dbPath.toString();

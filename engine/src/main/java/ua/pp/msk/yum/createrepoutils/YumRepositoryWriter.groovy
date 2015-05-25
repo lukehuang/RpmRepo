@@ -139,7 +139,7 @@ implements Closeable
   /**
    * Write provides/requires/conflicts/obsoletes entries of a package into primary.xml.
    */
-  private void writePCO(final List<YumPackage.Entry> entries, final String type) {
+  private void writePCO(final List<YumPackage.PackageEntry> entries, final String type) {
     if (entries) {
       pw.writeStartElement('rpm:' + type)
       entries.each { entry ->

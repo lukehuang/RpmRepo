@@ -118,7 +118,7 @@ extends YumRepositoryWriter
         }
         else if (reader.prefix == 'rpm' && reader.localName == 'entry') {
           if (pco != null) {
-            pco << new YumPackage.Entry(
+            pco << new YumPackage.PackageEntry(
                 name: reader.getAttributeValue(null, 'name'),
                 flags: reader.getAttributeValue(null, 'flags'),
                 epoch: reader.getAttributeValue(null, 'epoch'),

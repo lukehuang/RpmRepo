@@ -152,7 +152,7 @@ public class YumPackageParser
       def epoch, version, release
       (epoch, version, release) = parseVersion(versions[i])
       def flag = flags[i]
-      provides << new YumPackage.Entry(
+      provides << new YumPackage.PackageEntry(
           name: name,
           epoch: epoch,
           version: version,
@@ -219,7 +219,7 @@ public class YumPackageParser
     if (yumPackage.requires) {
       def provideNames = yumPackage.provides?.collectEntries { [it.name, it] }
       def fileNames = yumPackage.files?.collect { it.name }
-      yumPackage.requires = yumPackage.requires.findResults { YumPackage.Entry item ->
+      yumPackage.requires = yumPackage.requires.findResults { YumPackage.PackageEntry item ->
         if (item.name.startsWith('rpmlib(')) {
           return null
         }
@@ -233,7 +233,7 @@ public class YumPackageParser
           if (!item.flags) {
             return null
           }
-          YumPackage.Entry provide = provideNames.get(item.name)
+          YumPackage.PackageEntry provide = provideNames.get(item.name)
           if (item.epoch == provide.epoch && item.version == provide.version && item.release == provide.release) {
             return null
           }
