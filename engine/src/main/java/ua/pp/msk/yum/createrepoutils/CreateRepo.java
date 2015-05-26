@@ -12,7 +12,6 @@ import java.util.Calendar;
 import java.util.Formatter;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.DirectoryScanner;
