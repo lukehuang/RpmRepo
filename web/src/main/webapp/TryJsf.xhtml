@@ -8,7 +8,9 @@
     <h:body>
         Hello from Facelets
         <h:outputText value="test"/>
-        <h:outputText value=" Message from resources"
+        <h:outputText value=" Message from resources #{msg.firstproperty}" />
+        <h:outputText style="color: #ff3333" value="#{msg.secondproperty}" />
+        <h:button outcome="Createrepo.xhtml" value="Go to createrepo"/>
     </h:body>
 </html>
 
