@@ -14,6 +14,7 @@ import ua.pp.msk.yum.persist.AbstractPersister;
 
 import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.sqlite.exceptions.DbPathException;
+import ua.pp.msk.yum.sqlite.filelist.jdbc.FilelistPersister;
 import ua.pp.msk.yum.sqlite.other.jdbc.OtherPersister;
 import ua.pp.msk.yum.sqlite.primary.jdbc.PrimaryPersister;
 
@@ -62,6 +63,7 @@ public class SqlitePersister extends AbstractPersister {
             ensurePath(path, "primary");
             addPersister(new PrimaryPersister("jdbc:sqlite:" + path, null, null));
             addPersister(new OtherPersister("jdbc:sqlite:" + path, null, null));
+            addPersister(new FilelistPersister("jdbc:sqlite:" + path, null, null));
         } catch (DbPathException ex) {
             LoggerFactory.getLogger(this.getClass()).error("Database path error " + ex.getMessage(), ex);
         }

@@ -6,6 +6,7 @@
 
 package ua.pp.msk.yum.sqlite.other;
 
+import java.util.Date;
 import ua.pp.msk.yum.sqlite.common.Changelog;
 
 /**
@@ -81,9 +82,6 @@ public class ChangelogImpl implements Changelog {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "ua.pp.msk.yum.sqlite.other.Changelog[ changelogPK=" + changelogPK + " ]";
-    }
+   
 
-}
+   

@@ -739,19 +739,22 @@ public class YumPackage implements RPM {
         @Override
         public String getDirname() {
             LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed dirname in " + this.getClass().getCanonicalName());
-            return "";
+            //TODO must be implemented later
+            return "Fake dirname";
         }
 
         @Override
         public String getFilenames() {
             LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed filenames in " + this.getClass().getCanonicalName());
-            return "";
+            //TODO must be implemented later
+            return "Fake filenames";
         }
 
         @Override
         public String getFiletypes() {
             LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed filetypes in " + this.getClass().getCanonicalName());
-            return "";
+            //TODO must be implemented later
+            return "Fake Filetype";
         }
 
         @Override
