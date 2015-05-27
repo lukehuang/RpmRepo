@@ -24,11 +24,11 @@
             <artifactId>primefaces</artifactId>
             <version>5.2</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>all-themes</artifactId>
             <version>1.0.8</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>ua.pp.msk.yum</groupId>
             <artifactId>server</artifactId>
