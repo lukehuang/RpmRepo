@@ -49,19 +49,20 @@ public class YumPackage implements RPM {
     private String summary;
     private String description;
     private String url;
-    private Integer timeFile;
-    private Integer timeBuild;
+    private int timeFile;
+    private int timeBuild;
     private String rpmLicense;
     private String rpmVendor;
     private String rpmGroup;
     private String rpmBuildHost;
     private String rpmSourceRpm;
-    private Integer rpmHeaderStart;
-    private Integer rpmHeaderEnd;
+    private int rpmHeaderStart;
+    private int rpmHeaderEnd;
     private String packager;
-    private Integer sizePackage;
-    private Integer sizeInstalled;
-    private Integer sizeArchive;
+    private int sizePackage;
+    private int sizeInstalled;
+    private int sizeArchive;
+    private int pkgKey = -1;
 
     private List<PackageEntry> provides;
     private List<RequiresPackageEntry> requires;
@@ -387,17 +388,22 @@ public class YumPackage implements RPM {
     @Override
     public Collection<Changelog> getChangelogCollection() {
         ArrayList<Changelog> changes = new ArrayList<>();
-        for (ChangeLog cl : getChanges()) {
-            changes.add(cl);
+        //TODO Check Null value
+        if (getChanges() != null && !getChanges().isEmpty()) {
+            for (ChangeLog cl : getChanges()) {
+                changes.add(cl);
+            }
         }
         return changes;
     }
 
     @Override
     public Collection<Conflicts> getConflictsCollection() {
-       
+
         ArrayList<Conflicts> conflicts = new ArrayList<>();
-         if (getConflicts() == null) return conflicts;
+        if (getConflicts() == null) {
+            return conflicts;
+        }
         for (PackageEntry pe : getConflicts()) {
             conflicts.add(transform(GeneralEntry.class, pe));
         }
@@ -423,7 +429,7 @@ public class YumPackage implements RPM {
         List<File> fls = getFiles();
         result.addAll(fls);
         return result;
-                
+
     }
 
     @Override
@@ -440,7 +446,9 @@ public class YumPackage implements RPM {
     @Override
     public Collection<Obsoletes> getObsoletesCollection() {
         ArrayList<Obsoletes> obsoletes = new ArrayList<>();
-         if (getObsoletes() == null) return obsoletes;
+        if (getObsoletes() == null) {
+            return obsoletes;
+        }
         for (PackageEntry pe : getObsoletes()) {
             obsoletes.add(transform(GeneralEntry.class, pe));
         }
@@ -449,13 +457,16 @@ public class YumPackage implements RPM {
 
     @Override
     public Integer getPkgKey() {
-        return null;
+        return pkgKey;
     }
 
     @Override
     public Collection<Provides> getProvidesCollection() {
 
         ArrayList<Provides> provides = new ArrayList<>();
+        if (getProvides() == null) {
+            return provides;
+        }
         for (PackageEntry pe : getProvides()) {
             provides.add(transform(GeneralEntry.class, pe));
         }
@@ -487,7 +498,7 @@ public class YumPackage implements RPM {
 
     @Override
     public String getRpmPackager() {
-         LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed rpmPackager in " + this.getClass().getCanonicalName());
+        LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed rpmPackager in " + this.getClass().getCanonicalName());
         return "";
     }
 
@@ -551,7 +562,9 @@ public class YumPackage implements RPM {
 
     @Override
     public void setPkgKey(Integer pkgKey) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (pkgKey > 0) {
+            this.pkgKey = pkgKey;
+        }
     }
 
     @Override
@@ -668,12 +681,12 @@ public class YumPackage implements RPM {
         }
 
         public void setPre(boolean pre) {
-           this.pre = pre;
+            this.pre = pre;
         }
 
     }
 
-    public static class File implements Files, Filelist{
+    public static class File implements Files, Filelist {
 
         String name;
         FileType type;
@@ -687,7 +700,7 @@ public class YumPackage implements RPM {
         @Override
         public String getName() {
             return name;
-            }
+        }
 
         @Override
         public int getPkgKey() {
@@ -711,53 +724,50 @@ public class YumPackage implements RPM {
 
         @Override
         public void setType(String type) {
-            if (type.equals(FileType.dir.toString())){
-                     this.type = FileType.dir;
-            } else
-            if (type.equals(FileType.file.toString())){
-                     this.type = FileType.file;
-            } else
-            if (type.equals(FileType.ghost.toString())){
-                     this.type = FileType.ghost;
+            if (type.equals(FileType.dir.toString())) {
+                this.type = FileType.dir;
+            } else if (type.equals(FileType.file.toString())) {
+                this.type = FileType.file;
+            } else if (type.equals(FileType.ghost.toString())) {
+                this.type = FileType.ghost;
             } else {
                 LoggerFactory.getLogger(this.getClass()).warn("Cannot assign such file type " + type + " will use default " + FileType.file.toString());
             }
-            
-           
+
         }
 
         @Override
         public String getDirname() {
-             LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed dirname in " + this.getClass().getCanonicalName());
-        return "";
+            LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed dirname in " + this.getClass().getCanonicalName());
+            return "";
         }
 
         @Override
         public String getFilenames() {
             LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed filenames in " + this.getClass().getCanonicalName());
-        return "";
+            return "";
         }
 
         @Override
         public String getFiletypes() {
-             LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed filetypes in " + this.getClass().getCanonicalName());
-        return "";
+            LoggerFactory.getLogger(this.getClass()).warn("Trying to get value from dummy filed filetypes in " + this.getClass().getCanonicalName());
+            return "";
         }
 
         @Override
         public void setDirname(String dirname) {
-             LoggerFactory.getLogger(this.getClass()).warn("Trying to assign value "+dirname +" to  dummy filed dirname in " + this.getClass().getCanonicalName());
-        
+            LoggerFactory.getLogger(this.getClass()).warn("Trying to assign value " + dirname + " to  dummy filed dirname in " + this.getClass().getCanonicalName());
+
         }
 
         @Override
         public void setFilenames(String filenames) {
-                 LoggerFactory.getLogger(this.getClass()).warn("Trying to assign value "+filenames +" to  dummy filed dirname in " + this.getClass().getCanonicalName());
+            LoggerFactory.getLogger(this.getClass()).warn("Trying to assign value " + filenames + " to  dummy filed dirname in " + this.getClass().getCanonicalName());
         }
 
         @Override
         public void setFiletypes(String filetypes) {
-                 LoggerFactory.getLogger(this.getClass()).warn("Trying to assign value "+filetypes +" to  dummy filed dirname in " + this.getClass().getCanonicalName());
+            LoggerFactory.getLogger(this.getClass()).warn("Trying to assign value " + filetypes + " to  dummy filed dirname in " + this.getClass().getCanonicalName());
         }
 
     }
@@ -831,6 +841,47 @@ public class YumPackage implements RPM {
         @Override
         public void setPkgKey(int pkgKey) {
             LoggerFactory.getLogger(this.getClass()).warn("Trying to assign value " + pkgKey + " to dummy filed pkgKey in " + this.getClass().getCanonicalName());
+        }
+
+        @Override
+        public String getAuthor() {
+            return author;
+        }
+
+        @Override
+        public void setAuthor(String author) {
+            this.author = author;
+        }
+
+        @Override
+        public Date getDateAsDate() {
+            Date d = new Date(date * 1000);
+            return d;
+        }
+
+        @Override
+        public void setDate(Integer date) {
+            this.date = date;
+        }
+
+        @Override
+        public String getText() {
+            return text;
+        }
+
+        @Override
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        @Override
+        public void setDate(Date date) {
+            this.date = (int) date.getTime() / 1000;
+        }
+
+        @Override
+        public Integer getDate() {
+            return date;
         }
 
     }

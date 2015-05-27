@@ -5,6 +5,7 @@
  */
 package ua.pp.msk.yum.sqlite.primary.jdbc;
 
+import ua.pp.msk.yum.sqlite.InitDb;
 import java.io.File;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -132,6 +133,7 @@ public class PrimaryPersister implements Persister {
 
     private void init() {
         InitDb idb = new InitDb(dbUrl, username, password);
+        idb.setResourceSqlPath("sql/primary/InitDB.sql");
         idb.run();
         dbCon = idb.getConnection();
         try {
@@ -184,7 +186,7 @@ public class PrimaryPersister implements Persister {
 
         int lk = getLastPkgKey() + 1;
         try {
-
+            rpm.setPkgKey(lk);
             dbCon.setAutoCommit(false);
             packagesStmt.setString(1, rpm.getPkgId());
             packagesStmt.setString(2, rpm.getName());
@@ -220,8 +222,8 @@ public class PrimaryPersister implements Persister {
                     filesStmt.setString(1, nextFile.getName());
                     filesStmt.setString(2, nextFile.getType());
                     filesStmt.setInt(3, lk);
-                }
-                filesStmt.executeUpdate();
+                 filesStmt.executeUpdate();}
+               
             }
 
             if (conflictsIterator.hasNext()) {
@@ -234,8 +236,8 @@ public class PrimaryPersister implements Persister {
                     conflictsStmt.setString(5, nextConflict.getRelease());
                     conflictsStmt.setInt(6, nextConflict.getPkgKey());
                     conflictsStmt.setInt(3, lk);
-                }
-                conflictsStmt.executeUpdate();
+                conflictsStmt.executeUpdate();}
+                
             }
 
             if (requiresIterator.hasNext()) {
@@ -248,8 +250,8 @@ public class PrimaryPersister implements Persister {
                     requiresStmt.setString(5, nextRequires.getRelease());
                     requiresStmt.setInt(6, lk);
                     requiresStmt.setBoolean(7, nextRequires.getPre());
-                }
-                requiresStmt.executeUpdate();
+                requiresStmt.executeUpdate();}
+                
             }
 
             if (providesIterator.hasNext()) {
@@ -262,8 +264,8 @@ public class PrimaryPersister implements Persister {
                     providesStmt.setString(5, nextProvides.getRelease());
                     providesStmt.setInt(6, nextProvides.getPkgKey());
                     providesStmt.setInt(3, lk);
-                }
-                providesStmt.executeUpdate();
+                providesStmt.executeUpdate();}
+                
             }
 //            
 //             CREATE TABLE obsoletes (  name TEXT,  flags TEXT,  epoch TEXT,  version TEXT,  release TEXT,  pkgKey INTEGER );
@@ -281,8 +283,8 @@ public class PrimaryPersister implements Persister {
                     obsoletesStmt.setString(5, nextObsoletes.getRelease());
                     obsoletesStmt.setInt(6, nextObsoletes.getPkgKey());
                     obsoletesStmt.setInt(3, lk);
-                }
-                obsoletesStmt.executeUpdate();
+                obsoletesStmt.executeUpdate();}
+                
             }
             if (suggestsIterator.hasNext()) {
                 while (suggestsIterator.hasNext()) {
@@ -294,8 +296,8 @@ public class PrimaryPersister implements Persister {
                     suggestsStmt.setString(5, nextSuggests.getRelease());
                     suggestsStmt.setInt(6, nextSuggests.getPkgKey());
                     suggestsStmt.setInt(3, lk);
-                }
-                suggestsStmt.executeUpdate();
+              suggestsStmt.executeUpdate();  }
+                
             }
             if (enhancesIterator.hasNext()) {
                 while (enhancesIterator.hasNext()) {
@@ -307,8 +309,8 @@ public class PrimaryPersister implements Persister {
                     enhancesStmt.setString(5, nextEnhances.getRelease());
                     enhancesStmt.setInt(6, nextEnhances.getPkgKey());
                     enhancesStmt.setInt(3, lk);
-                }
-                enhancesStmt.executeUpdate();
+               enhancesStmt.executeUpdate();  }
+               
             }
             if (recommendsIterator.hasNext()) {
                 while (recommendsIterator.hasNext()) {
@@ -320,8 +322,8 @@ public class PrimaryPersister implements Persister {
                     recommendsStmt.setString(5, nextRecommends.getRelease());
                     recommendsStmt.setInt(6, nextRecommends.getPkgKey());
                     recommendsStmt.setInt(3, lk);
-                }
-                recommendsStmt.executeUpdate();
+                 recommendsStmt.executeUpdate();}
+               
             }
             if (supplementsIterator.hasNext()) {
                 while (supplementsIterator.hasNext()) {
@@ -333,8 +335,8 @@ public class PrimaryPersister implements Persister {
                     supplementsStmt.setString(5, nextSupplements.getRelease());
                     supplementsStmt.setInt(6, nextSupplements.getPkgKey());
                     supplementsStmt.setInt(3, lk);
-                }
-                supplementsStmt.executeUpdate();
+              supplementsStmt.executeUpdate();  }
+                
             }
 
             dbCon.commit();

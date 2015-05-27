@@ -5,6 +5,7 @@
  */
 package ua.pp.msk.yum.sqlite.primary.jdbc;
 
+import ua.pp.msk.yum.sqlite.InitDb;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

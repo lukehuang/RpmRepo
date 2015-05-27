@@ -6,6 +6,7 @@
 package ua.pp.msk.yum.sqlite.common;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -20,5 +21,19 @@ public interface Changelog extends Serializable {
     void setChangelog(String changelog);
 
     void setPkgKey(int pkgKey);
+
+    public String getAuthor();
+
+    public void setAuthor(String author);
+
+    public Integer getDate();
+    public Date getDateAsDate();
+
+    public void setDate(Integer date);
+    public void setDate(Date date);
+
+    public String getText();
+
+    public void setText(String text);
 
 }

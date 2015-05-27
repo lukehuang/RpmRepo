@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.pp.msk.yum.sqlite.primary.jdbc;
+package ua.pp.msk.yum.sqlite;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,6 +21,8 @@ import ua.pp.msk.yum.sqlite.common.ResourceReader;
  */
 public class InitDb implements Runnable, AutoCloseable {
 
+ 
+    
     //Database schema initialization query
     //Todo implement db_info fill up
 /*
@@ -55,7 +57,17 @@ public class InitDb implements Runnable, AutoCloseable {
         this("jdbc:sqlite:" + sqliteDbPath.toString(), username, password);
         LoggerFactory.getLogger(this.getClass()).debug("Setting sqlite database path to " + sqliteDbPath.toString());
     }
+    
+    
+     public InitDb(Path sqliteDbPath, String username, String password, String sqlResource) {
+     this (sqliteDbPath, username, password);
+     this.resourceSqlPath = sqlResource;
+     }
 
+     public InitDb(String url, String username, String password, String sqlResource) {
+         this(url, username, password);
+          this.resourceSqlPath = sqlResource;
+     }
     public InitDb(String url, String username, String password) {
         //TODO check files existence 
         LoggerFactory.getLogger(this.getClass()).debug("Setting sqlite URL to " + url);
@@ -74,6 +86,8 @@ public class InitDb implements Runnable, AutoCloseable {
 
     private Connection conn = null;
     private Statement stmt = null;
+       
+    private String resourceSqlPath;
 
     private boolean checkFileExistence() {
         if (DB_URL != null && DB_URL.length() > 12) {
@@ -86,6 +100,16 @@ public class InitDb implements Runnable, AutoCloseable {
             return false;
         }
     }
+
+    public String getResourceSqlPath() {
+        return resourceSqlPath;
+    }
+
+    public void setResourceSqlPath(String resourceSqlPath) {
+        this.resourceSqlPath = resourceSqlPath;
+    }
+    
+    
 
     @Override
     public void run() {
@@ -108,7 +132,7 @@ public class InitDb implements Runnable, AutoCloseable {
                 LoggerFactory.getLogger(this.getClass()).debug("Creating database...");
                 stmt = conn.createStatement();
 
-                String sql = ResourceReader.readFile("sql/InitDB.sql", getClass().getClassLoader());
+                String sql = ResourceReader.readFile(resourceSqlPath, getClass().getClassLoader());
                 LoggerFactory.getLogger(this.getClass()).debug("About to execute query:\n" + sql);
                 stmt.executeUpdate(sql);
                 LoggerFactory.getLogger(this.getClass()).debug("Database created successfully...");
@@ -117,6 +141,7 @@ public class InitDb implements Runnable, AutoCloseable {
             //Handle errors for JDBC
             LoggerFactory.getLogger(this.getClass()).error("SQL exception " + se.getMessage(), se);
         }
+        //TODO handle resource not found exception
 
     }//end main
 
