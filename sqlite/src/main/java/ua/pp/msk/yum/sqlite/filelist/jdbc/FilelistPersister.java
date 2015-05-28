@@ -139,10 +139,10 @@ public class FilelistPersister implements Persister{
                     filelistStmt.setString(4, nextFile.getFiletypes());
                     filelistStmt.executeUpdate();}
             }
-             //TODO should be 1 per db
-//             dbInfoStmt.setInt(1, lk);
-//             dbInfoStmt.setString(1, "Not supported yet!");
-//             dbInfoStmt.executeUpdate();
+//             TODO should be 1 per db
+             dbInfoStmt.setInt(1, 10);
+//             dbInfoStmt.setString(2, getCompressedChecksum());
+             dbInfoStmt.executeUpdate();
              
             dbCon.commit();
         }catch (SQLException ex) {
