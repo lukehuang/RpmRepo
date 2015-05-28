@@ -6,6 +6,8 @@
 package ua.pp.msk.yum.server;
 
 import java.io.File;
+import java.io.Serializable;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.createrepoutils.CreateRepo;
@@ -17,24 +19,29 @@ import ua.pp.msk.yum.createrepoutils.CreateRepo;
  * @author maskimko
  */
 @Stateless
-public class TryController implements RepositoryManager{
+@LocalBean
+public class RepositoryManager implements Serializable {
 
     private String repoPath;
     
-    @Override
     public void setRepositoryPath(String path) {
         this.repoPath = path;
     }
+    
+    public String  getRepositoryPath(){
+        return repoPath;
+    }
 
-    @Override
     public boolean createRepositoty() {
         boolean result = false;
+        LoggerFactory.getLogger(this.getClass()).debug("Should create repository at " + repoPath);
         if (repoPath != null && !repoPath.isEmpty()) {
                 
             CreateRepo cr = new CreateRepo(new File(repoPath), new File(repoPath));
             try {
                 cr.execute();
                 result = true;
+                LoggerFactory.getLogger(this.getClass()).info("Repository " + repoPath + " should be " + ((result) ? "created" : "not created"));
             } catch (Exception ex) {
                 LoggerFactory.getLogger(this.getClass()).error("Cannot create repository", ex);
                 result = false;
