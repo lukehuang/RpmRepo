@@ -14,3 +14,6 @@ utility/target/*
 /commonsqlite/target/
 /engine/target/
 /Division/target/
+/commonsserver/target/
+/enterprise/server/target/
+/enterprise/web/target/
