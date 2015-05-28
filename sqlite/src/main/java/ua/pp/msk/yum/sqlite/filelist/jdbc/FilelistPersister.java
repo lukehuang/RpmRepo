@@ -140,9 +140,9 @@ public class FilelistPersister implements Persister{
                     filelistStmt.executeUpdate();}
             }
              //TODO should be 1 per db
-             dbInfoStmt.setInt(1, lk);
-             dbInfoStmt.setString(1, "Not supported yet!");
-             dbInfoStmt.executeUpdate();
+//             dbInfoStmt.setInt(1, lk);
+//             dbInfoStmt.setString(1, "Not supported yet!");
+//             dbInfoStmt.executeUpdate();
              
             dbCon.commit();
         }catch (SQLException ex) {
@@ -150,6 +150,9 @@ public class FilelistPersister implements Persister{
             throw new PersistException("Cannot persist package " + rpm.toString(), ex);
         }
 
+    }
+    public void persistDbInfo(RPM rpm) throws PersistException {
+        
     }
     
     @Override
