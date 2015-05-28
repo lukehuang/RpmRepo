@@ -16,4 +16,33 @@
 		<var>msg</var>
 	   </resource-bundle>
      </application>
+    <navigation-rule>
+        <from-view-id>/Createrepo.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>create</from-outcome>
+            <to-view-id>/success.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>notcreate</from-outcome>
+            <to-view-id>/failure.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <managed-bean>
+        <managed-bean-name>redirectBean</managed-bean-name>
+        <managed-bean-class>ua.pp.msk.yum.web.RedirectBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>createrepo</managed-bean-name>
+        <managed-bean-class>ua.pp.msk.yum.web.Createrepo</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>welcome</from-outcome>
+            <to-view-id>/Createrepo.xhtml</to-view-id>
+            <redirect>true</redirect>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

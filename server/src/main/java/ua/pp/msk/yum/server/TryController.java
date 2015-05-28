@@ -5,10 +5,10 @@
  */
 package ua.pp.msk.yum.server;
 
+import ua.pp.msk.yum.persist.server.RepositoryManager;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Local;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import org.slf4j.LoggerFactory;
 import ua.pp.msk.yum.createrepoutils.CreateRepo;
@@ -20,6 +20,7 @@ import ua.pp.msk.yum.createrepoutils.CreateRepo;
  * @author maskimko
  */
 @Stateless
+@Remote(value = RepositoryManager.class)
 @Local(value = RepositoryManager.class)
 public class TryController implements RepositoryManager{
 
@@ -31,16 +32,20 @@ public class TryController implements RepositoryManager{
     }
 
     @Override
-    public void createRepositoty() {
+    public boolean createRepositoty() {
+        boolean result = false;
         if (repoPath != null && !repoPath.isEmpty()) {
                 
             CreateRepo cr = new CreateRepo(new File(repoPath), new File(repoPath));
             try {
                 cr.execute();
+                result = true;
             } catch (Exception ex) {
                 LoggerFactory.getLogger(this.getClass()).error("Cannot create repository", ex);
+                result = false;
             }
         }
+        return result;
     }
 
     

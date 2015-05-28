@@ -9,9 +9,11 @@
     <h:body>
         <p:panel>
             <h:form>
-                <p:outputLabel value="Directory path"/>
-                <p:inputText placeholder="RPM directory"/>
-                <p:commandButton action="createrepo" value="Create Repository"/>
+                <h:outputLabel value="Directory path" for="repoDir"/>
+                <h:inputText id="repoDir"  
+                           
+                             value="#{createrepo.repoDir}"/>
+                <h:commandButton action="#{createrepo.create}" value="Create Repository" />
             </h:form>
         </p:panel>
     </h:body>

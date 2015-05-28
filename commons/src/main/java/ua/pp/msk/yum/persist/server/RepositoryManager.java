@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.pp.msk.yum.server;
+package ua.pp.msk.yum.persist.server;
 
 /**
  *
  * @author maskimko
  */
+
 public interface RepositoryManager {
     void setRepositoryPath(String path);
-    void createRepositoty();
+    boolean createRepositoty();
 }
