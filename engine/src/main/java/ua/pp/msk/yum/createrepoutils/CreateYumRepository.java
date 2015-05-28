@@ -11,27 +11,31 @@
  * Eclipse Foundation. All other trademarks are the property of their respective owners.
  */
 package ua.pp.msk.yum.createrepoutils;
+
+import java.io.File;
 import ua.pp.msk.yum.YumPackage;
+
 /**
  * Creates a yum repository (similar to createrepo).
+ *
  * @since 3.0
  */
 class CreateYumRepository
-extends YumRepositoryWriter
-{
+        extends YumRepositoryWriter {
 
-  CreateYumRepository(final File repoDir, final Integer timestamp = null, final File groupFile = null) {
-    super(repoDir, timestamp, groupFile)
-  }
+    CreateYumRepository(final File repoDir,
+            final Integer timestamp,    final File groupFile ) {
+    super(repoDir, timestamp, groupFile);
+    }
 
-  /**
-   * Write a yum package metadata.
-   */
-  void write(final YumPackage yumPackage) {
-    maybeStart()
-    writePrimary(yumPackage)
-    writeFileLists(yumPackage)
-    writeOther(yumPackage)
-  }
+    /**
+     * Write a yum package metadata.
+     */
+    void write(final YumPackage yumPackage) {
+        maybeStart();
+        writePrimary(yumPackage);
+        writeFileLists(yumPackage);
+        writeOther(yumPackage);
+    }
 
 }
