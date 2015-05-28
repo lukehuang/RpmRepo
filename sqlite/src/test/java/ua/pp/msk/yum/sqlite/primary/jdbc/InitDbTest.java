@@ -5,7 +5,7 @@
  */
 package ua.pp.msk.yum.sqlite.primary.jdbc;
 
-import ua.pp.msk.yum.sqlite.InitDb;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,6 +14,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.slf4j.LoggerFactory;
+import ua.pp.msk.yum.sqlite.InitDb;
 
 /**
  *
