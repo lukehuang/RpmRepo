@@ -67,7 +67,9 @@ public class InitDbTest {
                 Files.delete(tdb);
             }
             if (Files.exists(parentDb)) {
-                Files.delete(parentDb);
+                if (parentDb.toFile().list().length == 0) {
+                    Files.delete(parentDb);
+                }
             }
           
         } catch (IOException ex) {
