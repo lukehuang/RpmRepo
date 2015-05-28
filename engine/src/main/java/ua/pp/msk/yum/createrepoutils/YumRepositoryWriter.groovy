@@ -14,9 +14,12 @@ package ua.pp.msk.yum.createrepoutils;
 
 import com.google.common.io.BaseEncoding
 import com.google.common.io.CountingOutputStream
+import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter
 import org.apache.commons.io.IOUtils
 import javax.xml.stream.XMLOutputFactory
 import javax.xml.stream.XMLStreamWriter
+import javax.xml.transform.Transformer
+import javax.xml.transform.TransformerFactory
 import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.util.zip.GZIPOutputStream
@@ -33,28 +36,34 @@ implements Closeable
     protected File repoDir
     protected int timestamp
     private File groupFile
-    private Output po
-    private Output fo
-    private Output oo
+    private OutputXmlStream po
+    private OutputXmlStream fo
+    private OutputXmlStream oo
     protected XMLStreamWriter pw
     protected XMLStreamWriter fw
     protected XMLStreamWriter ow
     protected XMLStreamWriter rw
     private boolean open
     private boolean closed
-
+    
+    
     YumRepositoryWriter(final File repoDir, final Integer timestamp = null, final File groupFile = null) {
         this.repoDir = repoDir
         this.timestamp = timestamp ?: System.currentTimeMillis() / 1000
         this.groupFile = groupFile
         XMLOutputFactory factory = XMLOutputFactory.newInstance()
-        po = new Output(new FileOutputStream(new File(repoDir, 'primary.xml.gz')))
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer indentTransformer = tf.newTransformer();
+        indentTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+     
+        //  po = new Output(new FileOutputStream(new File(repoDir, 'primary.xml.gz')))
+        po = new OutputXmlStream(new FileOutputStream(new File(repoDir, "primary.xml.gz")))
         pw = new IndentingXMLStreamWriter(factory.createXMLStreamWriter(po.stream, "UTF-8"))
-
-        fo = new Output(new FileOutputStream(new File(repoDir, 'filelists.xml.gz')))
+       
+        fo = new OutputXmlStream(new FileOutputStream(new File(repoDir, 'filelists.xml.gz')))
         fw = new IndentingXMLStreamWriter(factory.createXMLStreamWriter(fo.stream, "UTF-8"))
 
-        oo = new Output(new FileOutputStream(new File(repoDir, 'other.xml.gz')))
+        oo = new OutputXmlStream(new FileOutputStream(new File(repoDir, 'other.xml.gz')))
         ow = new IndentingXMLStreamWriter(factory.createXMLStreamWriter(oo.stream, "UTF-8"))
 
         rw = new IndentingXMLStreamWriter(factory.createXMLStreamWriter(new FileOutputStream(new File(repoDir, 'repomd.xml')), "UTF-8"))
@@ -142,7 +151,7 @@ implements Closeable
             pw.writeStartElement('rpm:' + type)
             entries.each { entry ->
                 if (entry instanceof YumPackage.RequiresPackageEntry){
-                      writeEl(pw, 'rpm:entry', [
+                    writeEl(pw, 'rpm:entry', [
             'name': entry.name,
             'flags': entry.flags,
             'epoch': entry.epoch, 'ver': entry.version, 'rel': entry.release,
@@ -209,7 +218,7 @@ implements Closeable
     /**
      * Write a data entry into repomd.xml.
      */
-    private void writeData(final Output output, final String type) {
+    private void writeData(final OutputXmlStream output, final String type) {
         rw.writeStartElement('data')
         rw.writeAttribute('type', type)
         writeEl(rw, 'checksum', output.compressedChecksum, ['type': 'sha256'])
@@ -231,7 +240,7 @@ implements Closeable
             }
         }
         new FileInputStream(groupFile).withStream { InputStream input ->
-            Output go = new Output(new FileOutputStream(new File(repoDir, 'comps.xml.gz')))
+            OutputXmlStream go = new OutputXmlStream(new FileOutputStream(new File(repoDir, 'comps.xml.gz')))
             go.stream.withStream { OutputStream output ->
                 IOUtils.copy(input, output)
             }
@@ -316,47 +325,47 @@ implements Closeable
     /**
      * Holder of streams used to get checksum/size of open and gzip xml content.
      */
-    private static class Output
-    {
-        private CountingOutputStream openSizeStream
-        private CountingOutputStream compressedSizeStream
-        private DigestOutputStream openDigestStream
-        private DigestOutputStream compressedDigestStream
-        private String openChecksum
-        private String compressedChecksum
-
-        Output(final OutputStream stream) {
-            compressedDigestStream = new DigestOutputStream(stream, MessageDigest.getInstance("SHA-256"))
-            compressedSizeStream = new CountingOutputStream(compressedDigestStream)
-            openDigestStream = new DigestOutputStream(new GZIPOutputStream(compressedSizeStream), MessageDigest.getInstance("SHA-256"))
-            openSizeStream = new CountingOutputStream(openDigestStream)
-        }
-
-        OutputStream getStream() {
-            return openSizeStream
-        }
-
-        long getOpenSize() {
-            return openSizeStream.count
-        }
-
-        long getCompressedSize() {
-            return compressedSizeStream.count
-        }
-
-        String getOpenChecksum() {
-            if (!openChecksum) {
-                openChecksum = BaseEncoding.base16().lowerCase().encode(openDigestStream.messageDigest.digest())
-            }
-            return openChecksum
-        }
-
-        String getCompressedChecksum() {
-            if (!compressedChecksum) {
-                compressedChecksum = BaseEncoding.base16().lowerCase().encode(compressedDigestStream.messageDigest.digest())
-            }
-            return compressedChecksum
-        }
-    }
+//    private static class Output
+//    {
+//        private CountingOutputStream openSizeStream
+//        private CountingOutputStream compressedSizeStream
+//        private DigestOutputStream openDigestStream
+//        private DigestOutputStream compressedDigestStream
+//        private String openChecksum
+//        private String compressedChecksum
+//
+//        Output(final OutputStream stream) {
+//            compressedDigestStream = new DigestOutputStream(stream, MessageDigest.getInstance("SHA-256"))
+//            compressedSizeStream = new CountingOutputStream(compressedDigestStream)
+//            openDigestStream = new DigestOutputStream(new GZIPOutputStream(compressedSizeStream), MessageDigest.getInstance("SHA-256"))
+//            openSizeStream = new CountingOutputStream(openDigestStream)
+//        }
+//
+//        OutputStream getStream() {
+//            return openSizeStream
+//        }
+//
+//        long getOpenSize() {
+//            return openSizeStream.count
+//        }
+//
+//        long getCompressedSize() {
+//            return compressedSizeStream.count
+//        }
+//
+//        String getOpenChecksum() {
+//            if (!openChecksum) {
+//                openChecksum = BaseEncoding.base16().lowerCase().encode(openDigestStream.messageDigest.digest())
+//            }
+//            return openChecksum
+//        }
+//
+//        String getCompressedChecksum() {
+//            if (!compressedChecksum) {
+//                compressedChecksum = BaseEncoding.base16().lowerCase().encode(compressedDigestStream.messageDigest.digest())
+//            }
+//            return compressedChecksum
+//        }
+//    }
 
 }
