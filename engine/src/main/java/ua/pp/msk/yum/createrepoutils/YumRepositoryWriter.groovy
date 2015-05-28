@@ -14,9 +14,7 @@ package ua.pp.msk.yum.createrepoutils;
 
 import com.google.common.io.BaseEncoding
 import com.google.common.io.CountingOutputStream
-import javanet.staxutils.IndentingXMLStreamWriter
 import org.apache.commons.io.IOUtils
-
 import javax.xml.stream.XMLOutputFactory
 import javax.xml.stream.XMLStreamWriter
 import java.security.DigestOutputStream
