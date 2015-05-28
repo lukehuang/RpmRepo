@@ -19,6 +19,11 @@ public class ChangelogImpl implements Changelog {
     protected ChangelogPK changelogPK;
     private String changelog;
     private int pkgKey;
+    private String author;
+    private Integer date;
+    private Date dateAsDate;
+    private String text;
+
 
     public ChangelogImpl() {
         this.changelogPK = new ChangelogPK();
@@ -81,6 +86,47 @@ public class ChangelogImpl implements Changelog {
         }
         return true;
     }
+
+    @Override
+    public String getAuthor() {
+        return author;
+    }
+
+    @Override
+    public void setAuthor(String author) {
+       this.author = author;
+    }
+
+    @Override
+    public Integer getDate() {
+        return date;
+    }
+
+    @Override
+    public Date getDateAsDate() {
+        return dateAsDate;
+    }
+
+    @Override
+    public void setDate(Integer date) {
+         this.date = date;
+    }
+
+    @Override
+    public void setDate(Date date) {
+        this.dateAsDate = dateAsDate;
+    }
+
+    @Override
+    public String getText() {
+        return text;
+    }
+
+    @Override
+    public void setText(String text) {
+         this.text = text;
+    }
+}
 
    
 
