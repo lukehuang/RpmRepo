@@ -22,21 +22,11 @@ import ua.pp.msk.yum.createrepoutils.CreateRepo;
 @LocalBean
 public class RepositoryManager implements Serializable {
 
-    private String repoPath;
-    
-    public void setRepositoryPath(String path) {
-        this.repoPath = path;
-    }
-    
-    public String  getRepositoryPath(){
-        return repoPath;
-    }
-
-    public boolean createRepositoty() {
+     public boolean createRepositoty(String repoPath) {
         boolean result = false;
-        LoggerFactory.getLogger(this.getClass()).debug("Should create repository at " + repoPath);
         if (repoPath != null && !repoPath.isEmpty()) {
-                
+                   LoggerFactory.getLogger(this.getClass()).debug("Should create repository at " + repoPath);
+     
             CreateRepo cr = new CreateRepo(new File(repoPath), new File(repoPath));
             try {
                 cr.execute();
@@ -46,6 +36,8 @@ public class RepositoryManager implements Serializable {
                 LoggerFactory.getLogger(this.getClass()).error("Cannot create repository", ex);
                 result = false;
             }
+        } else {
+            LoggerFactory.getLogger(this.getClass()).warn("Repository path is empty or null");
         }
         return result;
     }

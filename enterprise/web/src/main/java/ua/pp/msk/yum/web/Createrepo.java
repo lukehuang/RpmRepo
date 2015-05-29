@@ -42,8 +42,7 @@ public class Createrepo implements Serializable {
 
     public String create() {
         LoggerFactory.getLogger(this.getClass()).info("About to create repository at " + repoDir);
-        rman.setRepositoryPath(repoDir);
-        boolean isCreated = rman.createRepositoty();
+                boolean isCreated = rman.createRepositoty(repoDir);
         LoggerFactory.getLogger(this.getClass()).info("Repository has been " + ((isCreated) ? "created" : "not created"));
         return (isCreated) ? "created" : "notcreated";
     }

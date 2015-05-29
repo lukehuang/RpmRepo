@@ -3,13 +3,6 @@
               xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
-    <navigation-rule>
-        <!--<from-view-id>faces/index.html</from-view-id>-->
-        <navigation-case>
-            <from-outcome>try</from-outcome>
-            <to-view-id>faces/TryJsf.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
      <application>
 	  <resource-bundle>
 		<base-name>messages</base-name>
