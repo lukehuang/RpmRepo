@@ -125,7 +125,7 @@ public class CreateRepo {
                 logger.warn("Cannot persist metadata of rpm package ", ex);
             }
         }
-
+        LoggerFactory.getLogger(this.getClass()).debug("Got primary compressed checksum: " +createRepo.getPrimaryOutputStream().getCompressedChecksum());
         createRepo.close();
         DirSupport.deleteIfExists(repoRepodataDir);
         DirSupport.moveIfExists(repoTmpRepodataDir, repoRepodataDir);

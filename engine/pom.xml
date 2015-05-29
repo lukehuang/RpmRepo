@@ -87,6 +87,12 @@
         <artifactId>sqlite</artifactId>
         <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>ua.pp.msk.yum</groupId>
+      <artifactId>engine</artifactId>
+      <version>1.0.6</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
     <name>engine</name>
 </project>

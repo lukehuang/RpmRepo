@@ -442,14 +442,6 @@ public class RpmPackage implements RPM {
         this.changelogCollection = changelogCollection;
     }
 
-    @Override
-    public String getCompressedChecksum() {
-       return compressedChecksum;
-    }
-
-    @Override
-    public void setCompressedChecksum(String compressedChecksum) {
-        this.compressedChecksum = compressedChecksum;
-    }
+ 
 
 }

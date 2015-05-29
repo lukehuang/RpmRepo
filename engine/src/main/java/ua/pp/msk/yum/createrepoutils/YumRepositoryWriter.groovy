@@ -30,7 +30,7 @@ import ua.pp.msk.yum.YumPackage;
  * @since 3.0
  */
 abstract class YumRepositoryWriter
-implements Closeable
+implements Closeable, SqLiteStreams
 {
 
     protected File repoDir
@@ -365,5 +365,15 @@ implements Closeable
 //            return compressedChecksum
 //        }
 //    }
+
+public OutputXmlStream getPrimaryOutputStream(){
+    return po;
+}
+public    OutputXmlStream getFilelistOutputStream(){
+return fo;
+}
+    public OutputXmlStream getOthersOutputStream(){
+return oo;
+}
 
 }
