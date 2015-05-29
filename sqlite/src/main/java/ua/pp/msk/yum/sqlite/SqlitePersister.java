@@ -10,9 +10,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import ua.pp.msk.yum.persist.AbstractPersister;
 
 import org.slf4j.LoggerFactory;
+import ua.pp.msk.yum.sqlite.common.Persister;
+import ua.pp.msk.yum.sqlite.common.exceptions.PersistException;
 import ua.pp.msk.yum.sqlite.exceptions.DbPathException;
 import ua.pp.msk.yum.sqlite.filelist.jdbc.FilelistPersister;
 import ua.pp.msk.yum.sqlite.other.jdbc.OtherPersister;
@@ -138,4 +141,25 @@ public class SqlitePersister extends AbstractPersister {
 //            
 //        }
 //    }
+    
+    public void saveDbInfo(String checksum, String file) throws PersistException{
+        Iterator<Persister> pi = getPersisters().iterator();
+       
+            while(pi.hasNext()){
+                Persister np = pi.next();
+                if (np instanceof PrimaryPersister && file.toLowerCase().contains("primary")) {
+                    np.setCompressedChecksum(checksum);
+                    break;
+                } 
+                if (np instanceof FilelistPersister && file.toLowerCase().contains("filelist")){
+                    np.setCompressedChecksum(checksum);
+                    break;
+                }
+                 if (np instanceof OtherPersister && file.toLowerCase().contains("other")){
+                    np.setCompressedChecksum(checksum);
+                    break;
+                }
+            }
+        
+    }
 }
