@@ -88,6 +88,8 @@ public interface RPM extends Serializable {
     String getUrl();
 
     String getVersion();
+    
+    String getCompressedChecksum();
 
     void setArch(String arch);
 
@@ -162,5 +164,7 @@ public interface RPM extends Serializable {
     void setUrl(String url);
 
     void setVersion(String version);
+    
+    void setCompressedChecksum (String compressedChecksum);
     
 }

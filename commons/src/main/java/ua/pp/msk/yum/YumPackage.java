@@ -63,6 +63,7 @@ public class YumPackage implements RPM {
     private int sizeInstalled;
     private int sizeArchive;
     private int pkgKey = -1;
+    private String compressedChecksum;
 
     private List<PackageEntry> provides;
     private List<RequiresPackageEntry> requires;
@@ -366,6 +367,7 @@ public class YumPackage implements RPM {
     public void setChanges(List<ChangeLog> changes) {
         this.changes = changes;
     }
+    
 
     private <T extends Entry> T transform(Class<T> c, final Entry e) {
         T t = null;
@@ -600,6 +602,16 @@ public class YumPackage implements RPM {
     @Override
     public void setSupplementsCollection(Collection<Supplements> supplementsCollection) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getCompressedChecksum() {
+       return compressedChecksum;
+    }
+
+    @Override
+    public void setCompressedChecksum(String compressedChecksum) {
+        this.compressedChecksum = compressedChecksum;
     }
 
     public static class PackageEntry implements Entry {

@@ -63,7 +63,8 @@ public class RpmPackage implements RPM {
     private Integer pkgKey;
     private String pkgId;
     private Collection<Filelist> filelistCollection;
-
+    private String compressedChecksum;
+    
     public RpmPackage() {
     }
 
@@ -439,6 +440,16 @@ public class RpmPackage implements RPM {
     @Override
     public void setChangelogCollection(Collection<Changelog> changelogCollection) {
         this.changelogCollection = changelogCollection;
+    }
+
+    @Override
+    public String getCompressedChecksum() {
+       return compressedChecksum;
+    }
+
+    @Override
+    public void setCompressedChecksum(String compressedChecksum) {
+        this.compressedChecksum = compressedChecksum;
     }
 
 }

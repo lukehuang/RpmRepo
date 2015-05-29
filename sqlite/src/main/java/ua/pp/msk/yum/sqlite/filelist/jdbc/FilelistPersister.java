@@ -141,7 +141,7 @@ public class FilelistPersister implements Persister{
             }
 //             TODO should be 1 per db
              dbInfoStmt.setInt(1, 10);
-//             dbInfoStmt.setString(2, getCompressedChecksum());
+             dbInfoStmt.setString(2, rpm.getCompressedChecksum());
              dbInfoStmt.executeUpdate();
              
             dbCon.commit();
