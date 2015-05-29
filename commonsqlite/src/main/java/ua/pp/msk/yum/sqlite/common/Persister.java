@@ -14,8 +14,12 @@ import ua.pp.msk.yum.sqlite.common.exceptions.PersistException;
  */
 public interface Persister extends AutoCloseable {
 
+    public static final String DB_INFO_TABLE="db_info";
+    
     public void persist(RPM rpm) throws PersistException;
-
+    
+    public void setCompressedChecksum(String compressedChecksum) throws PersistException;
+    
     public void setDbUrl(String dbUrl);
 
     public String getDbUrl();

@@ -87,6 +87,7 @@ public class PrimaryPersister implements Persister {
     public final static String persistEnhances = "INSERT INTO " + ENHANCES_TABLE + "(name, flags,  epoch,  version ,  release , pkgKey) VALUES (? ,?, ?, ?, ?, ?)";
     public final static String persistRecommends = "INSERT INTO " + RECOMMENDS_TABLE + "(name, flags,  epoch,  version ,  release , pkgKey) VALUES (? ,?, ?, ?, ?, ?)";
     public final static String persistSuppelemnts = "INSERT INTO " + SUPPLEMENTS_TABLE + "(name, flags,  epoch,  version ,  release , pkgKey) VALUES (? ,?, ?, ?, ?, ?)";
+    public final static String persistDbInfo = "INSERT INTO " + DB_INFO_TABLE + "(dbversion, checksum) VALUES (10 ,?)";
 
     private PreparedStatement packagesStmt;
     private PreparedStatement filesStmt;
@@ -99,6 +100,7 @@ public class PrimaryPersister implements Persister {
     private PreparedStatement enhancesStmt;
     private PreparedStatement recommendsStmt;
     private PreparedStatement supplementsStmt;
+    private PreparedStatement dbInfoStmt;
 
     private Connection dbCon;
 
@@ -178,6 +180,7 @@ public class PrimaryPersister implements Persister {
             recommendsStmt = dbCon.prepareStatement(persistRecommends);
             supplementsStmt = dbCon.prepareStatement(persistSuppelemnts);
             providesStmt = dbCon.prepareStatement(persistProvides);
+            dbInfoStmt = dbCon.prepareStatement(persistDbInfo);
 
         } catch (SQLException ex) {
             LoggerFactory.getLogger(this.getClass()).error("Cannot prepare statement " + ex.getMessage(), ex);
@@ -474,6 +477,21 @@ public class PrimaryPersister implements Persister {
                 LoggerFactory.getLogger(this.getClass()).error("Cannot close connection", ex);
                 throw new ClosingException(ex);
             }
+        }
+    }
+
+    @Override
+    public void setCompressedChecksum(String compressedChecksum) throws PersistException {
+        if (compressedChecksum.length() == 64) {
+        try {
+        dbInfoStmt.setString(1, compressedChecksum);
+        dbInfoStmt.executeUpdate();
+        } catch (SQLException ex){
+             LoggerFactory.getLogger(this.getClass()).error("Cannot update DB info", ex);
+                throw new PersistException(ex);
+        }
+        } else {
+             LoggerFactory.getLogger(this.getClass()).error("Wrong length " + compressedChecksum.length() + " of sha265 checksum");
         }
     }
 

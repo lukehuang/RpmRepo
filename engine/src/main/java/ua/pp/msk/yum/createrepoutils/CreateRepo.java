@@ -125,8 +125,19 @@ public class CreateRepo {
                 logger.warn("Cannot persist metadata of rpm package ", ex);
             }
         }
-        LoggerFactory.getLogger(this.getClass()).debug("Got primary compressed checksum: " +createRepo.getPrimaryOutputStream().getCompressedChecksum());
+        LoggerFactory.getLogger(this.getClass()).debug("Got primary compressed checksum before end: " +createRepo.getPrimaryOutputStream().getCompressedChecksum());
         createRepo.close();
+        String primaryCS = createRepo.getPrimaryOutputStream().getCompressedChecksum();
+        LoggerFactory.getLogger(this.getClass()).info("Got primary compressed checksum: " +primaryCS);
+        String filelistCS = createRepo.getFilelistOutputStream().getCompressedChecksum();
+        LoggerFactory.getLogger(this.getClass()).info("Got filelist compressed checksum: " +filelistCS);
+        String otherCS = createRepo.getOthersOutputStream().getCompressedChecksum();
+        LoggerFactory.getLogger(this.getClass()).info("Got others compressed checksum: " +otherCS);
+        ((SqlitePersister)p).saveDbInfo(primaryCS,"primary.xml");
+        ((SqlitePersister)p).saveDbInfo(filelistCS,"filelist.xml");
+        ((SqlitePersister)p).saveDbInfo(otherCS,"others.xml");
+         
+         
         DirSupport.deleteIfExists(repoRepodataDir);
         DirSupport.moveIfExists(repoTmpRepodataDir, repoRepodataDir);
 

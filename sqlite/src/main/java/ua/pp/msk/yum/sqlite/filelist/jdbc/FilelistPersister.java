@@ -37,7 +37,7 @@ public class FilelistPersister implements Persister{
     private static final String PACKAGES_TABLE = "packages";
     private static final String FILELIST_TABLE ="filelist";
     
-    public final static String  persistDb_info = "INSERT INTO " + DB_INFO_TABLE +  "(dbversion, checksum )  VALUES (?,?)";
+        public final static String persistDbInfo = "INSERT INTO " + DB_INFO_TABLE + "(dbversion, checksum) VALUES (10 ,?)";
     public final static String persistPakages = " INSERT INTO " + PACKAGES_TABLE + " ( pkgId )  VALUES (?)" ; 
     public final static String getLastPackageKey = "SELECT pkgKey FROM " + PACKAGES_TABLE + " ORDER BY  pkgKey  DESC  LIMIT 1";
     public final static String persistFilelist = "INSERT INTO " + FILELIST_TABLE  +"(pkgKey, dirname, filenames, filetypes)  VALUES (?,?,?,?)";
@@ -103,7 +103,7 @@ public class FilelistPersister implements Persister{
         try {
             lastKey = dbCon.prepareStatement(getLastPackageKey);
             packagesStmt = dbCon.prepareStatement(persistPakages);
-            dbInfoStmt = dbCon.prepareStatement(persistDb_info);
+            dbInfoStmt = dbCon.prepareStatement(persistDbInfo);
             filelistStmt = dbCon.prepareStatement(persistFilelist);
         
         } catch (SQLException ex) {
@@ -202,5 +202,18 @@ public class FilelistPersister implements Persister{
         
     }
     
-    
+     @Override
+    public void setCompressedChecksum(String compressedChecksum) throws PersistException {
+        if (compressedChecksum.length() == 64) {
+        try {
+        dbInfoStmt.setString(1, compressedChecksum);
+        dbInfoStmt.executeUpdate();
+        } catch (SQLException ex){
+             LoggerFactory.getLogger(this.getClass()).error("Cannot update DB info", ex);
+                throw new PersistException(ex);
+        }
+        } else {
+             LoggerFactory.getLogger(this.getClass()).error("Wrong length " + compressedChecksum.length() + " of sha265 checksum");
+        }
+    }
 }
