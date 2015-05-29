@@ -52,9 +52,7 @@ implements Closeable
         this.timestamp = timestamp ?: System.currentTimeMillis() / 1000
         this.groupFile = groupFile
         XMLOutputFactory factory = XMLOutputFactory.newInstance()
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer indentTransformer = tf.newTransformer();
-        indentTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+       
      
         //  po = new Output(new FileOutputStream(new File(repoDir, 'primary.xml.gz')))
         po = new OutputXmlStream(new FileOutputStream(new File(repoDir, "primary.xml.gz")))
