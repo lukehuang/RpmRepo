@@ -26,6 +26,13 @@ import ua.pp.msk.yum.sqlite.exceptions.ClosingException;
  */
 public class FilelistPersister implements Persister{
     
+     public static final String CREATE_SQL="CREATE TABLE db_info (dbversion INTEGER, checksum TEXT);\n" +
+"CREATE TABLE packages (  pkgKey INTEGER PRIMARY KEY,  pkgId TEXT);\n" +
+"CREATE TABLE filelist (  pkgKey INTEGER,  dirname TEXT,  filenames TEXT,  filetypes TEXT);\n" +
+"CREATE TRIGGER remove_filelist AFTER DELETE ON packages  BEGIN    DELETE FROM filelist WHERE pkgKey = old.pkgKey;  END;\n" +
+"CREATE INDEX keyfile ON filelist (pkgKey);\n" +
+"CREATE INDEX pkgId ON packages (pkgId);\n" +
+"CREATE INDEX dirnames ON filelist (dirname);\n";
     private static final String DB_INFO_TABLE="db_info";
     private static final String PACKAGES_TABLE = "packages";
     private static final String FILELIST_TABLE ="filelist";
@@ -89,7 +96,8 @@ public class FilelistPersister implements Persister{
 
     private void init() {
         InitDb idb = new InitDb(dbUrl, username, password);
-         idb.setResourceSqlPath("sql/filelists/InitDB.sql");
+         //idb.setResourceSqlPath("sql/filelists/InitDB.sql");
+        idb.setDbInitStatements(CREATE_SQL);
         idb.run();
         dbCon = idb.getConnection();
         try {

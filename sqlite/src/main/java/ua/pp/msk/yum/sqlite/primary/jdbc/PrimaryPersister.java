@@ -34,6 +34,35 @@ import ua.pp.msk.yum.sqlite.exceptions.ClosingException;
  */
 public class PrimaryPersister implements Persister {
 
+    
+    public static final String CREATE_SQL="CREATE TABLE db_info (dbversion INTEGER, checksum TEXT);\n" +
+"CREATE TABLE packages (  pkgKey INTEGER PRIMARY KEY,  pkgId TEXT,  name TEXT,  arch TEXT,  version TEXT,  epoch TEXT,  release TEXT,  summary TEXT,  description TEXT,  url TEXT,  time_file INTEGER,  time_build INTEGER,  rpm_license TEXT,  rpm_vendor TEXT,  rpm_group TEXT,  rpm_buildhost TEXT,  rpm_sourcerpm TEXT,  rpm_header_start INTEGER,  rpm_header_end INTEGER,  rpm_packager TEXT,  size_package INTEGER,  size_installed INTEGER,  size_archive INTEGER,  location_href TEXT,  location_base TEXT,  checksum_type TEXT);\n" +
+"CREATE TABLE files (  name TEXT,  type TEXT,  pkgKey INTEGER);\n" +
+"CREATE TABLE requires (  name TEXT,  flags TEXT,  epoch TEXT,  version TEXT,  release TEXT,  pkgKey INTEGER , pre BOOLEAN DEFAULT FALSE);\n" +
+"CREATE TABLE provides (  name TEXT,  flags TEXT,  epoch TEXT,  version TEXT,  release TEXT,  pkgKey INTEGER );\n" +
+"CREATE TABLE conflicts (  name TEXT,  flags TEXT,  epoch TEXT,  version TEXT,  release TEXT,  pkgKey INTEGER );\n" +
+"CREATE TABLE obsoletes (  name TEXT,  flags TEXT,  epoch TEXT,  version TEXT,  release TEXT,  pkgKey INTEGER );\n" +
+"CREATE TABLE suggests (  name TEXT,  flags TEXT,  epoch TEXT,  version TEXT,  release TEXT,  pkgKey INTEGER );\n" +
+"CREATE TABLE enhances (  name TEXT,  flags TEXT,  epoch TEXT,  version TEXT,  release TEXT,  pkgKey INTEGER );\n" +
+"CREATE TABLE recommends (  name TEXT,  flags TEXT,  epoch TEXT,  version TEXT,  release TEXT,  pkgKey INTEGER );\n" +
+"CREATE TABLE supplements (  name TEXT,  flags TEXT,  epoch TEXT,  version TEXT,  release TEXT,  pkgKey INTEGER );\n" +
+"CREATE TRIGGER removals AFTER DELETE ON packages  BEGIN    DELETE FROM files WHERE pkgKey = old.pkgKey;    DELETE FROM requires WHERE pkgKey = old.pkgKey;    DELETE FROM provides WHERE pkgKey = old.pkgKey;    DELETE FROM conflicts WHERE pkgKey = old.pkgKey;    DELETE FROM obsoletes WHERE pkgKey = old.pkgKey;    DELETE FROM suggests WHERE pkgKey = old.pkgKey;    DELETE FROM enhances WHERE pkgKey = old.pkgKey;    DELETE FROM recommends WHERE pkgKey = old.pkgKey;    DELETE FROM supplements WHERE pkgKey = old.pkgKey;  END;\n" +
+"CREATE INDEX packagename ON packages (name);\n" +
+"CREATE INDEX packageId ON packages (pkgId);\n" +
+"CREATE INDEX filenames ON files (name);\n" +
+"CREATE INDEX pkgfiles ON files (pkgKey);\n" +
+"CREATE INDEX pkgrequires on requires (pkgKey);\n" +
+"CREATE INDEX requiresname ON requires (name);\n" +
+"CREATE INDEX pkgprovides on provides (pkgKey);\n" +
+"CREATE INDEX providesname ON provides (name);\n" +
+"CREATE INDEX pkgconflicts on conflicts (pkgKey);\n" +
+"CREATE INDEX pkgobsoletes on obsoletes (pkgKey);\n" +
+"CREATE INDEX pkgsuggests on suggests (pkgKey);\n" +
+"CREATE INDEX pkgenhances on enhances (pkgKey);\n" +
+"CREATE INDEX pkgrecommends on recommends (pkgKey);\n" +
+"CREATE INDEX pkgsupplements on supplements (pkgKey);\n";
+    
+    
     private static final String PACKAGES_TABLE = "packages";
     private static final String FILES_TABLE = "files";
     private static final String CONFLICTS_TABLE = "conflicts";
@@ -133,7 +162,8 @@ public class PrimaryPersister implements Persister {
 
     private void init() {
         InitDb idb = new InitDb(dbUrl, username, password);
-        idb.setResourceSqlPath("sql/primary/InitDB.sql");
+        //idb.setResourceSqlPath("sql/primary/InitDB.sql");
+        idb.setDbInitStatements(CREATE_SQL);
         idb.run();
         dbCon = idb.getConnection();
         try {

@@ -14,7 +14,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.slf4j.LoggerFactory;
-import ua.pp.msk.yum.sqlite.InitDb;
+import ua.pp.msk.yum.sqlite.primary.jdbc.PrimaryPersister;
 
 /**
  *
@@ -50,7 +50,7 @@ public class InitDbTest {
 
         InitDb instance = new InitDb(tdb, null, null);
         System.out.println(System.getProperty("java.class.path"));
-        instance.setResourceSqlPath("sql/primary/InitDB.sql");
+        instance.setDbInitStatements(PrimaryPersister.CREATE_SQL);
         instance.run();
         try {
             instance.close();

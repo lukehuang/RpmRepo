@@ -26,6 +26,13 @@ import ua.pp.msk.yum.sqlite.InitDb;
  */
 public class OtherPersister implements Persister{
         
+    
+     public static final String CREATE_SQL="CREATE TABLE db_info (dbversion INTEGER, checksum TEXT);\n" +
+"CREATE TABLE packages (  pkgKey INTEGER PRIMARY KEY,  pkgId TEXT);\n" +
+"CREATE TABLE changelog (  pkgKey INTEGER,  author TEXT,  date INTEGER,  changelog TEXT);\n" +
+"CREATE TRIGGER remove_changelogs AFTER DELETE ON packages  BEGIN    DELETE FROM changelog WHERE pkgKey = old.pkgKey;  END;\n" +
+"CREATE INDEX keychange ON changelog (pkgKey);\n" +
+"CREATE INDEX pkgId ON packages (pkgId);\n";
     private static final String DB_INFO_TABLE="db_info";
     private static final String PACKAGES_TABLE = "packages";
     private static final String CHANGELOG_TABLE ="changelog";
@@ -93,7 +100,8 @@ public class OtherPersister implements Persister{
 
    private void init() {
         InitDb idb = new InitDb(dbUrl, username, password);
-         idb.setResourceSqlPath("sql/others/InitDB.sql");
+         //idb.setResourceSqlPath("sql/others/InitDB.sql");
+        idb.setDbInitStatements(CREATE_SQL);
         idb.run();
         dbCon = idb.getConnection();
         try {
