@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ua.pp.msk.yum</groupId>
     <artifactId>RpmRepo</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <packaging>pom</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,13 +12,12 @@
     </properties>
     <modules>
         <module>createrepo</module>
-        <module>web</module>
-        <module>server</module>
         <module>commonsqlite</module>
         <module>engine</module>
         <module>sqlite</module>
         <module>commons</module>
-    </modules>
+    <module>enterprise</module>
+  </modules>
     <scm>
         <connection>scm:git:http://maskimko@ci-dev-veneno.ea.intropro.com:8080/gitblit/r/RpmRepo.git</connection>
         <url>http://ci-dev-veneno.ea.intropro.com:8080/gitblit/summary/RpmRepo.git</url>
